@@ -8,7 +8,7 @@ Vue.config.productionTip = false
 Vue.use(VueGoogleMaps, {
   load: {
     key: "***REMOVED***",
-    libraries: 'places', // This is required if you use the Autocomplete plugin
+    //libraries: 'places', // This is required if you use the Autocomplete plugin
     // OR: libraries: 'places,drawing'
     // OR: libraries: 'places,drawing,visualization'
     // (as you require)
