@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <!-- Menu bar -->
-    <MenuBar v-model="drawerOpen"/>
+    <MenuBar :drawerOpen.sync="drawerOpen"/>
 
     <!-- Side menu drawer -->
     <MenuDrawer :is-open="drawerOpen"/>
