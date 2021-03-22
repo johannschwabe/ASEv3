@@ -16,8 +16,8 @@
 
       <!-- Info window if property selected -->
       <PropertyCard
-          v-if="selectedProperty"
-          :property="selectedProperty"
+          v-if="selected_property"
+          :property="selected_property"
       />
 
     </div>
@@ -42,7 +42,7 @@ export default {
     return {
       center: { lat: 40.730610, lng: -73.935242 },
       properties: properties, // TODO get from backend
-      selectedProperty: null, // The property that was clicked
+      selected_property: null, // The property that was clicked
     }
   },
   computed: {
@@ -53,16 +53,27 @@ export default {
     property_locations(){
       const result = [];
       this.properties.forEach((property) => {
-        result.push({lat: property.latitude, lng: property.longitude});
+        result.push({
+          lat: property.latitude,
+          lng: property.longitude,
+          id: property.id,
+        });
       })
 
       return result;
     }
   },
   methods: {
-    onMarkerClick(marker){
-      // TODO use actual property
-      this.selectedProperty = this.selectedProperty === marker ? null : marker;
+    onMarkerClick(id){
+      // If this property was selected already, toggle
+      if(this.selected_property && this.selected_property.id === id){
+        this.selected_property = null;
+      } else{
+        // Get property by ID
+        const property = this.properties.find(property => property.id === id);
+
+        this.selected_property = property;
+      }
     }
   }
 }

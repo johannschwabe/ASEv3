@@ -19,7 +19,7 @@
           <q-item-label caption>A marker on each property - how pretty!</q-item-label>
         </q-item-section>
         <q-item-section side top>
-          <q-toggle v-model="show_markers" />
+          <q-toggle :value="show_markers" @input="toggleMarkers" />
         </q-item-section>
       </q-item>
 
@@ -35,7 +35,7 @@
           <q-item-label caption>Toggle heatmap visibility</q-item-label>
         </q-item-section>
         <q-item-section side top>
-          <q-toggle v-model="show_heatmap" />
+          <q-toggle :value="show_heatmap" @input="toggleHeatmap"/>
         </q-item-section>
       </q-item>
 

@@ -127,11 +127,12 @@ export default {
           //label: "something" // TODO remove?
         };
 
-        // Place marker
-        const new_marker = new this.maps_api.Marker(options)
+        // Create marker and add ID from data
+        const new_marker = new this.maps_api.Marker(options);
+        new_marker.id = marker.id;
 
         // Add click listener
-        new_marker.addListener("click", () => this.onMarkerClick(new_marker));
+        new_marker.addListener("click", () => this.onMarkerClick(new_marker.id));
 
         // Add to local array
         this.map_markers.push(new_marker);
@@ -139,7 +140,7 @@ export default {
 
       // Add a marker clusterer to manage the markers.
       this.marker_clusterer = new MarkerClusterer(this.map, this.map_markers, {
-        ignoreHidden: true, // Ignore hidden
+        ignoreHidden: true, // Ignore hidden markers, so clusters aren't shown if markers are hidden
         imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
       });
     },
@@ -149,7 +150,7 @@ export default {
      * @param {Boolean} show - whether to show the markers
      */
     setMarkerVisibility(show){
-      // Hide markers
+      // Show/hide markers
       this.map_markers.forEach((marker) => {
         marker.setVisible(show)
       })
