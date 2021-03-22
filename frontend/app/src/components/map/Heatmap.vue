@@ -11,18 +11,29 @@ export default {
     initial_zoom: {type: Number, default: () => 13},
     points: {type: Array, required: false},
     markers: {type: Array, required: false},
+    show_markers: {type: Boolean, default: true},
   },
   data(){
     return {
-      mapsAPI: null, // Google Maps API object
-      map: null,
+      maps_api: null, // Google Maps API object
+      map: null, // Google Map object
+      map_markers: [] // Map marker objects
     }
   },
   computed: {
     heatmapPoints() {
       return this.points.map(
-        point => new this.mapsAPI.LatLng(point.lat, point.lng)
+        point => new this.maps_api.LatLng(point.lat, point.lng)
       );
+    },
+  },
+
+  watch: {
+    /**
+     * When show_markers property changes, update all markers
+     */
+    show_markers(show) {
+      this.setMarkerVisiblity(show)
     },
   },
 
@@ -35,7 +46,7 @@ export default {
     };
 
     loadGoogleMapsApi(options).then((googleMaps) => {
-      this.mapsAPI = googleMaps;
+      this.maps_api = googleMaps;
       const map_element = this.$refs.map;
 
       // Options for map
@@ -52,7 +63,7 @@ export default {
       this.map = new googleMaps.Map(map_element, map_options);
 
       // Add heatmap to map
-      const heatmap = new this.mapsAPI.visualization.HeatmapLayer({
+      const heatmap = new this.maps_api.visualization.HeatmapLayer({
         data: this.heatmapPoints,
         map: this.$mapObject
       });
@@ -77,16 +88,30 @@ export default {
     placeMarkers(markers) {
       markers.forEach((marker) => {
         const options = {
-          position: new this.mapsAPI.LatLng(marker.lat, marker.lng),
+          position: new this.maps_api.LatLng(marker.lat, marker.lng),
           map: this.map,
-          visible: true,
+          visible: this.show_markers,
           title: "test" // TODO do we want a label?
         };
 
         // Place marker
-        const new_marker = new this.mapsAPI.Marker(options)
+        const new_marker = new this.maps_api.Marker(options)
 
+        // Add click listener
         new_marker.addListener("click", () => this.onMarkerClick(new_marker));
+
+        // Add to local array
+        this.map_markers.push(new_marker);
+      })
+    },
+
+    /**
+     * Toggles visibility for all markers
+     * @param {Boolean} show - whether to show the markers
+     */
+    setMarkerVisiblity(show){
+      this.map_markers.forEach((marker) => {
+        marker.setVisible(show)
       })
     },
 

@@ -9,6 +9,7 @@
         :markers="points.slice(0,100)"
         :center="center"
         :initial_zoom="12"
+        :show_markers="show_markers"
         style="height: 100%; width: 100%"
         @markerClick="onMarkerClick"
       />
@@ -34,6 +35,9 @@ export default {
     Heatmap,
     PropertyCard
   },
+  props: {
+    show_markers: { type: Boolean, default: true }
+  },
   data() {
     return {
       center: { lat: 40.730610, lng: -73.935242 },
@@ -57,7 +61,7 @@ export default {
   },
   methods: {
     onMarkerClick(marker){
-      // TODO
+      // TODO use actual property
       this.selectedProperty = this.selectedProperty === marker ? null : marker;
     }
   }

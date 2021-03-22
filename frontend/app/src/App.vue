@@ -1,14 +1,19 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <!-- Menu bar -->
-    <MenuBar :drawerOpen.sync="drawerOpen"/>
+    <MenuBar
+        :drawer_open.sync="drawer_open"
+        :show_markers.sync="show_markers"
+    />
 
     <!-- Side menu drawer -->
-    <MenuDrawer :is-open="drawerOpen"/>
+    <MenuDrawer :is-open="drawer_open"/>
 
     <!-- Main page content -->
     <q-page-container>
-      <MainPage />
+      <MainPage
+          :show_markers="show_markers"
+      />
     </q-page-container>
   </q-layout>
 </template>
@@ -29,7 +34,8 @@ export default {
 
   data () {
     return {
-      drawerOpen: false
+      drawer_open: false,
+      show_markers: true,
     }
   }
 }
