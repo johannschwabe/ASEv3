@@ -60,25 +60,44 @@ export default {
       heatmap.setMap(this.map);
 
       //TODO
-      this.placeMarkers();
+      this.placeMarkers(this.markers);
     }).catch((e) => {
       console.error(e)
     })
   },
 
   methods: {
-    placeMarkers() {
-      this.markers.forEach((marker) => {
+    /**
+     * Places the given markers on the map
+     * @param {Array} markers
+     * @example
+     * // Places two markers on the map
+     * placeMarkers([{lat: 12.3, lng: 3.45}, {lat: -3, lng: 4.562}])
+     */
+    placeMarkers(markers) {
+      markers.forEach((marker) => {
         const options = {
           position: new this.mapsAPI.LatLng(marker.lat, marker.lng),
           map: this.map,
           visible: true,
-          title: "test"
+          title: "test" // TODO do we want a label?
         };
 
         // Place marker
-        new this.mapsAPI.Marker(options)
+        const new_marker = new this.mapsAPI.Marker(options)
+
+        new_marker.addListener("click", () => this.onMarkerClick(new_marker));
       })
+    },
+
+    /**
+     * Upon clicking a marker
+     * @param {Object} marker
+     */
+    onMarkerClick(marker){
+      this.$emit('markerClick', marker)
+      // this.map.setZoom(15);
+      // this.map.setCenter(marker.getPosition());
     }
   }
 };

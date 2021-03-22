@@ -1,5 +1,5 @@
 <template>
-  <q-card>
+  <q-card class="propertyCard">
     <div class="row">
       <q-avatar>
         AB
@@ -22,5 +22,12 @@ export default {
 </script>
 
 <style scoped>
-
+  .propertyCard{
+    height: calc(100% - 90px);
+    width: 200px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 20px
+  }
 </style>
