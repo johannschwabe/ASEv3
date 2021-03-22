@@ -6,6 +6,8 @@ RUN npm install -g http-server
 # make the 'app' folder the current working directory
 WORKDIR /frontend/app
 
+RUN ls -a
+
 # copy both 'package.json' and 'package-lock.json' (if available)
 COPY package*.json ./
 
