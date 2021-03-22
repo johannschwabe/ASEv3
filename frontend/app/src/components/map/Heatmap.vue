@@ -7,23 +7,21 @@
 export default {
   name: 'Heatmap',
   props: {
-    lat: {type: Number, default: () => 37.775},
-    lng: {type: Number, default: () => -122.434},
-    initialZoom: {type: Number, default: () => 13},
-    mapType: {type: String, default: () => 'roadmap'},
+    center: {type: Object, default: () => { return {lat: 40.730610, lng: -73.935242} },},
+    initial_zoom: {type: Number, default: () => 13},
     points: {type: Array, required: false},
     markers: {type: Array, required: false},
   },
   data(){
     return {
-      google: null,
-      map: null
+      mapsAPI: null, // Google Maps API object
+      map: null,
     }
   },
   computed: {
     heatmapPoints() {
       return this.points.map(
-        point => new this.google.LatLng(point.lat, point.lng)
+        point => new this.mapsAPI.LatLng(point.lat, point.lng)
       );
     },
   },
@@ -37,15 +35,24 @@ export default {
     };
 
     loadGoogleMapsApi(options).then((googleMaps) => {
-      this.google = googleMaps;
+      this.mapsAPI = googleMaps;
       const map_element = this.$refs.map;
-      this.map = new googleMaps.Map(map_element, {
-        zoom: this.initialZoom,
-        center: { lat: this.lat, lng: this.lng },
-        mapTypeId: this.mapType
 
-      });
-      const heatmap = new this.google.visualization.HeatmapLayer({
+      // Options for map
+      const map_options = {
+        zoom: this.initial_zoom,
+        center: this.center,
+        mapTypeId: "roadmap",
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: false,
+      }
+
+      // Create map
+      this.map = new googleMaps.Map(map_element, map_options);
+
+      // Add heatmap to map
+      const heatmap = new this.mapsAPI.visualization.HeatmapLayer({
         data: this.heatmapPoints,
         map: this.$mapObject
       });
@@ -63,14 +70,14 @@ export default {
     placeMarkers() {
       this.markers.forEach((marker) => {
         const options = {
-          position: new this.google.LatLng(marker.lat, marker.lng),
+          position: new this.mapsAPI.LatLng(marker.lat, marker.lng),
           map: this.map,
           visible: true,
           title: "test"
         };
 
         // Place marker
-        new this.google.Marker(options)
+        new this.mapsAPI.Marker(options)
       })
     }
   }

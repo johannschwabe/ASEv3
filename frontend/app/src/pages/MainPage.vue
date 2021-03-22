@@ -7,8 +7,8 @@
       <Heatmap
         :points="points"
         :markers="points.slice(0,100)"
-        :lat="center.lat"
-        :lng="center.lng"
+        :center="center"
+        :initial_zoom="12"
         style="height: 100%; width: 100%"
       />
     </div>
