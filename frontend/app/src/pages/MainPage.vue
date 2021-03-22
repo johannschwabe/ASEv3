@@ -5,35 +5,13 @@
       style="padding-bottom: 50px"
     >
       <vue-google-heatmap
-          :points="points"
-          :lat="center.lat"
-          :lng="center.lng"
-          style="width: 100%; height: 100%"
+        :points="points"
+        :lat="center.lat"
+        :lng="center.lng"
+        width="100%"
+        height="100%"
+        :initial-zoom="13"
       />
-<!--      <GmapMap-->
-<!--          :center="center"-->
-<!--          :zoom="12"-->
-<!--          map-type-id="roadmap"-->
-<!--          style="width: 100%; height: 100%"-->
-<!--          :options="{-->
-<!--           zoomControl: true,-->
-<!--           mapTypeControl: false,-->
-<!--           scaleControl: false,-->
-<!--           streetViewControl: false,-->
-<!--           rotateControl: false,-->
-<!--           fullscreenControl: false,-->
-<!--           disableDefaultUI: false-->
-<!--         }"-->
-<!--      >-->
-<!--              <GmapMarker-->
-<!--                  :key="index"-->
-<!--                  v-for="(m, index) in markers"-->
-<!--                  :position="m.position"-->
-<!--                  :clickable="true"-->
-<!--                  :draggable="false"-->
-<!--                  @click="center=m.position"-->
-<!--              />-->
-<!--      </GmapMap>-->
     </div>
   </q-page>
 </template>
@@ -50,6 +28,11 @@ export default {
     }
   },
   computed: {
+
+    /**
+     * Geographical Property distribution
+     * @returns {Array}
+     */
     points(){
       const result = [];
       this.properties.forEach((property) => {
