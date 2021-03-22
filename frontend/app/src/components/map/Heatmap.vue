@@ -11,13 +11,13 @@ export default {
     initial_zoom: {type: Number, default: () => 13},
     points: {type: Array, required: false},
     markers: {type: Array, required: false},
-    show_markers: {type: Boolean, default: true},
   },
   data(){
     return {
       maps_api: null, // Google Maps API object
       map: null, // Google Map object
-      map_markers: [] // Map marker objects
+      map_markers: [], // Map marker objects
+      show_markers: this.$store.getters.showMarkers
     }
   },
   computed: {

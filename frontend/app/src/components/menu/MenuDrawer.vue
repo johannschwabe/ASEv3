@@ -59,8 +59,10 @@
 <script>
 export default {
 name: "MenuDrawer",
-  props: {
-    isOpen: { type: Boolean, required: true }
+  data() {
+    return {
+      isOpen: this.$store.getters.drawerOpen
+    }
   }
 }
 </script>

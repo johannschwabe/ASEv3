@@ -33,23 +33,24 @@
 <script>
 export default {
   name: "MenuBar",
-  props: {
-    drawer_open: { type: Boolean, required: true},
-    show_markers: { type: Boolean, required: true},
+  data() {
+    return {
+      show_markers: this.$store.getters.showMarkers
+    }
   },
   methods: {
     /**
      * TODO
      */
     toggleDrawer() {
-      this.$emit('update:drawer_open', !this.drawer_open)
+      this.$store.commit('toggleDrawer')
     },
 
     /**
      * TODO
      */
     toggleMarkers() {
-      this.$emit('update:show_markers', !this.show_markers)
+      this.$store.commit('toggleMarkers')
     }
   }
 }

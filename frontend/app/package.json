@@ -14,7 +14,8 @@
     "gmap-vue": "^1.5.0",
     "load-google-maps-api": "^2.0.2",
     "quasar": "^1.0.0",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
