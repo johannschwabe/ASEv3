@@ -5,8 +5,8 @@
       style="padding-bottom: 50px"
     >
       <Heatmap
-        :points="points"
-        :markers="points.slice(0,100)"
+        :points="property_locations"
+        :markers="property_locations"
         :center="center"
         :initial_zoom="12"
         :show_markers="show_markers"
@@ -50,7 +50,7 @@ export default {
      * Geographical Property distribution
      * @returns {Array}
      */
-    points(){
+    property_locations(){
       const result = [];
       this.properties.forEach((property) => {
         result.push({lat: property.latitude, lng: property.longitude});

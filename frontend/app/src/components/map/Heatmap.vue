@@ -15,10 +15,11 @@ export default {
   },
   data(){
     return {
-      maps_api: null, // Google Maps API object
-      map: null, // Google Map object
-      heatmap: null, // Heatmap layer
-      map_markers: [], // Map marker objects
+      maps_api: null,         // Google Maps API instance
+      map: null,              // Google Map object
+      heatmap: null,          // Heatmap layer
+    map_markers: [],          // Map marker objects
+      marker_clusterer: null, // Marker clusterer instance
     }
   },
   computed: {
@@ -137,19 +138,24 @@ export default {
       })
 
       // Add a marker clusterer to manage the markers.
-      new MarkerClusterer(this.map, this.map_markers, {
+      this.marker_clusterer = new MarkerClusterer(this.map, this.map_markers, {
+        ignoreHidden: true, // Ignore hidden
         imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
       });
     },
 
     /**
-     * Toggles visibility for all markers
+     * Toggles visibility for all markers & marker clusters
      * @param {Boolean} show - whether to show the markers
      */
     setMarkerVisibility(show){
+      // Hide markers
       this.map_markers.forEach((marker) => {
         marker.setVisible(show)
       })
+
+      // Refresh marker cluster
+      this.marker_clusterer.repaint();
     },
 
     /**
