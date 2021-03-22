@@ -19,22 +19,44 @@
            disableDefaultUI: false
          }"
       >
-        <!--      <GmapMarker-->
-        <!--          :key="index"-->
-        <!--          v-for="(m, index) in markers"-->
-        <!--          :position="m.position"-->
-        <!--          :clickable="true"-->
-        <!--          :draggable="true"-->
-        <!--          @click="center=m.position"-->
-        <!--      />-->
+              <GmapMarker
+                  :key="index"
+                  v-for="(m, index) in markers"
+                  :position="m.position"
+                  :clickable="true"
+                  :draggable="true"
+                  @click="center=m.position"
+              />
       </GmapMap>
     </div>
   </q-page>
 </template>
 
 <script>
+import properties from "@/data/properties.json"
+
 export default {
-  name: "MainPage"
+  name: "MainPage",
+  data() {
+    return {
+      properties: properties
+    }
+  },
+  computed: {
+    markers(){
+      const result = [];
+      // take only 100
+      const subset_props = properties.slice(0, 100);
+
+      subset_props.forEach((property) => {
+        result.push({
+          position: {lat: property.latitude, lng: property.longitude}
+        })
+      })
+
+      return result;
+    }
+  }
 }
 </script>
 
