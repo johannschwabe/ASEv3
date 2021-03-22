@@ -5,3 +5,7 @@ export function toggleDrawer (state) {
 export function toggleMarkers (state) {
   state.show_markers = !state.show_markers
 }
+
+export function toggleHeatmap (state) {
+  state.show_heatmap = !state.show_heatmap
+}

@@ -16,19 +16,27 @@ export default {
     return {
       maps_api: null, // Google Maps API object
       map: null, // Google Map object
+      heatmap: null, // Heatmap layer
       map_markers: [], // Map marker objects
     }
   },
   computed: {
     /**
-     * TODO
+     * Whether to show the markers
      */
     show_markers(){
       return this.$store.getters.showMarkers
     },
 
     /**
-     * TODO
+     * Whether to show the heatmap
+     */
+    show_heatmap(){
+      return this.$store.getters.showHeatmap
+    },
+
+    /**
+     * The points to construct the heatmap from
      */
     heatmapPoints() {
       return this.points.map(
@@ -42,7 +50,15 @@ export default {
      * When show_markers property changes, update all markers
      */
     show_markers(show) {
-      this.setMarkerVisiblity(show)
+      this.setMarkerVisibility(show)
+    },
+
+    /**
+     * When show_heatmap property changes, update heatmap visibility
+     */
+    show_heatmap(show) {
+      console.log("gugus")
+      this.setHeatmapVisibility(show)
     },
   },
 
@@ -77,9 +93,12 @@ export default {
         map: this.$mapObject
       });
 
-      heatmap.setMap(this.map);
+      // Store locally
+      this.heatmap = heatmap;
 
-      //TODO
+      this.heatmap.setMap(this.map);
+
+      //TODO makes sense here?
       this.placeMarkers(this.markers);
     }).catch((e) => {
       console.error(e)
@@ -118,10 +137,19 @@ export default {
      * Toggles visibility for all markers
      * @param {Boolean} show - whether to show the markers
      */
-    setMarkerVisiblity(show){
+    setMarkerVisibility(show){
       this.map_markers.forEach((marker) => {
         marker.setVisible(show)
       })
+    },
+
+    /**
+     * Toggles visibility of the heatmap layer
+     * @param {Boolean} show - whether to show the heatmap layer
+     */
+    setHeatmapVisibility(show){
+      console.log("Setting heatmap vis...")
+      this.heatmap.setMap(show? this.map : null);
     },
 
     /**
