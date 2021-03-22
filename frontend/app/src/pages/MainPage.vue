@@ -4,12 +4,12 @@
       class="window-height"
       style="padding-bottom: 50px"
     >
-      <vue-google-heatmap
+      <Heatmap
         :points="points"
+        :markers="points.slice(0,100)"
         :lat="center.lat"
         :lng="center.lng"
-        width="100%"
-        height="100%"
+        style="height: 100%; width: 100%"
       />
     </div>
   </q-page>
@@ -17,12 +17,12 @@
 
 <script>
 import properties from "@/data/properties.json"
-import VueGoogleHeatmap from "@/components/map/VueGoogleHeatmap.vue";
+import Heatmap from "@/components/map/Heatmap.vue";
 
 export default {
   name: "MainPage",
   components: {
-    VueGoogleHeatmap
+    Heatmap
   },
   data() {
     return {
