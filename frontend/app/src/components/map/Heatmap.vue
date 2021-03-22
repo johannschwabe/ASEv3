@@ -17,10 +17,19 @@ export default {
       maps_api: null, // Google Maps API object
       map: null, // Google Map object
       map_markers: [], // Map marker objects
-      show_markers: this.$store.getters.showMarkers
     }
   },
   computed: {
+    /**
+     * TODO
+     */
+    show_markers(){
+      return this.$store.getters.showMarkers
+    },
+
+    /**
+     * TODO
+     */
     heatmapPoints() {
       return this.points.map(
         point => new this.maps_api.LatLng(point.lat, point.lng)

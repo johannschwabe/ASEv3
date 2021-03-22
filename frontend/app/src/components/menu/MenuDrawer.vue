@@ -59,9 +59,9 @@
 <script>
 export default {
 name: "MenuDrawer",
-  data() {
-    return {
-      isOpen: this.$store.getters.drawerOpen
+  computed: {
+    isOpen(){
+      return this.$store.getters.drawerOpen
     }
   }
 }

@@ -33,10 +33,13 @@
 <script>
 export default {
   name: "MenuBar",
-  data() {
-    return {
-      show_markers: this.$store.getters.showMarkers
-    }
+  computed: {
+    /**
+     * TODO
+     */
+    show_markers(){
+      return this.$store.getters.showMarkers
+    },
   },
   methods: {
     /**
