@@ -10,7 +10,6 @@
         :lng="center.lng"
         width="100%"
         height="100%"
-        :initial-zoom="13"
       />
     </div>
   </q-page>
@@ -18,9 +17,13 @@
 
 <script>
 import properties from "@/data/properties.json"
+import VueGoogleHeatmap from "@/components/map/VueGoogleHeatmap.vue";
 
 export default {
   name: "MainPage",
+  components: {
+    VueGoogleHeatmap
+  },
   data() {
     return {
       center: {lat:40.730610, lng:-73.935242},

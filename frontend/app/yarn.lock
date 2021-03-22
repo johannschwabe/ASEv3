@@ -5398,6 +5398,11 @@
   "resolved" "https://registry.npmjs.org/lines-and-columns/-/lines-and-columns-1.1.6.tgz"
   "version" "1.1.6"
 
+"load-google-maps-api@^2.0.2":
+  "integrity" "sha512-x/gIurGtJ2Gd34LXhed5tupZnG7P1oc1WpOHkyFpX7NesXkwhCBPyCsindj5BGKuQHrsbwARFWOjJGiAPhoMgg=="
+  "resolved" "https://registry.npmjs.org/load-google-maps-api/-/load-google-maps-api-2.0.2.tgz"
+  "version" "2.0.2"
+
 "load-json-file@^1.0.0":
   "integrity" "sha1-lWkFcI1YtLq0wiYbBPWfMcmTdMA="
   "resolved" "https://registry.npmjs.org/load-json-file/-/load-json-file-1.1.0.tgz"
@@ -8792,11 +8797,6 @@
     "espree" "^6.2.1"
     "esquery" "^1.4.0"
     "lodash" "^4.17.15"
-
-"vue-google-heatmap@^1.0.1":
-  "integrity" "sha512-04sBtXfmf2JehFFgHBLeckuxDDpdasOBck0oiC228zJDqM2GikfYYvKM7a2LRMeGYCdn6IS6UxRnUvd7j3OdMA=="
-  "resolved" "https://registry.npmjs.org/vue-google-heatmap/-/vue-google-heatmap-1.0.1.tgz"
-  "version" "1.0.1"
 
 "vue-hot-reload-api@^2.3.0":
   "integrity" "sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog=="
