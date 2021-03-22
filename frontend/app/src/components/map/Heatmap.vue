@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import MarkerClusterer from '@googlemaps/markerclustererplus';
 
 export default {
   name: 'Heatmap',
@@ -87,11 +88,14 @@ export default {
       // Create map
       this.map = new googleMaps.Map(map_element, map_options);
 
-      // Add heatmap to map
-      const heatmap = new this.maps_api.visualization.HeatmapLayer({
+      // Options for heatmap overlay
+      const heatmap_options = {
         data: this.heatmapPoints,
-        map: this.$mapObject
-      });
+        map: this.$mapObject,
+      }
+
+      // Add heatmap to map
+      const heatmap = new this.maps_api.visualization.HeatmapLayer(heatmap_options);
 
       // Store locally
       this.heatmap = heatmap;
@@ -117,9 +121,9 @@ export default {
       markers.forEach((marker) => {
         const options = {
           position: new this.maps_api.LatLng(marker.lat, marker.lng),
-          map: this.map,
+          //map: this.map,
           visible: this.show_markers,
-          title: "test" // TODO do we want a label?
+          //label: "something" // TODO remove?
         };
 
         // Place marker
@@ -131,6 +135,11 @@ export default {
         // Add to local array
         this.map_markers.push(new_marker);
       })
+
+      // Add a marker clusterer to manage the markers.
+      new MarkerClusterer(this.map, this.map_markers, {
+        imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+      });
     },
 
     /**
