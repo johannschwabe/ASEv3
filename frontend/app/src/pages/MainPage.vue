@@ -4,30 +4,36 @@
       class="window-height"
       style="padding-bottom: 50px"
     >
-      <GmapMap
-          :center="{lat:40.730610, lng:-73.935242}"
-          :zoom="12"
-          map-type-id="roadmap"
+      <vue-google-heatmap
+          :points="points"
+          :lat="center.lat"
+          :lng="center.lng"
           style="width: 100%; height: 100%"
-          :options="{
-           zoomControl: true,
-           mapTypeControl: false,
-           scaleControl: false,
-           streetViewControl: false,
-           rotateControl: false,
-           fullscreenControl: false,
-           disableDefaultUI: false
-         }"
-      >
-              <GmapMarker
-                  :key="index"
-                  v-for="(m, index) in markers"
-                  :position="m.position"
-                  :clickable="true"
-                  :draggable="true"
-                  @click="center=m.position"
-              />
-      </GmapMap>
+      />
+<!--      <GmapMap-->
+<!--          :center="center"-->
+<!--          :zoom="12"-->
+<!--          map-type-id="roadmap"-->
+<!--          style="width: 100%; height: 100%"-->
+<!--          :options="{-->
+<!--           zoomControl: true,-->
+<!--           mapTypeControl: false,-->
+<!--           scaleControl: false,-->
+<!--           streetViewControl: false,-->
+<!--           rotateControl: false,-->
+<!--           fullscreenControl: false,-->
+<!--           disableDefaultUI: false-->
+<!--         }"-->
+<!--      >-->
+<!--              <GmapMarker-->
+<!--                  :key="index"-->
+<!--                  v-for="(m, index) in markers"-->
+<!--                  :position="m.position"-->
+<!--                  :clickable="true"-->
+<!--                  :draggable="false"-->
+<!--                  @click="center=m.position"-->
+<!--              />-->
+<!--      </GmapMap>-->
     </div>
   </q-page>
 </template>
@@ -39,19 +45,15 @@ export default {
   name: "MainPage",
   data() {
     return {
+      center: {lat:40.730610, lng:-73.935242},
       properties: properties
     }
   },
   computed: {
-    markers(){
+    points(){
       const result = [];
-      // take only 100
-      const subset_props = properties.slice(0, 100);
-
-      subset_props.forEach((property) => {
-        result.push({
-          position: {lat: property.latitude, lng: property.longitude}
-        })
+      this.properties.forEach((property) => {
+        result.push({lat: property.latitude, lng: property.longitude})
       })
 
       return result;

@@ -8793,6 +8793,11 @@
     "esquery" "^1.4.0"
     "lodash" "^4.17.15"
 
+"vue-google-heatmap@^1.0.1":
+  "integrity" "sha512-04sBtXfmf2JehFFgHBLeckuxDDpdasOBck0oiC228zJDqM2GikfYYvKM7a2LRMeGYCdn6IS6UxRnUvd7j3OdMA=="
+  "resolved" "https://registry.npmjs.org/vue-google-heatmap/-/vue-google-heatmap-1.0.1.tgz"
+  "version" "1.0.1"
+
 "vue-hot-reload-api@^2.3.0":
   "integrity" "sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog=="
   "resolved" "https://registry.npmjs.org/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz"
