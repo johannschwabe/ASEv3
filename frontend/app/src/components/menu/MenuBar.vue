@@ -2,10 +2,7 @@
   <q-header elevated>
     <q-toolbar>
       <q-avatar>
-        <img
-          alt="Quasar logo"
-          src="@/assets/logo.png"
-        >
+        <img alt="Quasar logo" src="@/assets/logo.png">
       </q-avatar>
 
       <q-toolbar-title>
@@ -13,12 +10,12 @@
       </q-toolbar-title>
 
       <q-btn
-        flat
-        dense
-        round
-        aria-label="Menu"
-        icon="menu"
-        @click="toggleDrawer"
+          flat
+          dense
+          round
+          aria-label="Menu"
+          icon="menu"
+          @click="toggleDrawer"
       />
     </q-toolbar>
   </q-header>
@@ -27,15 +24,15 @@
 <script>
 export default {
   name: "MenuBar",
-  props: {
-    drawer_open: { type: Boolean, required: true},
-  },
   methods: {
+    /**
+     * Toggles the drawer
+     */
     toggleDrawer() {
-      this.$emit("update:drawerOpen", !this.drawer_open);
+      this.$store.commit('toggleDrawer')
     },
-  },
-};
+  }
+}
 </script>
 
 <style scoped>

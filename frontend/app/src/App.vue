@@ -1,14 +1,14 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <!-- Menu bar -->
-    <MenuBar :drawerOpen.sync="drawerOpen"/>
+    <MenuBar/>
 
     <!-- Side menu drawer -->
-    <MenuDrawer :is-open="drawerOpen"/>
+    <MenuDrawer/>
 
     <!-- Main page content -->
     <q-page-container>
-      <MainPage />
+      <MainPage/>
     </q-page-container>
   </q-layout>
 </template>
@@ -26,12 +26,6 @@ export default {
     MainPage,
     MenuDrawer
   },
-
-  data () {
-    return {
-      drawerOpen: false
-    }
-  }
 }
 </script>
 
