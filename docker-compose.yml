@@ -5,3 +5,55 @@ services:
     build: ./frontend
     ports:
       - 8181:8080
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    ports:
+      - 8282:8080
+    depends_on:
+      - airbnbapi
+      - salesapi
+
+  airbnbapi:
+    build: ./airbnb-api
+    ports:
+      - 8383:8080
+    depends_on:
+      - airbnbdb
+
+  salesapi:
+    build: ./sales-api
+    ports:
+      - 8484:8080
+    depends_on:
+      - salesdb
+
+  airbnbdb:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: my_secret_password
+      MYSQL_DATABASE: app_db
+      MYSQL_USER: db_user
+      MYSQL_PASSWORD: db_user_pass
+    ports:
+      - 8585:3306
+    volumes:
+      - airbnbdbdata:/var/lib/mysql
+
+  salesbdb:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: my_secret_password
+      MYSQL_DATABASE: app_db
+      MYSQL_USER: db_user
+      MYSQL_PASSWORD: db_user_pass
+    ports:
+      - 8686:3306
+    volumes:
+      - salesdbdata:/var/lib/mysql
+
+volumes:
+  airbnbdbdata:
+  salesdbdata:
