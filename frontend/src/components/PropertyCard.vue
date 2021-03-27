@@ -8,7 +8,7 @@
       <q-card-section class="bg-primary text-white no-padding">
         <img
           :src="listing_image_url"
-          basic
+          alt="listing image"
         >
         <div
           class="row justify-between"
@@ -48,6 +48,7 @@
               <img
                 v-if="host_image_url"
                 :src="host_image_url"
+                alt="host image"
               >
             </q-avatar>
           </q-item-section>

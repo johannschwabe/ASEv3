@@ -10,8 +10,8 @@ export default {
   props: {
     center: {type: Object, default: () => { return {lat: 40.730610, lng: -73.935242}; }},
     initial_zoom: {type: Number, default: () => 13},
-    points: {type: Array, required: false},
-    markers: {type: Array, required: false},
+    points: {type: Array, default: () => []},
+    markers: {type: Array, default: () => []},
   },
   data() {
     return {
@@ -59,12 +59,12 @@ export default {
      * When show_heatmap property changes, update heatmap visibility
      */
     show_heatmap(show) {
-      console.log("gugus");
       this.setHeatmapVisibility(show);
     },
   },
 
   created() {
+    // eslint-disable-next-line global-require
     const loadGoogleMapsApi = require("load-google-maps-api");
     const apiKey = "***REMOVED***";
     const options = {
@@ -96,16 +96,15 @@ export default {
       };
 
       // Add heatmap to map
-      const heatmap = new this.maps_api.visualization.HeatmapLayer(heatmap_options);
-
       // Store locally
-      this.heatmap = heatmap;
+      this.heatmap = new this.maps_api.visualization.HeatmapLayer(heatmap_options);
 
       this.heatmap.setMap(this.map);
 
       // TODO makes sense here?
       this.placeMarkers(this.markers);
     }).catch((e) => {
+      // eslint-disable-next-line no-console
       console.error(e);
     });
   },

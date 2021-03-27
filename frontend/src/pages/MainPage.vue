@@ -24,9 +24,10 @@
 </template>
 
 <script>
+/* eslint-disable import/no-unresolved */
 import properties from "@/data/properties.json";
-import PropertyCard from "@/components/PropertyCard.vue";
 import Heatmap from "@/components/map/Heatmap.vue";
+import PropertyCard from "@/components/PropertyCard.vue";
 
 export default {
   name: "MainPage",
@@ -69,9 +70,7 @@ export default {
         this.selected_property = null;
       } else {
         // Get property by ID
-        const property = this.properties.find((property) => property.id === id);
-
-        this.selected_property = property;
+        this.selected_property = this.properties.find((prop) => prop.id === id);
       }
     },
   },

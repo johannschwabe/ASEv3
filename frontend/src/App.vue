@@ -14,6 +14,7 @@
 </template>
 
 <script>
+/* eslint-disable import/no-unresolved */
 import MenuBar from "@/components/menu/MenuBar.vue";
 import MainPage from "@/pages/MainPage.vue";
 import MenuDrawer from "@/components/menu/MenuDrawer.vue";
