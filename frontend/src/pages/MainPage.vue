@@ -16,41 +16,40 @@
 
       <!-- Info window if property selected -->
       <PropertyCard
-          v-if="selected_property"
-          :property="selected_property"
+        v-if="selected_property"
+        :property="selected_property"
       />
-
     </div>
   </q-page>
 </template>
 
 <script>
-import properties from "@/data/properties.json"
-import Heatmap from "@/components/map/Heatmap.vue";
+import properties from "@/data/properties.json";
 import PropertyCard from "@/components/PropertyCard.vue";
+import Heatmap from "@/components/map/Heatmap.vue";
 
 export default {
   name: "MainPage",
   components: {
     Heatmap,
-    PropertyCard
+    PropertyCard,
   },
   props: {
-    show_markers: { type: Boolean, default: true }
+    show_markers: { type: Boolean, default: true },
   },
   data() {
     return {
       center: { lat: 40.730610, lng: -73.935242 },
       properties: properties, // TODO get from backend
       selected_property: null, // The property that was clicked
-    }
+    };
   },
   computed: {
     /**
      * Geographical Property distribution
      * @returns {Array}
      */
-    property_locations(){
+    property_locations() {
       const result = [];
       this.properties.forEach((property) => {
         result.push({
@@ -58,25 +57,25 @@ export default {
           lng: property.longitude,
           id: property.id,
         });
-      })
+      });
 
       return result;
-    }
+    },
   },
   methods: {
-    onMarkerClick(id){
+    onMarkerClick(id) {
       // If this property was selected already, toggle
-      if(this.selected_property && this.selected_property.id === id){
+      if (this.selected_property && this.selected_property.id === id) {
         this.selected_property = null;
-      } else{
+      } else {
         // Get property by ID
-        const property = this.properties.find(property => property.id === id);
+        const property = this.properties.find((property) => property.id === id);
 
         this.selected_property = property;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>

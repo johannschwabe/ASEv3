@@ -1,40 +1,40 @@
 <template>
-  <div ref="map"/>
+  <div ref="map" />
 </template>
 
 <script>
-import MarkerClusterer from '@googlemaps/markerclustererplus';
+import MarkerClusterer from "@googlemaps/markerclustererplus";
 
 export default {
-  name: 'Heatmap',
+  name: "Heatmap",
   props: {
-    center: {type: Object, default: () => { return {lat: 40.730610, lng: -73.935242} },},
+    center: {type: Object, default: () => { return {lat: 40.730610, lng: -73.935242}; }},
     initial_zoom: {type: Number, default: () => 13},
     points: {type: Array, required: false},
     markers: {type: Array, required: false},
   },
-  data(){
+  data() {
     return {
-      maps_api: null,         // Google Maps API instance
-      map: null,              // Google Map object
-      heatmap: null,          // Heatmap layer
-    map_markers: [],          // Map marker objects
+      maps_api: null, // Google Maps API instance
+      map: null, // Google Map object
+      heatmap: null, // Heatmap layer
+      map_markers: [], // Map marker objects
       marker_clusterer: null, // Marker clusterer instance
-    }
+    };
   },
   computed: {
     /**
      * Whether to show the markers
      */
-    show_markers(){
-      return this.$store.getters.showMarkers
+    show_markers() {
+      return this.$store.getters.showMarkers;
     },
 
     /**
      * Whether to show the heatmap
      */
-    show_heatmap(){
-      return this.$store.getters.showHeatmap
+    show_heatmap() {
+      return this.$store.getters.showHeatmap;
     },
 
     /**
@@ -42,7 +42,7 @@ export default {
      */
     heatmapPoints() {
       return this.points.map(
-        point => new this.maps_api.LatLng(point.lat, point.lng)
+        (point) => new this.maps_api.LatLng(point.lat, point.lng),
       );
     },
   },
@@ -52,24 +52,24 @@ export default {
      * When show_markers property changes, update all markers
      */
     show_markers(show) {
-      this.setMarkerVisibility(show)
+      this.setMarkerVisibility(show);
     },
 
     /**
      * When show_heatmap property changes, update heatmap visibility
      */
     show_heatmap(show) {
-      console.log("gugus")
-      this.setHeatmapVisibility(show)
+      console.log("gugus");
+      this.setHeatmapVisibility(show);
     },
   },
 
   created() {
-    const loadGoogleMapsApi = require('load-google-maps-api')
-    const apiKey = "***REMOVED***"
+    const loadGoogleMapsApi = require("load-google-maps-api");
+    const apiKey = "***REMOVED***";
     const options = {
       key: apiKey,
-      libraries: ['visualization']
+      libraries: ["visualization"],
     };
 
     loadGoogleMapsApi(options).then((googleMaps) => {
@@ -84,7 +84,7 @@ export default {
         mapTypeControl: false,
         streetViewControl: false,
         fullscreenControl: false,
-      }
+      };
 
       // Create map
       this.map = new googleMaps.Map(map_element, map_options);
@@ -93,7 +93,7 @@ export default {
       const heatmap_options = {
         data: this.heatmapPoints,
         map: this.$mapObject,
-      }
+      };
 
       // Add heatmap to map
       const heatmap = new this.maps_api.visualization.HeatmapLayer(heatmap_options);
@@ -103,11 +103,11 @@ export default {
 
       this.heatmap.setMap(this.map);
 
-      //TODO makes sense here?
+      // TODO makes sense here?
       this.placeMarkers(this.markers);
     }).catch((e) => {
-      console.error(e)
-    })
+      console.error(e);
+    });
   },
 
   methods: {
@@ -122,9 +122,9 @@ export default {
       markers.forEach((marker) => {
         const options = {
           position: new this.maps_api.LatLng(marker.lat, marker.lng),
-          //map: this.map,
+          // map: this.map,
           visible: this.show_markers,
-          //label: "something" // TODO remove?
+          // label: "something" // TODO remove?
         };
 
         // Create marker and add ID from data
@@ -136,7 +136,7 @@ export default {
 
         // Add to local array
         this.map_markers.push(new_marker);
-      })
+      });
 
       // Add a marker clusterer to manage the markers.
       this.marker_clusterer = new MarkerClusterer(this.map, this.map_markers, {
@@ -149,11 +149,11 @@ export default {
      * Toggles visibility for all markers & marker clusters
      * @param {Boolean} show - whether to show the markers
      */
-    setMarkerVisibility(show){
+    setMarkerVisibility(show) {
       // Show/hide markers
       this.map_markers.forEach((marker) => {
-        marker.setVisible(show)
-      })
+        marker.setVisible(show);
+      });
 
       // Refresh marker cluster
       this.marker_clusterer.repaint();
@@ -163,23 +163,20 @@ export default {
      * Toggles visibility of the heatmap layer
      * @param {Boolean} show - whether to show the heatmap layer
      */
-    setHeatmapVisibility(show){
-      console.log("Setting heatmap vis...")
-      this.heatmap.setMap(show? this.map : null);
+    setHeatmapVisibility(show) {
+      console.log("Setting heatmap vis...");
+      this.heatmap.setMap(show ? this.map : null);
     },
 
     /**
      * Upon clicking a marker
      * @param {Object} marker
      */
-    onMarkerClick(marker){
-      this.$emit('markerClick', marker)
+    onMarkerClick(marker) {
+      this.$emit("markerClick", marker);
       // this.map.setZoom(15);
       // this.map.setCenter(marker.getPosition());
-    }
-  }
+    },
+  },
 };
 </script>
-
-
-

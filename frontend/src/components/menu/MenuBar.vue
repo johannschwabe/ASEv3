@@ -2,7 +2,10 @@
   <q-header elevated>
     <q-toolbar>
       <q-avatar>
-        <img alt="Quasar logo" src="@/assets/logo.png">
+        <img
+          alt="Quasar logo"
+          src="@/assets/logo.png"
+        >
       </q-avatar>
 
       <q-toolbar-title>
@@ -10,12 +13,12 @@
       </q-toolbar-title>
 
       <q-btn
-          flat
-          dense
-          round
-          aria-label="Menu"
-          icon="menu"
-          @click="toggleDrawer"
+        flat
+        dense
+        round
+        aria-label="Menu"
+        icon="menu"
+        @click="toggleDrawer"
       />
     </q-toolbar>
   </q-header>
@@ -29,10 +32,10 @@ export default {
      * Toggles the drawer
      */
     toggleDrawer() {
-      this.$store.commit('toggleDrawer')
+      this.$store.commit("toggleDrawer");
     },
-  }
-}
+  },
+};
 </script>
 
 <style scoped>

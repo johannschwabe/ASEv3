@@ -1,14 +1,14 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <!-- Menu bar -->
-    <MenuBar/>
+    <MenuBar />
 
     <!-- Side menu drawer -->
-    <MenuDrawer/>
+    <MenuDrawer />
 
     <!-- Main page content -->
     <q-page-container>
-      <MainPage/>
+      <MainPage />
     </q-page-container>
   </q-layout>
 </template>
@@ -19,14 +19,14 @@ import MainPage from "@/pages/MainPage.vue";
 import MenuDrawer from "@/components/menu/MenuDrawer.vue";
 
 export default {
-  name: 'LayoutDefault',
+  name: "LayoutDefault",
 
   components: {
     MenuBar,
     MainPage,
-    MenuDrawer
+    MenuDrawer,
   },
-}
+};
 </script>
 
 <style>
