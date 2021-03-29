@@ -19,3 +19,7 @@ export function setMapsApi(state, payload) {
 export function setHeatmapType(state, payload) {
   state.heatmap_type = payload.heatmap_type;
 }
+
+export function setHeatmapRadius(state, payload) {
+  state.heatmap_radius = payload.heatmap_radius;
+}

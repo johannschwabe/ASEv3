@@ -44,9 +44,16 @@ export default {
     },
 
     /**
+     * Pixel radius of heatmap points
+     */
+    heatmap_radius() {
+      return this.$store.getters.heatmapRadius;
+    },
+
+    /**
      * The points to construct the heatmap from
      */
-    heatmapPoints() {
+    heatmap_points() {
       return this.points.map(
         (point) => new this.maps_api.LatLng(point.lat.toFixed(6), point.lng.toFixed(6)),
       );
@@ -72,7 +79,15 @@ export default {
      * When points change, update heatmap
      */
     points() {
-      this.heatmap.setData(this.heatmapPoints);
+      this.heatmap.setData(this.heatmap_points);
+    },
+
+    /**
+     * When points change, update heatmap
+     */
+    heatmap_radius() {
+      // const new_options = new this.maps_api.visualization.HeatmapLayerOptions("radius", this.heatmap_radius);
+      this.heatmap.set("radius", this.heatmap_radius);
     },
   },
 
@@ -94,8 +109,9 @@ export default {
 
     // Options for heatmap overlay
     const heatmap_options = {
-      data: this.heatmapPoints,
+      data: this.heatmap_points,
       map: this.$mapObject,
+      radius: this.heatmap_radius,
     };
 
     // Add heatmap to map

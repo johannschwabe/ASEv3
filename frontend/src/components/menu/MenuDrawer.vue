@@ -70,13 +70,18 @@
 
       <q-separator />
 
+      <q-item-label header>
+        Heatmap
+      </q-item-label>
+
+      <q-separator />
       <!-- Heatmap type -->
       <q-item>
         <q-item-section avatar>
           <q-icon name="map" />
         </q-item-section>
         <q-item-section>
-          <q-item-label>Heatmap Type</q-item-label>
+          <q-item-label>Type</q-item-label>
           <q-item-label caption>
             Choose what data to visualize
           </q-item-label>
@@ -102,6 +107,27 @@
           @click="setHeatmapType('RATING')"
         />
       </q-btn-group>
+      <q-separator />
+
+      <!-- Heatmap point radius -->
+      <q-item>
+        <q-item-section avatar>
+          <q-icon name="mdi-arrow-expand" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>Point Radius</q-item-label>
+          <q-item-label caption>
+            Determine the visualization radius of every data point
+          </q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-slider
+        :value="heatmap_radius"
+        :min="1"
+        :max="100"
+        @input="val => setHeatmapRadius(val)"
+      />
+
       <q-separator />
     </q-list>
   </q-drawer>
@@ -131,6 +157,13 @@ export default {
     show_heatmap() {
       return this.$store.getters.showHeatmap;
     },
+
+    /**
+     * Pixel radius of heatmap points
+     */
+    heatmap_radius() {
+      return this.$store.getters.heatmapRadius;
+    },
   },
   methods: {
     /**
@@ -153,6 +186,14 @@ export default {
      */
     setHeatmapType(type) {
       this.$store.commit("setHeatmapType", {heatmap_type: type});
+    },
+
+    /**
+     * Sets the heatmap point radius
+     * @param {Number} radius - the radius in px
+     */
+    setHeatmapRadius(radius) {
+      this.$store.commit("setHeatmapRadius", {heatmap_radius: radius});
     },
   },
 };

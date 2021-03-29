@@ -6,4 +6,5 @@ export default {
   show_heatmap: true,
   drawer_open: false,
   heatmap_type: OPTIONS.HEATMAP_TYPES.PROPERTY,
+  heatmap_radius: 10,
 };
