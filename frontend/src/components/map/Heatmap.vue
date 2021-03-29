@@ -48,7 +48,7 @@ export default {
      */
     heatmapPoints() {
       return this.points.map(
-        (point) => new this.maps_api.LatLng(point.lat, point.lng),
+        (point) => new this.maps_api.LatLng(point.lat.toFixed(6), point.lng.toFixed(6)),
       );
     },
   },

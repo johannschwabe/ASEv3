@@ -87,7 +87,7 @@ export default {
         result.push({
           lat: property.latitude,
           lng: property.longitude,
-          id: property.id,
+          id: property.id.toString(),
         });
       });
 
@@ -101,11 +101,13 @@ export default {
     property_locations() {
       const result = [];
       this.properties_location_data.forEach((property) => {
-        result.push({
-          lat: property.lat,
-          lng: property.lng,
-          id: property.id,
-        });
+        if (property.lat && property.lng) {
+          result.push({
+            lat: property.lat,
+            lng: property.lng,
+            id: property.id,
+          });
+        }
       });
 
       return result;
