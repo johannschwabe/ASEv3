@@ -29,7 +29,7 @@ import properties_data from "@/data/properties.json";
 import properties_locations from "@/data/properties_locations.json";
 import Heatmap from "@/components/map/Heatmap.vue";
 import PropertyCard from "@/components/PropertyCard.vue";
-import HEATMAP_TYPES from "@/data/options.js";
+import * as OPTIONS from "@/data/OPTIONS.js";
 
 export default {
   name: "MainPage",
@@ -59,11 +59,11 @@ export default {
      */
     heatmap_points() {
       switch (this.heatmap_type) {
-        case HEATMAP_TYPES.AIRBNB:
+        case OPTIONS.HEATMAP_TYPES.AIRBNB:
           return this.airbnb_locations;
-        case HEATMAP_TYPES.PROPERTY:
+        case OPTIONS.HEATMAP_TYPES.PROPERTY:
           return this.property_locations;
-        case HEATMAP_TYPES.RATING:
+        case OPTIONS.HEATMAP_TYPES.RATING:
           return []; // TODO
         default:
           return [];
