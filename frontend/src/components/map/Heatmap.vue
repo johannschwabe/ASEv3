@@ -69,7 +69,7 @@ export default {
     },
   },
 
-  created() {
+  mounted() {
     const map_element = this.$refs.map;
 
     // Options for map

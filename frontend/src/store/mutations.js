@@ -13,5 +13,6 @@ export function toggleHeatmap(state) {
 }
 
 export function setMapsApi(state, payload) {
+  console.log("Set API to", payload.maps_api);
   state.maps_api = payload.maps_api;
 }
