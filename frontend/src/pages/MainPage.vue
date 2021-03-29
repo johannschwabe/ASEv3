@@ -120,12 +120,27 @@ export default {
      * @param id
      */
     onMarkerClick(id) {
+      // Close drawer if open
+      if (this.$store.getters.drawerOpen) {
+        this.$store.commit("toggleDrawer");
+      }
+
       // If this property was selected already, toggle
       if (this.selected_property && this.selected_property.id === id) {
         this.selected_property = null;
       } else {
-        // Get property by ID TODO also for properties
-        this.selected_property = this.airbnbs.find((prop) => prop.id === id);
+        // Get property/airbnb/rating by ID
+        switch (this.map_type) {
+          case OPTIONS.MAP_TYPES.AIRBNB:
+            this.selected_property = this.airbnbs.find((prop) => prop.id === id);
+            break;
+          case OPTIONS.MAP_TYPES.PROPERTY:
+            // TODO cleanup once we have proper IDs
+            this.selected_property = this.properties.find((prop) => `${prop[""]}_${prop.BOROUGH}` === id);
+            break;
+          default:
+            break;
+        }
       }
     },
   },

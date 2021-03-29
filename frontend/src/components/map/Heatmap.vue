@@ -132,22 +132,23 @@ export default {
 
     // Add neighbourhood layer
     this.neighbourhoods_layer = new this.maps_api.KmlLayer({
-      url: "http://www.google.com/maps/d/kml?forcekml=1&mid=1_gsxJNfmcGZI4ZL_7LnEHj72YpvgNq-w",
+      url: "http://www.google.com/maps/d/kml?forcekml=1&mid=1Du5qveMD3nhBDkWP7ZTeRw6fUxFZ9lPe",
       map: this.show_neighbourhoods ? this.map : null,
+      preserveViewport: true,
+      suppressInfoWindows: true,
+      clickable: false,
+      zIndex: 1,
     });
 
-    // Options for heatmap overlay
+    // Options for heatmap layer
     const heatmap_options = {
       data: this.heatmap_points,
-      map: this.$mapObject,
+      map: this.map,
       radius: this.heatmap_radius,
     };
 
-    // Add heatmap to map
-    // Store locally
+    // Add heatmap layer
     this.heatmap = new this.maps_api.visualization.HeatmapLayer(heatmap_options);
-
-    this.heatmap.setMap(this.map);
 
     // Place markers
     this.placeMarkers(this.markers);
