@@ -10,8 +10,8 @@ export default {
   props: {
     center: {type: Object, default: () => { return {lat: 40.730610, lng: -73.935242}; }},
     initial_zoom: {type: Number, default: () => 13},
-    points: {type: Array, default: () => []},
-    markers: {type: Array, default: () => []},
+    points: {type: Array, default: () => []}, // The points to generate the heatmap from
+    markers: {type: Array, default: () => []}, // The markers to place on the map
   },
   data() {
     return {

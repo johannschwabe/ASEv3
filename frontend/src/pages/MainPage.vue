@@ -29,6 +29,7 @@ import properties_data from "@/data/properties.json";
 import properties_locations from "@/data/properties_locations.json";
 import Heatmap from "@/components/map/Heatmap.vue";
 import PropertyCard from "@/components/PropertyCard.vue";
+import HEATMAP_TYPES from "@/data/options.js";
 
 export default {
   name: "MainPage",
@@ -47,24 +48,26 @@ export default {
   },
   computed: {
     /**
+     * Type of heatmap to show
+     */
+    heatmap_type() {
+      return this.$store.getters.heatmapType;
+    },
+
+    /**
      * The points to show on the heatmap, depending on the chosen type
      */
     heatmap_points() {
       switch (this.heatmap_type) {
-        case "airbnbs:":
+        case HEATMAP_TYPES.AIRBNB:
           return this.airbnb_locations;
-        case "properties":
+        case HEATMAP_TYPES.PROPERTY:
           return this.property_locations;
+        case HEATMAP_TYPES.RATING:
+          return []; // TODO
         default:
           return [];
       }
-    },
-
-    /**
-     * Google Maps API instance
-     */
-    heatmap_type() {
-      return this.$store.getters.heatmapType;
     },
 
     /**
@@ -92,23 +95,17 @@ export default {
     },
 
     /**
-     * Geographical property distribution
+     * Geographical Airbnb distribution
      * @returns {Array}
      */
     property_locations() {
       const result = [];
-      this.properties.forEach((property) => {
-        // Get location
-        const coords = this.getCoordinatesForProperty(property);
-
-        // TODO why don't we have all...
-        if (coords) {
-          result.push({
-            lat: coords.lat,
-            lng: coords.lng,
-            id: coords.id,
-          });
-        }
+      this.properties_location_data.forEach((property) => {
+        result.push({
+          lat: property.lat,
+          lng: property.lng,
+          id: property.id,
+        });
       });
 
       return result;
@@ -116,22 +113,8 @@ export default {
   },
 
   methods: {
-
     /**
-     * Gets the coordinates for a given property
-     * @async
-     * @param {Object} property - the property object
-     * @returns {null | {id: string, lat: string, lng: string}}
-     */
-    getCoordinatesForProperty(property) {
-      const id_sale = `${property[""]}_${property.BOROUGH}`;
-      const coord_object = this.properties_location_data.find((prop) => prop.id_sale === id_sale);
-      if (!coord_object) { return null; }
-      return {id: id_sale, lat: coord_object.lat, lng: coord_object.long};
-    },
-
-    /**
-     * TODO
+     * Upon clicking a marker, mark it as selected
      * @param id
      */
     onMarkerClick(id) {
