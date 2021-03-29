@@ -54,16 +54,27 @@
       </q-linear-progress>
 
       <div
-        class="text-h5"
-        style="text-align: center"
+        class="text-h5 text-grey-8"
+        style="text-align: center; margin-bottom: 10px;"
       >
         Very good
       </div>
 
       <q-separator />
 
-      <div style="margin: 10px">
+      <div style="margin: 10px 10px 40px 10px">
         <b>Price rating</b>
+      </div>
+
+      <!-- Badge for sales price -->
+      <div
+        style="position: relative; left: calc(30% - 30px)"
+      >
+        <q-badge
+          color="grey-3"
+          text-color="positive"
+          :label="'$' + property['SALE PRICE'].toLocaleString()"
+        />
       </div>
 
       <q-linear-progress
