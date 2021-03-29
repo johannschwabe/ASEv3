@@ -11,3 +11,7 @@ export function toggleMarkers(state) {
 export function toggleHeatmap(state) {
   state.show_heatmap = !state.show_heatmap;
 }
+
+export function setMapsApi(state, payload) {
+  state.maps_api = payload.maps_api;
+}

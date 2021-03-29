@@ -9,3 +9,7 @@ export function showMarkers(state) {
 export function showHeatmap(state) {
   return state.show_heatmap;
 }
+
+export function mapsApi(state) {
+  return state.maps_api;
+}

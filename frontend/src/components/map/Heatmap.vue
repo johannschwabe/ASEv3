@@ -15,7 +15,6 @@ export default {
   },
   data() {
     return {
-      maps_api: null, // Google Maps API instance
       map: null, // Google Map object
       heatmap: null, // Heatmap layer
       map_markers: [], // Map marker objects
@@ -23,6 +22,13 @@ export default {
     };
   },
   computed: {
+    /**
+     * Google Maps API instance
+     */
+    maps_api() {
+      return this.$store.getters.mapsApi;
+    },
+
     /**
      * Whether to show the markers
      */
@@ -64,49 +70,35 @@ export default {
   },
 
   created() {
-    // eslint-disable-next-line global-require
-    const loadGoogleMapsApi = require("load-google-maps-api");
-    const apiKey = "***REMOVED***";
-    const options = {
-      key: apiKey,
-      libraries: ["visualization"],
+    const map_element = this.$refs.map;
+
+    // Options for map
+    const map_options = {
+      zoom: this.initial_zoom,
+      center: this.center,
+      mapTypeId: "roadmap",
+      mapTypeControl: false,
+      streetViewControl: false,
+      fullscreenControl: false,
     };
 
-    loadGoogleMapsApi(options).then((googleMaps) => {
-      this.maps_api = googleMaps;
-      const map_element = this.$refs.map;
+    // Create map
+    this.map = new this.maps_api.Map(map_element, map_options);
 
-      // Options for map
-      const map_options = {
-        zoom: this.initial_zoom,
-        center: this.center,
-        mapTypeId: "roadmap",
-        mapTypeControl: false,
-        streetViewControl: false,
-        fullscreenControl: false,
-      };
+    // Options for heatmap overlay
+    const heatmap_options = {
+      data: this.heatmapPoints,
+      map: this.$mapObject,
+    };
 
-      // Create map
-      this.map = new googleMaps.Map(map_element, map_options);
+    // Add heatmap to map
+    // Store locally
+    this.heatmap = new this.maps_api.visualization.HeatmapLayer(heatmap_options);
 
-      // Options for heatmap overlay
-      const heatmap_options = {
-        data: this.heatmapPoints,
-        map: this.$mapObject,
-      };
+    this.heatmap.setMap(this.map);
 
-      // Add heatmap to map
-      // Store locally
-      this.heatmap = new this.maps_api.visualization.HeatmapLayer(heatmap_options);
-
-      this.heatmap.setMap(this.map);
-
-      // TODO makes sense here?
-      this.placeMarkers(this.markers);
-    }).catch((e) => {
-      // eslint-disable-next-line no-console
-      console.error(e);
-    });
+    // TODO makes sense here?
+    this.placeMarkers(this.markers);
   },
 
   methods: {
