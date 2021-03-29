@@ -4,11 +4,10 @@
       class="main-page"
     >
       <Heatmap
-        :points="airbnb_locations"
+        :points="heatmap_points"
         :markers="airbnb_locations"
         :center="center"
         :initial_zoom="12"
-        :show_markers="show_markers"
         style="height: 100%; width: 100%"
         @markerClick="onMarkerClick"
       />
@@ -25,7 +24,9 @@
 <script>
 
 /* eslint-disable import/no-unresolved */
-import airbnbs from "@/data/airbnb.json";
+import airbnbs_data from "@/data/airbnb.json";
+import properties_data from "@/data/properties.json";
+import properties_locations from "@/data/properties_locations.json";
 import Heatmap from "@/components/map/Heatmap.vue";
 import PropertyCard from "@/components/PropertyCard.vue";
 
@@ -35,17 +36,37 @@ export default {
     Heatmap,
     PropertyCard,
   },
-  props: {
-    show_markers: { type: Boolean, default: true },
-  },
   data() {
     return {
       center: { lat: 40.730610, lng: -73.935242 },
-      airbnbs: airbnbs, // TODO get from backend
+      airbnbs: airbnbs_data, // TODO get from backend
+      properties: properties_data, // TODO
+      properties_location_data: properties_locations, // TODO
       selected_property: null, // The property that was clicked
     };
   },
   computed: {
+    /**
+     * The points to show on the heatmap, depending on the chosen type
+     */
+    heatmap_points() {
+      switch (this.heatmap_type) {
+        case "airbnbs:":
+          return this.airbnb_locations;
+        case "properties":
+          return this.property_locations;
+        default:
+          return [];
+      }
+    },
+
+    /**
+     * Google Maps API instance
+     */
+    heatmap_type() {
+      return this.$store.getters.heatmapType;
+    },
+
     /**
      * Google Maps API instance
      */
@@ -69,9 +90,45 @@ export default {
 
       return result;
     },
+
+    /**
+     * Geographical property distribution
+     * @returns {Array}
+     */
+    property_locations() {
+      const result = [];
+      this.properties.forEach((property) => {
+        // Get location
+        const coords = this.getCoordinatesForProperty(property);
+
+        // TODO why don't we have all...
+        if (coords) {
+          result.push({
+            lat: coords.lat,
+            lng: coords.lng,
+            id: coords.id,
+          });
+        }
+      });
+
+      return result;
+    },
   },
 
   methods: {
+
+    /**
+     * Gets the coordinates for a given property
+     * @async
+     * @param {Object} property - the property object
+     * @returns {null | {id: string, lat: string, lng: string}}
+     */
+    getCoordinatesForProperty(property) {
+      const id_sale = `${property[""]}_${property.BOROUGH}`;
+      const coord_object = this.properties_location_data.find((prop) => prop.id_sale === id_sale);
+      if (!coord_object) { return null; }
+      return {id: id_sale, lat: coord_object.lat, lng: coord_object.long};
+    },
 
     /**
      * TODO

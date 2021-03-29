@@ -1,3 +1,4 @@
+<script src="store/mutations.js"></script>
 <template>
   <q-layout view="hhh lpr fff">
     <!-- Menu bar -->
@@ -19,7 +20,6 @@
 import MenuBar from "@/components/menu/MenuBar.vue";
 import MainPage from "@/pages/MainPage.vue";
 import MenuDrawer from "@/components/menu/MenuDrawer.vue";
-import properties from "@/data/properties.json";
 
 export default {
   name: "LayoutDefault",
@@ -33,13 +33,20 @@ export default {
   data() {
     return {
       api_loaded: false,
-      properties: properties,
     };
+  },
+  computed: {
+    /**
+     * Google Maps API instance
+     */
+    maps_api() {
+      return this.$store.getters.mapsApi;
+    },
   },
 
   created() {
     // Get Google maps API
-    this.getMapsApi().then(() => this.getPropertyCoordinates());
+    this.getMapsApi();
   },
 
   methods: {
@@ -59,22 +66,6 @@ export default {
       console.log("Setting API!");
       this.$store.commit("setMapsApi", {maps_api: maps_api});
       this.api_loaded = true;
-    },
-
-    /**
-     * TODO
-     * @returns {Promise<void>}
-     */
-    async getPropertyCoordinates() {
-      // Use google geocoding API to get location for all properties TODO for all once working
-      this.properties.slice(0, 10).forEach((property) => {
-        // Determine full address string
-        const address_string = `${property.ADDRESS}, ${property["ZIP CODE"]}, New York`;
-
-        console.log("Query geocoding for property with address", property, address_string);
-
-        // Make query to geocoding API
-      });
     },
   },
 };

@@ -13,3 +13,7 @@ export function showHeatmap(state) {
 export function mapsApi(state) {
   return state.maps_api;
 }
+
+export function heatmapType(state) {
+  return state.heatmap_type;
+}
