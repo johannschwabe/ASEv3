@@ -9,6 +9,9 @@
       <q-item-label header>
         Settings
       </q-item-label>
+
+      <q-separator />
+
       <!-- Marker toggle -->
       <q-item
         clickable
@@ -22,7 +25,7 @@
         <q-item-section>
           <q-item-label>Show markers</q-item-label>
           <q-item-label caption>
-            A marker on each property - how pretty!
+            A marker on every property
           </q-item-label>
         </q-item-section>
         <q-item-section
@@ -35,6 +38,8 @@
           />
         </q-item-section>
       </q-item>
+
+      <q-separator />
 
       <!-- Heatmap toggle -->
       <q-item
@@ -62,6 +67,42 @@
           />
         </q-item-section>
       </q-item>
+
+      <q-separator />
+
+      <!-- Heatmap type -->
+      <q-item>
+        <q-item-section avatar>
+          <q-icon name="map" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>Heatmap Type</q-item-label>
+          <q-item-label caption>
+            Choose what data to visualize
+          </q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-btn-group flat>
+        <q-btn
+          label="Airbnbs"
+          icon="hotel"
+          no-caps
+          @click="setHeatmapType('AIRBNB')"
+        />
+        <q-btn
+          label="Properties"
+          icon="home"
+          no-caps
+          @click="setHeatmapType('PROPERTY')"
+        />
+        <q-btn
+          label="Ratings"
+          icon="star"
+          no-caps
+          @click="setHeatmapType('RATING')"
+        />
+      </q-btn-group>
+      <q-separator />
     </q-list>
   </q-drawer>
 </template>
@@ -104,6 +145,14 @@ export default {
      */
     toggleHeatmap() {
       this.$store.commit("toggleHeatmap");
+    },
+
+    /**
+     * Sets the heatmap type
+     * @param {String} type - the chosen type, e.g. 'AIRBNB'
+     */
+    setHeatmapType(type) {
+      this.$store.commit("setHeatmapType", {heatmap_type: type});
     },
   },
 };
