@@ -63,7 +63,6 @@ export default {
       };
 
       const maps_api = await loadGoogleMapsApi(options);
-      console.log("Setting API!");
       this.$store.commit("setMapsApi", {maps_api: maps_api});
       this.api_loaded = true;
     },

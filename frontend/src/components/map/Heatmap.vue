@@ -86,7 +86,6 @@ export default {
      * When markers change, remove and place new ones
      */
     markers() {
-      console.log("Markers have changed to", this.markers);
       this.removeMarkers();
       this.placeMarkers(this.markers);
     },
@@ -142,7 +141,6 @@ export default {
      * placeMarkers([{lat: 12.3, lng: 3.45}, {lat: -3, lng: 4.562}])
      */
     placeMarkers(markers) {
-      console.log("Placing", markers.length, "markers!");
       markers.forEach((marker) => {
         const options = {
           position: new this.maps_api.LatLng(marker.lat, marker.lng),
@@ -150,7 +148,6 @@ export default {
         };
 
         // Create marker and add ID from data
-        console.log("add marker!");
         const new_marker = new this.maps_api.Marker(options);
         new_marker.id = marker.id;
 

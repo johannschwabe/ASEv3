@@ -67,12 +67,7 @@
       </q-item>
 
       <q-separator />
-
-      <q-item-label header>
-        Heatmap
-      </q-item-label>
-
-      <!-- Heatmap type -->
+      <!-- Map data type -->
       <q-item>
         <q-item-section>
           <q-item-label>Type</q-item-label>
@@ -83,31 +78,35 @@
       </q-item>
       <q-btn-group flat>
         <q-btn
-          :color="heatmap_type === 'RATING' ? 'primary' : null"
-          :text-color="heatmap_type === 'RATING' ? 'white' : 'black'"
+          :color="map_type === 'RATING' ? 'primary' : null"
+          :text-color="map_type === 'RATING' ? 'white' : 'black'"
           label="Ratings"
           icon="star"
           no-caps
-          @click="setHeatmapType('RATING')"
+          @click="setMapType('RATING')"
         />
         <q-btn
-          :color="heatmap_type === 'AIRBNB' ? 'primary' : null"
-          :text-color="heatmap_type === 'AIRBNB' ? 'white' : 'black'"
+          :color="map_type === 'AIRBNB' ? 'primary' : null"
+          :text-color="map_type === 'AIRBNB' ? 'white' : 'black'"
           label="Airbnbs"
           icon="hotel"
           no-caps
-          @click="setHeatmapType('AIRBNB')"
+          @click="setMapType('AIRBNB')"
         />
         <q-btn
-          :color="heatmap_type === 'PROPERTY' ? 'primary' : null"
-          :text-color="heatmap_type === 'PROPERTY' ? 'white' : 'black'"
+          :color="map_type === 'PROPERTY' ? 'primary' : null"
+          :text-color="map_type === 'PROPERTY' ? 'white' : 'black'"
           label="Properties"
           icon="home"
           no-caps
-          @click="setHeatmapType('PROPERTY')"
+          @click="setMapType('PROPERTY')"
         />
       </q-btn-group>
       <q-separator />
+
+      <q-item-label header>
+        Heatmap
+      </q-item-label>
 
       <!-- Heatmap point radius -->
       <q-item>
@@ -161,8 +160,8 @@ export default {
     /**
      * The heatmap's type
      */
-    heatmap_type() {
-      return this.$store.getters.heatmapType;
+    map_type() {
+      return this.$store.getters.mapType;
     },
 
     /**
@@ -188,11 +187,11 @@ export default {
     },
 
     /**
-     * Sets the heatmap type
+     * Sets the map type
      * @param {String} type - the chosen type, e.g. 'AIRBNB'
      */
-    setHeatmapType(type) {
-      this.$store.commit("setHeatmapType", {heatmap_type: type});
+    setMapType(type) {
+      this.$store.commit("setMapType", {map_type: type});
     },
 
     /**

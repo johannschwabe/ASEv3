@@ -50,20 +50,20 @@ export default {
     /**
      * Type of heatmap to show
      */
-    heatmap_type() {
-      return this.$store.getters.heatmapType;
+    map_type() {
+      return this.$store.getters.mapType;
     },
 
     /**
-     * The points to show on the map (either/or as heatmap and markers)
+     * The points to show on the map, either as heatmap, markers, or both
      */
     map_points() {
-      switch (this.heatmap_type) {
-        case OPTIONS.HEATMAP_TYPES.AIRBNB:
+      switch (this.map_type) {
+        case OPTIONS.MAP_TYPES.AIRBNB:
           return this.airbnb_locations;
-        case OPTIONS.HEATMAP_TYPES.PROPERTY:
+        case OPTIONS.MAP_TYPES.PROPERTY:
           return this.property_locations;
-        case OPTIONS.HEATMAP_TYPES.RATING:
+        case OPTIONS.MAP_TYPES.RATING:
           return []; // TODO
         default:
           return [];

@@ -14,8 +14,8 @@ export function mapsApi(state) {
   return state.maps_api;
 }
 
-export function heatmapType(state) {
-  return state.heatmap_type;
+export function mapType(state) {
+  return state.map_type;
 }
 
 export function heatmapRadius(state) {
