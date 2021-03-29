@@ -4,8 +4,8 @@
       class="main-page"
     >
       <Heatmap
-        :points="heatmap_points"
-        :markers="airbnb_locations"
+        :points="map_points"
+        :markers="map_points"
         :center="center"
         :initial_zoom="12"
         style="height: 100%; width: 100%"
@@ -55,9 +55,9 @@ export default {
     },
 
     /**
-     * The points to show on the heatmap, depending on the chosen type
+     * The points to show on the map (either/or as heatmap and markers)
      */
-    heatmap_points() {
+    map_points() {
       switch (this.heatmap_type) {
         case OPTIONS.HEATMAP_TYPES.AIRBNB:
           return this.airbnb_locations;

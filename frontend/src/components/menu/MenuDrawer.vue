@@ -10,8 +10,6 @@
         Settings
       </q-item-label>
 
-      <q-separator />
-
       <!-- Marker toggle -->
       <q-item
         clickable
@@ -74,12 +72,8 @@
         Heatmap
       </q-item-label>
 
-      <q-separator />
       <!-- Heatmap type -->
       <q-item>
-        <q-item-section avatar>
-          <q-icon name="map" />
-        </q-item-section>
         <q-item-section>
           <q-item-label>Type</q-item-label>
           <q-item-label caption>
@@ -89,22 +83,28 @@
       </q-item>
       <q-btn-group flat>
         <q-btn
+          :color="heatmap_type === 'RATING' ? 'primary' : null"
+          :text-color="heatmap_type === 'RATING' ? 'white' : 'black'"
+          label="Ratings"
+          icon="star"
+          no-caps
+          @click="setHeatmapType('RATING')"
+        />
+        <q-btn
+          :color="heatmap_type === 'AIRBNB' ? 'primary' : null"
+          :text-color="heatmap_type === 'AIRBNB' ? 'white' : 'black'"
           label="Airbnbs"
           icon="hotel"
           no-caps
           @click="setHeatmapType('AIRBNB')"
         />
         <q-btn
+          :color="heatmap_type === 'PROPERTY' ? 'primary' : null"
+          :text-color="heatmap_type === 'PROPERTY' ? 'white' : 'black'"
           label="Properties"
           icon="home"
           no-caps
           @click="setHeatmapType('PROPERTY')"
-        />
-        <q-btn
-          label="Ratings"
-          icon="star"
-          no-caps
-          @click="setHeatmapType('RATING')"
         />
       </q-btn-group>
       <q-separator />
@@ -117,7 +117,7 @@
         <q-item-section>
           <q-item-label>Point Radius</q-item-label>
           <q-item-label caption>
-            Determine the visualization radius of every data point
+            Determine the visualization radius of data points
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -156,6 +156,13 @@ export default {
      */
     show_heatmap() {
       return this.$store.getters.showHeatmap;
+    },
+
+    /**
+     * The heatmap's type
+     */
+    heatmap_type() {
+      return this.$store.getters.heatmapType;
     },
 
     /**

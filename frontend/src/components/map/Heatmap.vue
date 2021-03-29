@@ -83,6 +83,15 @@ export default {
     },
 
     /**
+     * When markers change, remove and place new ones
+     */
+    markers() {
+      console.log("Markers have changed to", this.markers);
+      this.removeMarkers();
+      this.placeMarkers(this.markers);
+    },
+
+    /**
      * When points change, update heatmap
      */
     heatmap_radius() {
@@ -120,7 +129,7 @@ export default {
 
     this.heatmap.setMap(this.map);
 
-    // TODO makes sense here?
+    // Place markers
     this.placeMarkers(this.markers);
   },
 
@@ -133,15 +142,15 @@ export default {
      * placeMarkers([{lat: 12.3, lng: 3.45}, {lat: -3, lng: 4.562}])
      */
     placeMarkers(markers) {
+      console.log("Placing", markers.length, "markers!");
       markers.forEach((marker) => {
         const options = {
           position: new this.maps_api.LatLng(marker.lat, marker.lng),
-          // map: this.map,
           visible: this.show_markers,
-          // label: "something" // TODO remove?
         };
 
         // Create marker and add ID from data
+        console.log("add marker!");
         const new_marker = new this.maps_api.Marker(options);
         new_marker.id = marker.id;
 
@@ -152,11 +161,25 @@ export default {
         this.map_markers.push(new_marker);
       });
 
-      // Add a marker clusterer to manage the markers.
+      // Add a marker clusterer to manage the markers
       this.marker_clusterer = new MarkerClusterer(this.map, this.map_markers, {
         ignoreHidden: true, // Ignore hidden markers, so clusters aren't shown if markers are hidden
         imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
       });
+    },
+
+    /**
+     * Removes all markers from the map
+     */
+    removeMarkers() {
+      this.map_markers.forEach((marker) => {
+        marker.setVisible(false);
+        marker.setMap(null);
+      });
+
+      // Disable clusterer
+      this.marker_clusterer.setMap(null);
+      this.map_markers = [];
     },
 
     /**
