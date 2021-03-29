@@ -67,6 +67,13 @@ export default {
     show_heatmap(show) {
       this.setHeatmapVisibility(show);
     },
+
+    /**
+     * When points change, update heatmap
+     */
+    points() {
+      this.heatmap.setData(this.heatmapPoints);
+    },
   },
 
   mounted() {
@@ -155,7 +162,6 @@ export default {
      * @param {Boolean} show - whether to show the heatmap layer
      */
     setHeatmapVisibility(show) {
-      console.log("Setting heatmap vis...");
       this.heatmap.setMap(show ? this.map : null);
     },
 
