@@ -1,8 +1,7 @@
 <template>
   <q-page>
     <div
-      class="window-height"
-      style="padding-bottom: 50px"
+      class="main-page"
     >
       <Heatmap
         :points="property_locations"
@@ -78,5 +77,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .main-page{
+    height: calc(100vh - 50px) !important;
+  }
 </style>
