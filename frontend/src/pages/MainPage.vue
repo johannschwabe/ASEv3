@@ -12,11 +12,17 @@
         @markerClick="onMarkerClick"
       />
 
-      <!-- Info window if property selected -->
-      <PropertyCard
-        v-if="selected_property"
-        :property="selected_property"
-      />
+      <!-- Info window if property/airbnb/rating is selected -->
+      <div v-if="selected_property">
+        <PropertyCard
+          v-if="map_type === 'PROPERTY'"
+          :property="selected_property"
+        />
+        <AirbnbCard
+          v-else-if="map_type === 'AIRBNB'"
+          :property="selected_property"
+        />
+      </div>
     </div>
   </q-page>
 </template>
@@ -29,6 +35,7 @@ import properties_data from "@/data/properties.json";
 import properties_locations from "@/data/properties_locations.json";
 import Heatmap from "@/components/map/Heatmap.vue";
 import PropertyCard from "@/components/PropertyCard.vue";
+import AirbnbCard from "@/components/AirbnbCard.vue";
 import * as OPTIONS from "@/data/OPTIONS.js";
 
 export default {
@@ -36,6 +43,7 @@ export default {
   components: {
     Heatmap,
     PropertyCard,
+    AirbnbCard,
   },
   data() {
     return {

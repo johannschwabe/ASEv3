@@ -4,7 +4,7 @@
     class="propertyCard overflow-hidden"
   >
     <q-scroll-area style="height: 100%">
-      <!-- Card header: Name & host -->
+      <!-- Card header: Address & price -->
       <q-card-section class="bg-primary text-white no-padding">
         <img
           :src="listing_image_url"
@@ -14,18 +14,18 @@
           class="row justify-between"
           style="padding: 20px"
         >
-          <div class="text-h6">
-            {{ property.name }}
+          <div
+            class="text-h6"
+            autocapitalize="words"
+          >
+            {{ property.ADDRESS }}
           </div>
 
-          <div>
-            <q-icon
-              v-for="i in property.computed_rating"
-              :key="i"
-              name="star"
-              color="white"
-              size="24px"
-            />
+          <div
+            class="text-h6"
+            autocapitalize="words"
+          >
+            ${{ property['SALE PRICE'].toLocaleString() }}
           </div>
         </div>
       </q-card-section>
