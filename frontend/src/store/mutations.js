@@ -12,6 +12,10 @@ export function toggleHeatmap(state) {
   state.show_heatmap = !state.show_heatmap;
 }
 
+export function toggleNeighbourhoods(state) {
+  state.show_neighbourhoods = !state.show_neighbourhoods;
+}
+
 export function setMapsApi(state, payload) {
   state.maps_api = payload.maps_api;
 }

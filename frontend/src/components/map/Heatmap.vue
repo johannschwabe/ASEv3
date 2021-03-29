@@ -19,6 +19,7 @@ export default {
       heatmap: null, // Heatmap layer
       map_markers: [], // Map marker objects
       marker_clusterer: null, // Marker clusterer instance
+      neighbourhoods_layer: null,
     };
   },
   computed: {
@@ -41,6 +42,13 @@ export default {
      */
     show_heatmap() {
       return this.$store.getters.showHeatmap;
+    },
+
+    /**
+     * Whether to show neighbourhood borders
+     */
+    show_neighbourhoods() {
+      return this.$store.getters.showNeighbourhoods;
     },
 
     /**
@@ -73,6 +81,13 @@ export default {
      */
     show_heatmap(show) {
       this.setHeatmapVisibility(show);
+    },
+
+    /**
+     * When show_neighbourhoods property changes, update layer visibility
+     */
+    show_neighbourhoods(show) {
+      this.neighbourhoods_layer.setMap(show ? this.map : null);
     },
 
     /**
@@ -114,6 +129,12 @@ export default {
 
     // Create map
     this.map = new this.maps_api.Map(map_element, map_options);
+
+    // Add neighbourhood layer
+    this.neighbourhoods_layer = new this.maps_api.KmlLayer({
+      url: "http://www.google.com/maps/d/kml?forcekml=1&mid=1_gsxJNfmcGZI4ZL_7LnEHj72YpvgNq-w",
+      map: this.show_neighbourhoods ? this.map : null,
+    });
 
     // Options for heatmap overlay
     const heatmap_options = {

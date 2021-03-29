@@ -4,6 +4,7 @@ export default {
   mapsApi: null,
   show_markers: false,
   show_heatmap: true,
+  show_neighbourhoods: false,
   drawer_open: false,
   map_type: OPTIONS.MAP_TYPES.PROPERTY,
   heatmap_radius: 10,

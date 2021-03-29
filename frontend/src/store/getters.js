@@ -10,6 +10,10 @@ export function showHeatmap(state) {
   return state.show_heatmap;
 }
 
+export function showNeighbourhoods(state) {
+  return state.show_neighbourhoods;
+}
+
 export function mapsApi(state) {
   return state.maps_api;
 }

@@ -67,6 +67,35 @@
       </q-item>
 
       <q-separator />
+
+      <!-- Neighbourhood toggle -->
+      <q-item
+        clickable
+        @click="toggleNeighbourhoods"
+      >
+        <q-item-section avatar>
+          <q-icon
+            :name="show_neighbourhoods ? 'mdi-grid' : 'mdi-grid-off'"
+          />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>Show neighbourhoods</q-item-label>
+          <q-item-label caption>
+            Toggle neighbourhood borders visibility
+          </q-item-label>
+        </q-item-section>
+        <q-item-section
+          side
+          top
+        >
+          <q-toggle
+            :value="show_neighbourhoods"
+            @input="toggleNeighbourhoods"
+          />
+        </q-item-section>
+      </q-item>
+
+      <q-separator />
       <!-- Map data type -->
       <q-item>
         <q-item-section>
@@ -158,6 +187,13 @@ export default {
     },
 
     /**
+     * Whether to show neighbourhood borders
+     */
+    show_neighbourhoods() {
+      return this.$store.getters.showNeighbourhoods;
+    },
+
+    /**
      * The heatmap's type
      */
     map_type() {
@@ -184,6 +220,13 @@ export default {
      */
     toggleHeatmap() {
       this.$store.commit("toggleHeatmap");
+    },
+
+    /**
+     * Toggles neighbourhoods visibility
+     */
+    toggleNeighbourhoods() {
+      this.$store.commit("toggleNeighbourhoods");
     },
 
     /**
