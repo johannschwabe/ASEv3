@@ -16,52 +16,90 @@
         >
           <div
             class="text-h6"
-            autocapitalize="words"
           >
-            {{ property.ADDRESS }}
+            {{ capitalizeWords(property.ADDRESS.toLowerCase()) }}
           </div>
 
           <div
             class="text-h6"
-            autocapitalize="words"
           >
             ${{ property['SALE PRICE'].toLocaleString() }}
           </div>
         </div>
       </q-card-section>
 
-      <!-- Host title -->
+      <!-- Rating title -->
       <q-card-section class="bg-grey-3">
         <div class="text-bold">
-          Host
+          Rating
         </div>
       </q-card-section>
-      <q-card-section>
-        <q-item>
-          <q-item-section avatar>
-            <q-avatar
-              color="grey-3"
-              :icon="host_image_url ? undefined : 'person'"
-              text-color="primary"
-              size="60px"
-            >
-              <img
-                v-if="host_image_url"
-                :src="host_image_url"
-                alt="host image"
-              >
-            </q-avatar>
-          </q-item-section>
-          <q-item-section>
-            <div class="text-bold">
-              {{ property.host_name }}
-            </div>
-            {{ property.calculated_host_listings_count }} listing(s)
-            <br>
-            More host info may go here.
-          </q-item-section>
-        </q-item>
-      </q-card-section>
+
+      <!-- TODO generated rating -->
+      <q-linear-progress
+        rounded
+        size="40px"
+        :value=".8"
+        color="light-green-5"
+        class="q-mt-sm"
+        style="margin: 10px; width: calc(100% - 20px)"
+      >
+        <div class="absolute-full flex flex-center">
+          <q-badge
+            color="white"
+            text-color="grey-9"
+            label="AA"
+          />
+        </div>
+      </q-linear-progress>
+
+      <div
+        class="text-h5"
+        style="text-align: center"
+      >
+        Very good
+      </div>
+
+      <q-separator />
+
+      <div style="margin: 10px">
+        <b>Price rating</b>
+      </div>
+
+      <q-linear-progress
+        rounded
+        size="20px"
+        :value=".3"
+        color="green-5"
+        class="q-mt-sm"
+        style="margin: 10px; width: calc(100% - 20px)"
+      />
+
+      <!-- Overlay for market price -->
+      <div
+        class="bg-grey-8"
+        style="height: 30px; width: 8px; border-radius: 4px; position: relative; top: -35px; left: calc(50% - 4px)"
+      />
+      <div
+        class="full-width flex flex-center"
+        style="position: relative; top: -20px"
+      >
+        <q-badge
+          color="grey-3"
+          text-color="grey-9"
+          label="$790.000"
+        />
+      </div>
+
+      <q-item-label
+        caption
+        style="padding: 10px"
+      >
+        Ratings are generated from aggregate data blabla.
+        <br>
+        <a href="https://www.google.ch">Learn how we determine ratings</a>
+        <!-- TODO -->
+      </q-item-label>
 
       <!-- Info title -->
       <q-card-section class="bg-grey-3">
@@ -72,11 +110,11 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Type</b>
+          <b>Built</b>
         </q-card-section>
         <q-separator vertical />
         <q-card-section class="col-8">
-          {{ property.room_type }}
+          {{ property['YEAR BUILT'] }}
         </q-card-section>
       </q-card-section>
 
@@ -84,11 +122,23 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Area</b>
+          <b>Zip Code</b>
+        </q-card-section>
+        <q-separator vertical />
+        <q-card-section class="col-8">
+          {{ property['ZIP CODE'] }}
+        </q-card-section>
+      </q-card-section>
+
+      <q-separator />
+
+      <q-card-section horizontal>
+        <q-card-section class="col-3">
+          <b>Category</b>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.neighbourhood_group }}
+          {{ capitalizeWords(property['BUILDING CLASS CATEGORY'].toLowerCase()) }}
         </q-card-section>
       </q-card-section>
 
@@ -100,7 +150,7 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.neighbourhood }}
+          {{ capitalizeWords(property['NEIGHBORHOOD'].toLowerCase()) }}
         </q-card-section>
       </q-card-section>
 
@@ -112,14 +162,14 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.latitude }}, {{ property.longitude }}
+          TODO {{ property.latitude }}, {{ property.longitude }}
         </q-card-section>
       </q-card-section>
 
       <!-- Pricing title -->
       <q-card-section class="bg-grey-3">
         <div class="text-bold">
-          Pricing
+          Pricing & Profitability
         </div>
       </q-card-section>
 
@@ -129,7 +179,7 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          ${{ property.price }}
+          ${{ property['SALE PRICE'].toLocaleString() }}
         </q-card-section>
       </q-card-section>
 
@@ -137,28 +187,28 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Min. nights</b>
+          <b>Est. Price per Night</b>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.minimum_nights }} (${{ property.minimum_nights * property.price }})
+          $123 TODO
         </q-card-section>
       </q-card-section>
 
       <!-- Rating title -->
       <q-card-section class="bg-grey-3">
         <div class="text-bold">
-          Rating
+          Break-even
         </div>
       </q-card-section>
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Reviews</b>
+          <b>At 100%</b>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.number_of_reviews }} ({{ property.reviews_per_month }} per month)
+          2 years 5 months TODO
         </q-card-section>
       </q-card-section>
 
@@ -166,13 +216,41 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Availability</b>
+          <b>At 80%</b>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.availability_365 }} days per year ({{ 365-property.availability_365 }} days booked)
+          5 years 5 months TODO
         </q-card-section>
       </q-card-section>
+
+      <q-separator />
+
+      <q-card-section horizontal>
+        <q-card-section class="col-3">
+          <b>At 60%</b>
+        </q-card-section>
+        <q-separator vertical />
+        <q-card-section>
+          8 years 5 months TODO
+        </q-card-section>
+      </q-card-section>
+
+      <q-separator />
+
+      <q-item-label
+        caption
+        style="padding: 10px"
+      >
+        The break-even rating considers the following:
+        <br>
+        - Est. maintenance cost of 10%
+        <br>
+        - The stated capacity at the estimated price per night
+        <br>
+        - Mortgage costs of 1.23% ($5678 p.a.)
+        <!-- TODO -->
+      </q-item-label>
 
       <q-separator />
 
@@ -181,42 +259,28 @@
         <q-btn flat>
           Favorite
         </q-btn>
-        <q-btn flat>
-          Show all by host
-        </q-btn>
-        <q-btn flat>
-          Hide
-        </q-btn>
       </q-card-actions>
     </q-scroll-area>
   </q-card>
 </template>
 
 <script>
+import { capitalizeWords } from "../data/helpers.js";
+
 export default {
   name: "PropertyCard",
   props: {
     property: { type: Object, required: true },
   },
   computed: {
-    host_image_url() {
-      // TODO
-      return "https://picsum.photos/100";
-    },
-
     listing_image_url() {
       // TODO
       return "https://picsum.photos/500/300";
     },
   },
-  created() {
-    // Fill missing data TODO remove once backend gives
-    if (!this.property.reviews_per_month) {
-      this.property.reviews_per_month = 0;
-    }
 
-    // TODO remove fake
-    this.property.computed_rating = Math.floor(Math.random() * 4) + 1;
+  methods: {
+    capitalizeWords,
   },
 };
 </script>
