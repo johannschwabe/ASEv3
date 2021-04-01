@@ -277,6 +277,7 @@
 
 <script>
 import { capitalizeWords } from "../data/helpers.js";
+import { API_KEY } from "@/data/API.js";
 
 export default {
   name: "PropertyCard",
@@ -284,11 +285,14 @@ export default {
     property: { type: Object, required: true },
   },
   computed: {
+    /**
+     * Gets the image URL for a streetview image of the property
+     * @returns {string}
+     */
     listing_image_url() {
       const lat = this.property.lat.toFixed(6);
       const lng = this.property.lng.toFixed(6);
-      // TODO move API key away
-      return `https://maps.googleapis.com/maps/api/streetview?size=500x300&location=${lat},${lng}&fov=140&pitch=15&key=***REMOVED***`;
+      return `https://maps.googleapis.com/maps/api/streetview?size=500x300&location=${lat},${lng}&fov=140&pitch=15&key=${API_KEY}`;
     },
   },
 

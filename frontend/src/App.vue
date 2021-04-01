@@ -16,10 +16,11 @@
 </template>
 
 <script>
-/* eslint-disable import/no-unresolved */
+
 import MenuBar from "@/components/menu/MenuBar.vue";
 import MainPage from "@/pages/MainPage.vue";
 import MenuDrawer from "@/components/menu/MenuDrawer.vue";
+import { API_KEY } from "@/data/API.js";
 
 export default {
   name: "LayoutDefault",
@@ -32,7 +33,7 @@ export default {
 
   data() {
     return {
-      api_loaded: false,
+      api_loaded: false, // API loading status for enabling the main page
     };
   },
   computed: {
@@ -51,14 +52,13 @@ export default {
 
   methods: {
     /**
-     * TODO
+     * Loads the Google Maps API and stores its instance locally
      */
     async getMapsApi() {
       // eslint-disable-next-line global-require
       const loadGoogleMapsApi = require("load-google-maps-api");
-      const apiKey = "***REMOVED***";
       const options = {
-        key: apiKey,
+        key: API_KEY,
         libraries: ["visualization"],
       };
 
