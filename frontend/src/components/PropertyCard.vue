@@ -68,11 +68,11 @@
 
       <!-- Badge for sales price -->
       <div
-        style="position: relative; left: calc(30% - 30px)"
+        :style="'position: relative; left: calc('+ Math.round(price_slider_position * 100) + '% - 40px)'"
       >
         <q-badge
           color="grey-3"
-          text-color="positive"
+          :text-color="property['SALE PRICE'] < estimated_price ? 'positive' : 'negative'"
           :label="'$' + property['SALE PRICE'].toLocaleString()"
         />
       </div>
@@ -80,8 +80,8 @@
       <q-linear-progress
         rounded
         size="20px"
-        :value=".3"
-        color="green-5"
+        :value="price_slider_position"
+        :color="price_slider_color"
         class="q-mt-sm"
         style="margin: 10px; width: calc(100% - 20px)"
       />
@@ -98,7 +98,7 @@
         <q-badge
           color="grey-3"
           text-color="grey-9"
-          label="$790.000"
+          :label="'$' + this.estimated_price.toLocaleString()"
         />
       </div>
 
@@ -284,6 +284,11 @@ export default {
   props: {
     property: { type: Object, required: true },
   },
+  data() {
+    return {
+      estimated_price: 65000000, // TODO get from backend
+    };
+  },
   computed: {
     /**
      * Gets the image URL for a street view image of the property
@@ -293,6 +298,36 @@ export default {
       const lat = this.property.lat.toFixed(6);
       const lng = this.property.lng.toFixed(6);
       return `https://maps.googleapis.com/maps/api/streetview?size=500x300&location=${lat},${lng}&fov=120&pitch=15&key=${API_KEY}`;
+    },
+
+    /**
+     * The position of the slider comparing expected and actual price
+     */
+    price_slider_position() {
+      const ratio = this.property["SALE PRICE"] / this.estimated_price;
+      // Due to the middle of the slider meaning sales price equals expected, we divide by two
+      return ratio / 2;
+    },
+
+    /**
+     * The color of the slider comparing expected and actual price
+     */
+    price_slider_color() {
+      // Color distribution in intervals
+      const color_distribution = [
+        "green-8", // 20%
+        "green-8", // 40%
+        "green-5", // 60%
+        "green-5", // 80%
+        "green-4", // 100% (neutral)
+        "orange-3", // 120%
+        "red-3", // 140%
+        "red-5", // 160%
+        "red-8", // 180%
+        "red-8", // 200%
+      ];
+      const ratio = Math.min(Math.max(Math.round(this.price_slider_position * 10) - 1, 0), 10);
+      return color_distribution[ratio];
     },
   },
 
