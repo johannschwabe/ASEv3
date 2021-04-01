@@ -39,8 +39,8 @@
       <q-linear-progress
         rounded
         size="40px"
-        :value=".8"
-        color="light-green-5"
+        :value="rating_slider_position"
+        :color="rating_slider_color"
         class="q-mt-sm"
         style="margin: 10px; width: calc(100% - 20px)"
       >
@@ -48,7 +48,7 @@
           <q-badge
             color="white"
             text-color="grey-9"
-            label="AA"
+            :label="rating_object.shortname"
           />
         </div>
       </q-linear-progress>
@@ -57,7 +57,7 @@
         class="text-h5 text-grey-8"
         style="text-align: center; margin-bottom: 10px;"
       >
-        Very good
+        {{ rating_object.description }}
       </div>
 
       <q-separator />
@@ -276,6 +276,8 @@
 </template>
 
 <script>
+import { SLIDER_COLORS } from "../constants/COLORS.js";
+import { RATINGS } from "../constants/RATINGS.js";
 import { API_KEY } from "../constants/API.js";
 import { capitalizeWords } from "../data/helpers.js";
 
@@ -286,7 +288,8 @@ export default {
   },
   data() {
     return {
-      estimated_price: 65000000, // TODO get from backend
+      estimated_price: 6500000, // TODO get from backend
+      rating: 7, // TODO, 1 to 10 expected
     };
   },
   computed: {
@@ -298,6 +301,29 @@ export default {
       const lat = this.property.lat.toFixed(6);
       const lng = this.property.lng.toFixed(6);
       return `https://maps.googleapis.com/maps/api/streetview?size=500x300&location=${lat},${lng}&fov=120&pitch=15&key=${API_KEY}`;
+    },
+
+    /**
+     * The position of the slider showing the overall rating
+     */
+    rating_slider_position() {
+      return this.rating / 10;
+    },
+
+    /**
+     * The color of the slider showing the rating
+     */
+    rating_slider_color() {
+      // Color distribution in intervals
+      const ratio = Math.min(Math.max(Math.round(this.rating_slider_position * 10) - 1, 0), 10);
+      return SLIDER_COLORS[9 - ratio];
+    },
+
+    /**
+     * The rating object, containing number, shortname and description
+     */
+    rating_object() {
+      return RATINGS[this.rating];
     },
 
     /**
@@ -314,20 +340,8 @@ export default {
      */
     price_slider_color() {
       // Color distribution in intervals
-      const color_distribution = [
-        "green-8", // 20%
-        "green-8", // 40%
-        "green-5", // 60%
-        "green-5", // 80%
-        "green-4", // 100% (neutral)
-        "orange-3", // 120%
-        "red-3", // 140%
-        "red-5", // 160%
-        "red-8", // 180%
-        "red-8", // 200%
-      ];
       const ratio = Math.min(Math.max(Math.round(this.price_slider_position * 10) - 1, 0), 10);
-      return color_distribution[ratio];
+      return SLIDER_COLORS[ratio];
     },
   },
 
