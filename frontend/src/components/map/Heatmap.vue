@@ -109,7 +109,6 @@ export default {
      * When points change, update heatmap
      */
     heatmap_radius() {
-      // const new_options = new this.maps_api.visualization.HeatmapLayerOptions("radius", this.heatmap_radius);
       this.heatmap.set("radius", this.heatmap_radius);
     },
   },
@@ -132,7 +131,7 @@ export default {
 
     // Add neighbourhood layer
     this.neighbourhoods_layer = new this.maps_api.KmlLayer({
-      url: "http://www.google.com/maps/d/kml?forcekml=1&mid=1Du5qveMD3nhBDkWP7ZTeRw6fUxFZ9lPe",
+      url: "http://www.google.com/maps/d/kml?forcekml=1&mid=1-_H_BR22bTWqVXbBX6FcRwNF4mpKKR4x",
       map: this.show_neighbourhoods ? this.map : null,
       preserveViewport: true,
       suppressInfoWindows: true,
@@ -174,7 +173,7 @@ export default {
         new_marker.id = marker.id;
 
         // Add click listener
-        new_marker.addListener("click", () => this.onMarkerClick(new_marker.id));
+        new_marker.addListener("click", () => this.onMarkerClick({id: new_marker.id, lat: marker.lat, lng: marker.lng}));
 
         // Add to local array
         this.map_markers.push(new_marker);

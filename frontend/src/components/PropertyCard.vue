@@ -173,7 +173,7 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          TODO {{ property.latitude }}, {{ property.longitude }}
+          {{ property.lat.toFixed(6) }}, {{ property.lng.toFixed(6) }}
         </q-card-section>
       </q-card-section>
 
@@ -285,8 +285,10 @@ export default {
   },
   computed: {
     listing_image_url() {
-      // TODO
-      return "https://picsum.photos/500/300";
+      const lat = this.property.lat.toFixed(6);
+      const lng = this.property.lng.toFixed(6);
+      // TODO move API key away
+      return `https://maps.googleapis.com/maps/api/streetview?size=500x300&location=${lat},${lng}&fov=140&pitch=15&key=***REMOVED***`;
     },
   },
 

@@ -41,6 +41,7 @@
     "vue-cli-plugin-quasar": "~3.0.1",
     "vue-jest": "^4.0.0-rc.1",
     "vue-jest-utils": "^0.2.0",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "webpack-cli": "^4.6.0"
   }
 }

@@ -125,30 +125,34 @@ export default {
   methods: {
     /**
      * Upon clicking a marker, mark it as selected
-     * @param id
+     * @param {Object} marker - the marker that was clicked, having id, lat and lng
      */
-    onMarkerClick(id) {
+    onMarkerClick(marker) {
       // Close drawer if open
       if (this.$store.getters.drawerOpen) {
         this.$store.commit("toggleDrawer");
       }
 
       // If this property was selected already, toggle
-      if (this.selected_property && this.selected_property.id === id) {
+      if (this.selected_property && this.selected_property.id === marker.id) {
         this.selected_property = null;
       } else {
         // Get property/airbnb/rating by ID
         switch (this.map_type) {
           case OPTIONS.MAP_TYPES.AIRBNB:
-            this.selected_property = this.airbnbs.find((prop) => prop.id === id);
+            this.selected_property = this.airbnbs.find((prop) => prop.id === marker.id);
             break;
           case OPTIONS.MAP_TYPES.PROPERTY:
             // TODO cleanup once we have proper IDs
-            this.selected_property = this.properties.find((prop) => `${prop[""]}_${prop.BOROUGH}` === id);
+            this.selected_property = this.properties.find((prop) => `${prop[""]}_${prop.BOROUGH}` === marker.id);
             break;
           default:
             break;
         }
+
+        // Add coordinates to selected_property
+        this.selected_property.lat = marker.lat;
+        this.selected_property.lng = marker.lng;
       }
     },
   },
