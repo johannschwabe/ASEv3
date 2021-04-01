@@ -234,7 +234,7 @@ export default {
      * @param {String} type - the chosen type, e.g. 'AIRBNB'
      */
     setMapType(type) {
-      this.$store.commit("setMapType", {map_type: type});
+      this.$store.dispatch("setMapType", {map_type: type});
     },
 
     /**

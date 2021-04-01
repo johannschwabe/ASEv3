@@ -193,6 +193,8 @@
 </template>
 
 <script>
+import { API_KEY } from "../data/API.js";
+
 export default {
   name: "AirbnbCard",
   props: {
@@ -204,9 +206,14 @@ export default {
       return "https://picsum.photos/100";
     },
 
+    /**
+     * Gets the image URL for a street view image of the property
+     * @returns {string}
+     */
     listing_image_url() {
-      // TODO
-      return "https://picsum.photos/500/300";
+      const lat = this.property.lat.toFixed(6);
+      const lng = this.property.lng.toFixed(6);
+      return `https://maps.googleapis.com/maps/api/streetview?size=500x300&location=${lat},${lng}&fov=120&pitch=15&key=${API_KEY}`;
     },
   },
   created() {

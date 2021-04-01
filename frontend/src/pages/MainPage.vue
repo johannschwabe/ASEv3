@@ -51,10 +51,16 @@ export default {
       airbnbs: airbnbs_data, // TODO get from backend
       properties: properties_data, // TODO
       properties_location_data: properties_locations, // TODO
-      selected_property: null, // The property that was clicked
     };
   },
   computed: {
+    /**
+     * The property/airbnb that is selected
+     */
+    selected_property() {
+      return this.$store.getters.selectedProperty;
+    },
+
     /**
      * Type of heatmap to show
      */
@@ -135,24 +141,30 @@ export default {
 
       // If this property was selected already, toggle
       if (this.selected_property && this.selected_property.id === marker.id) {
-        this.selected_property = null;
+        this.$store.commit("setSelectedProperty", { selected_property: null });
       } else {
         // Get property/airbnb/rating by ID
+        let _property;
         switch (this.map_type) {
           case OPTIONS.MAP_TYPES.AIRBNB:
-            this.selected_property = this.airbnbs.find((prop) => prop.id === marker.id);
+            _property = this.airbnbs.find((prop) => prop.id.toString() === marker.id);
             break;
           case OPTIONS.MAP_TYPES.PROPERTY:
             // TODO cleanup once we have proper IDs
-            this.selected_property = this.properties.find((prop) => `${prop[""]}_${prop.BOROUGH}` === marker.id);
+            _property = this.properties.find((prop) => `${prop[""]}_${prop.BOROUGH}` === marker.id);
             break;
           default:
             break;
         }
 
-        // Add coordinates to selected_property
-        this.selected_property.lat = marker.lat;
-        this.selected_property.lng = marker.lng;
+        // Add coordinates to property (if any)
+        if (_property) {
+          _property.lat = marker.lat;
+          _property.lng = marker.lng;
+        }
+
+        // Commit selection change
+        this.$store.commit("setSelectedProperty", { selected_property: _property });
       }
     },
   },
