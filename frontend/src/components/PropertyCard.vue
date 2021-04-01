@@ -276,8 +276,8 @@
 </template>
 
 <script>
+import { API_KEY } from "../data/API.js";
 import { capitalizeWords } from "../data/helpers.js";
-import { API_KEY } from "@/data/API.js";
 
 export default {
   name: "PropertyCard",
@@ -286,7 +286,7 @@ export default {
   },
   computed: {
     /**
-     * Gets the image URL for a streetview image of the property
+     * Gets the image URL for a street view image of the property
      * @returns {string}
      */
     listing_image_url() {
