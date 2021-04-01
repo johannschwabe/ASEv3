@@ -276,7 +276,7 @@
 </template>
 
 <script>
-import { API_KEY } from "../data/API.js";
+import { API_KEY } from "../constants/API.js";
 import { capitalizeWords } from "../data/helpers.js";
 
 export default {

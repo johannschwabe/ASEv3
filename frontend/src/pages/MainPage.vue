@@ -36,7 +36,7 @@ import properties_locations from "@/data/properties_locations.json";
 import Heatmap from "@/components/map/Heatmap.vue";
 import PropertyCard from "@/components/PropertyCard.vue";
 import AirbnbCard from "@/components/AirbnbCard.vue";
-import * as OPTIONS from "@/data/OPTIONS.js";
+import * as OPTIONS from "@/constants/OPTIONS.js";
 
 export default {
   name: "MainPage",

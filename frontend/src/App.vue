@@ -20,7 +20,7 @@
 import MenuBar from "@/components/menu/MenuBar.vue";
 import MainPage from "@/pages/MainPage.vue";
 import MenuDrawer from "@/components/menu/MenuDrawer.vue";
-import { API_KEY } from "@/data/API.js";
+import { API_KEY } from "@/constants/API.js";
 
 export default {
   name: "LayoutDefault",

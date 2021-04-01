@@ -1,4 +1,4 @@
-import * as OPTIONS from "../data/OPTIONS.js";
+import * as OPTIONS from "../constants/OPTIONS.js";
 
 export default {
   mapsApi: null,

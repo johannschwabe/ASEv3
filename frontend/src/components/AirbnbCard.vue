@@ -193,7 +193,7 @@
 </template>
 
 <script>
-import { API_KEY } from "../data/API.js";
+import { API_KEY } from "../constants/API.js";
 
 export default {
   name: "AirbnbCard",
