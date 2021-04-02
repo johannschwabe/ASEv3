@@ -31,7 +31,7 @@
       <!-- Rating title -->
       <q-card-section class="bg-grey-3">
         <div class="text-bold">
-          Rating
+          Overall Rating
         </div>
       </q-card-section>
 
@@ -57,7 +57,7 @@
         class="text-h5 text-grey-8"
         style="text-align: center; margin-bottom: 10px;"
       >
-        {{ rating_object.description }}
+        {{ rating_object.name }}
       </div>
 
       <q-separator />
