@@ -41,6 +41,7 @@
 
     <q-separator />
 
+    <!-- Price range -->
     <q-item>
       <q-item-section avatar>
         <q-icon name="mdi-cash" />
@@ -64,6 +65,31 @@
     </div>
 
     <q-separator />
+
+    <!-- Availability range -->
+    <q-item>
+      <q-item-section avatar>
+        <q-icon name="mdi-calendar" />
+      </q-item-section>
+      <q-item-section>
+        <q-item-label>Availability</q-item-label>
+        <q-item-label caption>
+          Show only Airbnbs that are booked for a certain number of days
+        </q-item-label>
+      </q-item-section>
+    </q-item>
+    <div style="padding: 10px 15px 0 15px">
+      <q-range
+        v-model="availability_filter"
+        :min="0"
+        :max="365"
+        :left-label-value="availability_filter.min"
+        :right-label-value="availability_filter.max"
+        label-always
+      />
+    </div>
+
+    <q-separator />
   </div>
 </template>
 
@@ -82,6 +108,11 @@ export default {
       price_filter: { // TODO store
         min: 0,
         max: 500,
+      },
+
+      availability_filter: { // TODO store
+        min: 0,
+        max: 365,
       },
 
       apartment_types: [

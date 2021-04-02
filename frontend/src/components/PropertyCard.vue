@@ -3,6 +3,13 @@
     v-scroll
     class="propertyCard overflow-hidden"
   >
+    <div style="position: absolute; top: 0; right: 0; z-index: 1">
+      <q-btn
+        flat
+        icon="mdi-close"
+        @click="onHide"
+      />
+    </div>
     <q-scroll-area style="height: 100%">
       <!-- Card header: Address & price -->
       <q-card-section class="bg-primary text-white no-padding">
@@ -347,6 +354,10 @@ export default {
 
   methods: {
     capitalizeWords,
+
+    onHide() {
+      this.$emit("hide");
+    },
   },
 };
 </script>

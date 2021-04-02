@@ -17,10 +17,12 @@
         <PropertyCard
           v-if="map_type === 'PROPERTY'"
           :property="selected_property"
+          @hide="onCardHide"
         />
         <AirbnbCard
           v-else-if="map_type === 'AIRBNB'"
           :property="selected_property"
+          @hide="onCardHide"
         />
       </div>
     </div>
@@ -130,6 +132,13 @@ export default {
 
   methods: {
     /**
+     * Upon manually closing card, discard selected property
+     */
+    onCardHide() {
+      this.$store.commit("setSelectedProperty", { selected_property: null });
+    },
+
+    /**
      * Upon clicking a marker, mark it as selected
      * @param {Object} marker - the marker that was clicked, having id, lat and lng
      */
@@ -140,7 +149,7 @@ export default {
       }
 
       // If this property was selected already, toggle
-      if (this.selected_property && this.selected_property.id === marker.id) {
+      if (this.selected_property && this.selected_property.id.toString() === marker.id) {
         this.$store.commit("setSelectedProperty", { selected_property: null });
       } else {
         // Get property/airbnb/rating by ID
@@ -157,8 +166,9 @@ export default {
             break;
         }
 
-        // Add coordinates to property (if any)
+        // Add coordinates and ID to property (if any)
         if (_property) {
+          _property.id = marker.id;
           _property.lat = marker.lat;
           _property.lng = marker.lng;
         }
