@@ -75,7 +75,7 @@
 
       <!-- Badge for sales price -->
       <div
-        :style="'position: relative; left: calc('+ Math.round(price_slider_position * 100) + '% - 40px)'"
+        :style="'position: relative; left: calc('+ price_badge_offset + '% - 40px)'"
       >
         <q-badge
           color="grey-3"
@@ -307,7 +307,7 @@ export default {
     listing_image_url() {
       const lat = this.property.lat.toFixed(6);
       const lng = this.property.lng.toFixed(6);
-      return `https://maps.googleapis.com/maps/api/streetview?size=500x300&location=${lat},${lng}&fov=120&pitch=15&key=${API_KEY}`;
+      return `https://maps.googleapis.com/maps/api/streetview?size=500x300&location=${lat},${lng}&fov=120&pitch=15&source=outdoor&key=${API_KEY}`;
     },
 
     /**
@@ -322,7 +322,7 @@ export default {
      */
     rating_slider_color() {
       // Color distribution in intervals
-      const ratio = Math.min(Math.max(Math.round(this.rating_slider_position * 10) - 1, 0), 10);
+      const ratio = Math.min(Math.max(Math.round(this.rating_slider_position * 10) - 1, 0), 9);
       return SLIDER_COLORS[9 - ratio];
     },
 
@@ -347,8 +347,16 @@ export default {
      */
     price_slider_color() {
       // Color distribution in intervals
-      const ratio = Math.min(Math.max(Math.round(this.price_slider_position * 10) - 1, 0), 10);
+      const ratio = Math.min(Math.max(Math.round(this.price_slider_position * 10) - 1, 0), 9);
       return SLIDER_COLORS[ratio];
+    },
+
+    /**
+     * Offset of the actual price badge in %
+     */
+    price_badge_offset() {
+      const result = Math.round(this.price_slider_position * 100);
+      return Math.min(Math.max(result, 10), 90);
     },
   },
 

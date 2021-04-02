@@ -220,7 +220,7 @@ export default {
     listing_image_url() {
       const lat = this.property.lat.toFixed(6);
       const lng = this.property.lng.toFixed(6);
-      return `https://maps.googleapis.com/maps/api/streetview?size=500x300&location=${lat},${lng}&fov=120&pitch=15&key=${API_KEY}`;
+      return `https://maps.googleapis.com/maps/api/streetview?size=500x300&location=${lat},${lng}&fov=120&pitch=15&source=outdoor&key=${API_KEY}`;
     },
   },
   created() {
