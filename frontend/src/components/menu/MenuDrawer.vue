@@ -149,21 +149,35 @@
           </q-item-label>
         </q-item-section>
       </q-item>
-      <q-slider
-        :value="heatmap_radius"
-        :min="1"
-        :max="100"
-        @input="val => setHeatmapRadius(val)"
-      />
+      <div style="padding: 0 15px">
+        <q-slider
+          :value="heatmap_radius"
+          :min="1"
+          :max="100"
+          @input="val => setHeatmapRadius(val)"
+        />
+      </div>
 
       <q-separator />
+
+      <q-item-label header>
+        Filters
+      </q-item-label>
+
+      <!-- TODO v-if -->
+      <AirbnbFilters />
     </q-list>
   </q-drawer>
 </template>
 
 <script>
+import AirbnbFilters from "./AirbnbFilters.vue";
+
 export default {
   name: "MenuDrawer",
+  components: {
+    AirbnbFilters,
+  },
   computed: {
     /**
      * Whether the drawer is open
