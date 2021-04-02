@@ -5,168 +5,170 @@
     bordered
     content-class="bg-grey-2"
   >
-    <q-list>
-      <q-item-label header>
-        Settings
-      </q-item-label>
+    <q-scroll-area style="height: 100%">
+      <q-list>
+        <q-item-label header>
+          Settings
+        </q-item-label>
 
-      <!-- Marker toggle -->
-      <q-item
-        clickable
-        @click="toggleMarkers"
-      >
-        <q-item-section avatar>
-          <q-icon
-            :name="show_markers ? 'location_on' : 'location_off'"
-          />
-        </q-item-section>
-        <q-item-section>
-          <q-item-label>Show markers</q-item-label>
-          <q-item-label caption>
-            A marker on every property
-          </q-item-label>
-        </q-item-section>
-        <q-item-section
-          side
-          top
+        <!-- Marker toggle -->
+        <q-item
+          clickable
+          @click="toggleMarkers"
         >
-          <q-toggle
-            :value="show_markers"
-            @input="toggleMarkers"
-          />
-        </q-item-section>
-      </q-item>
+          <q-item-section avatar>
+            <q-icon
+              :name="show_markers ? 'location_on' : 'location_off'"
+            />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Show markers</q-item-label>
+            <q-item-label caption>
+              A marker on every property
+            </q-item-label>
+          </q-item-section>
+          <q-item-section
+            side
+            top
+          >
+            <q-toggle
+              :value="show_markers"
+              @input="toggleMarkers"
+            />
+          </q-item-section>
+        </q-item>
 
-      <q-separator />
+        <q-separator />
 
-      <!-- Heatmap toggle -->
-      <q-item
-        clickable
-        @click="toggleHeatmap"
-      >
-        <q-item-section avatar>
-          <q-icon
-            :name="show_heatmap ? 'explore_on' : 'explore_off'"
-          />
-        </q-item-section>
-        <q-item-section>
-          <q-item-label>Show heatmap</q-item-label>
-          <q-item-label caption>
-            Toggle heatmap visibility
-          </q-item-label>
-        </q-item-section>
-        <q-item-section
-          side
-          top
+        <!-- Heatmap toggle -->
+        <q-item
+          clickable
+          @click="toggleHeatmap"
         >
-          <q-toggle
-            :value="show_heatmap"
-            @input="toggleHeatmap"
-          />
-        </q-item-section>
-      </q-item>
+          <q-item-section avatar>
+            <q-icon
+              :name="show_heatmap ? 'explore_on' : 'explore_off'"
+            />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Show heatmap</q-item-label>
+            <q-item-label caption>
+              Toggle heatmap visibility
+            </q-item-label>
+          </q-item-section>
+          <q-item-section
+            side
+            top
+          >
+            <q-toggle
+              :value="show_heatmap"
+              @input="toggleHeatmap"
+            />
+          </q-item-section>
+        </q-item>
 
-      <q-separator />
+        <q-separator />
 
-      <!-- Neighbourhood toggle -->
-      <q-item
-        clickable
-        @click="toggleNeighbourhoods"
-      >
-        <q-item-section avatar>
-          <q-icon
-            :name="show_neighbourhoods ? 'mdi-grid' : 'mdi-grid-off'"
-          />
-        </q-item-section>
-        <q-item-section>
-          <q-item-label>Show neighbourhoods</q-item-label>
-          <q-item-label caption>
-            Toggle neighbourhood borders visibility
-          </q-item-label>
-        </q-item-section>
-        <q-item-section
-          side
-          top
+        <!-- Neighbourhood toggle -->
+        <q-item
+          clickable
+          @click="toggleNeighbourhoods"
         >
-          <q-toggle
-            :value="show_neighbourhoods"
-            @input="toggleNeighbourhoods"
+          <q-item-section avatar>
+            <q-icon
+              :name="show_neighbourhoods ? 'mdi-grid' : 'mdi-grid-off'"
+            />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Show neighbourhoods</q-item-label>
+            <q-item-label caption>
+              Toggle neighbourhood borders visibility
+            </q-item-label>
+          </q-item-section>
+          <q-item-section
+            side
+            top
+          >
+            <q-toggle
+              :value="show_neighbourhoods"
+              @input="toggleNeighbourhoods"
+            />
+          </q-item-section>
+        </q-item>
+
+        <q-separator />
+        <!-- Map data type -->
+        <q-item>
+          <q-item-section>
+            <q-item-label>Type</q-item-label>
+            <q-item-label caption>
+              Choose what data to visualize
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-btn-group flat>
+          <q-btn
+            :color="map_type === 'RATING' ? 'primary' : null"
+            :text-color="map_type === 'RATING' ? 'white' : 'black'"
+            label="Ratings"
+            icon="star"
+            no-caps
+            @click="setMapType('RATING')"
           />
-        </q-item-section>
-      </q-item>
+          <q-btn
+            :color="map_type === 'AIRBNB' ? 'primary' : null"
+            :text-color="map_type === 'AIRBNB' ? 'white' : 'black'"
+            label="Airbnbs"
+            icon="hotel"
+            no-caps
+            @click="setMapType('AIRBNB')"
+          />
+          <q-btn
+            :color="map_type === 'PROPERTY' ? 'primary' : null"
+            :text-color="map_type === 'PROPERTY' ? 'white' : 'black'"
+            label="Properties"
+            icon="home"
+            no-caps
+            @click="setMapType('PROPERTY')"
+          />
+        </q-btn-group>
+        <q-separator />
 
-      <q-separator />
-      <!-- Map data type -->
-      <q-item>
-        <q-item-section>
-          <q-item-label>Type</q-item-label>
-          <q-item-label caption>
-            Choose what data to visualize
-          </q-item-label>
-        </q-item-section>
-      </q-item>
-      <q-btn-group flat>
-        <q-btn
-          :color="map_type === 'RATING' ? 'primary' : null"
-          :text-color="map_type === 'RATING' ? 'white' : 'black'"
-          label="Ratings"
-          icon="star"
-          no-caps
-          @click="setMapType('RATING')"
-        />
-        <q-btn
-          :color="map_type === 'AIRBNB' ? 'primary' : null"
-          :text-color="map_type === 'AIRBNB' ? 'white' : 'black'"
-          label="Airbnbs"
-          icon="hotel"
-          no-caps
-          @click="setMapType('AIRBNB')"
-        />
-        <q-btn
-          :color="map_type === 'PROPERTY' ? 'primary' : null"
-          :text-color="map_type === 'PROPERTY' ? 'white' : 'black'"
-          label="Properties"
-          icon="home"
-          no-caps
-          @click="setMapType('PROPERTY')"
-        />
-      </q-btn-group>
-      <q-separator />
+        <q-item-label header>
+          Heatmap
+        </q-item-label>
 
-      <q-item-label header>
-        Heatmap
-      </q-item-label>
+        <!-- Heatmap point radius -->
+        <q-item>
+          <q-item-section avatar>
+            <q-icon name="mdi-arrow-expand" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Point Radius</q-item-label>
+            <q-item-label caption>
+              Determine the visualization radius of data points
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+        <div style="padding: 0 15px">
+          <q-slider
+            :value="heatmap_radius"
+            :min="1"
+            :max="100"
+            @input="val => setHeatmapRadius(val)"
+          />
+        </div>
 
-      <!-- Heatmap point radius -->
-      <q-item>
-        <q-item-section avatar>
-          <q-icon name="mdi-arrow-expand" />
-        </q-item-section>
-        <q-item-section>
-          <q-item-label>Point Radius</q-item-label>
-          <q-item-label caption>
-            Determine the visualization radius of data points
-          </q-item-label>
-        </q-item-section>
-      </q-item>
-      <div style="padding: 0 15px">
-        <q-slider
-          :value="heatmap_radius"
-          :min="1"
-          :max="100"
-          @input="val => setHeatmapRadius(val)"
-        />
-      </div>
+        <q-separator />
 
-      <q-separator />
+        <q-item-label header>
+          Filters
+        </q-item-label>
 
-      <q-item-label header>
-        Filters
-      </q-item-label>
-
-      <!-- TODO v-if -->
-      <AirbnbFilters />
-    </q-list>
+        <!-- TODO v-if -->
+        <AirbnbFilters />
+      </q-list>
+    </q-scroll-area>
   </q-drawer>
 </template>
 
