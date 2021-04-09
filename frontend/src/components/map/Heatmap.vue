@@ -66,7 +66,7 @@ export default {
   created() {
     // eslint-disable-next-line global-require
     const loadGoogleMapsApi = require("load-google-maps-api");
-    const apiKey = "***REMOVED***";
+    const apiKey = process.env.VUE_APP_API_KEY;
     const options = {
       key: apiKey,
       libraries: ["visualization"],
