@@ -1,7 +1,7 @@
 # ASE 21
 Advanced Software Engineering course repository.
 
-### Add data in IntelliJ
+### Import data in IntelliJ
 
 Airbnb dataset:
 
@@ -15,12 +15,43 @@ Airbnb dataset:
     - user: `db_user`, password: `db_user_pass`
 
 3. Add data to table:
-    - Right-click on table `property`
-    - Select `Import Data from File`
-    - Select file in the `data` folder
+    - Right-click on table `property`.
+    - Select `Import Data from File`.
+    - Select the file `AB_NYC_2019.csv` in the `data` folder.
 
 4. Import configuration:
-    - Quotation: `" " Escape: Duplicate`
-    - Tick `First row is header`
-    - Select `Import`
-    - There should not occur any errors
+    - Quotation should only be: `" " Escape: Duplicate`.
+    Remove `' ' Escape: Duplicate`.
+    - Tick `First row is header`.
+    - Select `Import`.
+    
+Rolling Sales dataset:
+
+1. Run `docker-compose up`
+    - Make sure the salesapi service is running.
+    Restart it, if it crashed the first time.
+    
+2. Add the database to your IDE:
+    - `localhost:8686`
+    - driver: `MySQL`
+    - user: `db_user`, password: `db_user_pass`
+    
+3. Add coordinate data to table:
+    - Right-click on table `coordinates`.
+    - Select `Import Data from File`.
+    - Select the file `coords_nyc_api.csv` in the `data` folder.
+    
+4. Coordinates import configuration:
+    - Tick `First row is header`.
+    - Select `Import`.
+    - There should not occur any errors.
+    
+5. Add property data to table:
+    - Right-click on table `property`.
+    - Select `Import Data from File`.
+    - Select the file `nyc-rolling-sales.csv` in the `data` folder.
+    
+6. Property import configuration:
+    - Tick `First row is header`.
+    - Click on the first attribute `id` and tick `Auto increment`
+    - Select `Import`.

@@ -3,11 +3,11 @@ package ch.ase21.salesapi.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity
 public class Property {
-  @Id @GeneratedValue
+  @Id
   private Long id;
   private Long number;
   private Long borough;
@@ -30,7 +30,7 @@ public class Property {
   private Long taxClassAtTimeOfSale;
   private String buildingClassAtTimeOfSale;
   private String salePrice;
-  private Date saleDate;
+  private Timestamp saleDate;
   
   public Long getId(){
     return id;
@@ -120,7 +120,7 @@ public class Property {
     return salePrice;
   }
 
-  public Date getSaleDate(){
+  public Timestamp getSaleDate(){
     return saleDate;
   }
 }
