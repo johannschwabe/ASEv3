@@ -70,7 +70,7 @@
       <q-separator />
 
       <div style="margin: 10px 10px 40px 10px">
-        <b>Price rating</b>
+        <strong>Price rating</strong>
       </div>
 
       <!-- Badge for sales price -->
@@ -105,7 +105,7 @@
         <q-badge
           color="grey-3"
           text-color="grey-9"
-          :label="'$' + this.estimated_price.toLocaleString()"
+          :label="'$' + estimated_price.toLocaleString()"
         />
       </div>
 
@@ -128,7 +128,7 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Built</b>
+          <strong>Built</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section class="col-8">
@@ -140,7 +140,7 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Zip Code</b>
+          <strong>Zip Code</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section class="col-8">
@@ -152,7 +152,7 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Category</b>
+          <strong>Category</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
@@ -164,7 +164,7 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Neighbourhood</b>
+          <strong>Neighbourhood</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
@@ -176,7 +176,7 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Coordinates</b>
+          <strong>Coordinates</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
@@ -193,7 +193,7 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Price</b>
+          <strong>Price</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
@@ -205,7 +205,7 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Est. Price per Night</b>
+          <strong>Est. Price per Night</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
@@ -222,7 +222,7 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>At 100%</b>
+          <strong>At 100%</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
@@ -234,7 +234,7 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>At 80%</b>
+          <strong>At 80%</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
@@ -246,7 +246,7 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>At 60%</b>
+          <strong>At 60%</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>

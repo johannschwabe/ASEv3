@@ -79,7 +79,7 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Type</b>
+          <strong>Type</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section class="col-8">
@@ -91,7 +91,7 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Area</b>
+          <strong>Area</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
@@ -103,7 +103,7 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Neighbourhood</b>
+          <strong>Neighbourhood</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
@@ -115,7 +115,7 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Coordinates</b>
+          <strong>Coordinates</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
@@ -132,7 +132,7 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Price</b>
+          <strong>Price</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
@@ -144,7 +144,7 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Min. nights</b>
+          <strong>Min. nights</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
@@ -161,7 +161,7 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Reviews</b>
+          <strong>Reviews</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
@@ -173,7 +173,7 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Availability</b>
+          <strong>Availability</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
