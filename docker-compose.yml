@@ -42,7 +42,7 @@ services:
     volumes:
       - airbnbdbdata:/var/lib/mysql
 
-  salesbdb:
+  salesdb:
     image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: my_secret_password
