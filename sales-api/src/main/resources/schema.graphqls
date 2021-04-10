@@ -4,6 +4,7 @@ type Query {
 
 type Property {
     id: ID
+    number: Int
     borough: Int
     neighborhood: String
     buildingClassCategory: String
@@ -25,4 +26,13 @@ type Property {
     buildingClassAtTimeOfSale: String
     salePrice: String
     saleDate: String
+    coordinates: Coordiantes
+}
+
+type Coordiantes {
+    idSale: ID
+    latitude: Float
+    longitude: Float
+    returnedStreetName: String
+    returnedZipCode: Int
 }

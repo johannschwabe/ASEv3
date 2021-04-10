@@ -1,13 +1,15 @@
 package ch.ase21.salesapi.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.sql.Date;
 
 @Entity
 public class Property {
-  @Id
+  @Id @GeneratedValue
   private Long id;
+  private Long number;
   private Long borough;
   private String neighborhood;
   private String buildingClassCategory;
@@ -32,6 +34,10 @@ public class Property {
   
   public Long getId(){
     return id;
+  }
+
+  public Long getNumber(){
+    return number;
   }
 
   public Long getBorough(){
