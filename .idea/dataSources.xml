@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="@localhost:8585-airbnbdb" uuid="d8cb5f9d-cf34-4def-a8a2-1a6c5df1c8bf">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:8585</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="@localhost:8686-salesdb" uuid="b88c8d3f-2806-417b-9826-e8e2f690254c">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:8686</jdbc-url>
+    </data-source>
+  </component>
+</project>
