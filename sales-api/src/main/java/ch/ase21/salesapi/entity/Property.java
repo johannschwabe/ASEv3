@@ -1,7 +1,6 @@
 package ch.ase21.salesapi.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.sql.Timestamp;
 
