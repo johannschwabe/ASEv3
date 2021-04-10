@@ -44,7 +44,6 @@ Rolling Sales dataset:
 4. Coordinates import configuration:
     - Tick `First row is header`.
     - Select `Import`.
-    - There should not occur any errors.
     
 5. Add property data to table:
     - Right-click on table `property`.
