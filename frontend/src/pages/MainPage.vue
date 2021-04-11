@@ -25,9 +25,9 @@
 
 <script>
 /* eslint-disable import/no-unresolved */
-import properties from "@/data/properties.json";
 import Heatmap from "@/components/map/Heatmap.vue";
 import PropertyCard from "@/components/PropertyCard.vue";
+import axios from "axios";
 
 export default {
   name: "MainPage",
@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       center: { lat: 40.730610, lng: -73.935242 },
-      properties: properties, // TODO get from backend
+      properties: [],
       selected_property: null, // The property that was clicked
     };
   },
@@ -63,6 +63,9 @@ export default {
       return result;
     },
   },
+  mounted() {
+    this.fetchProperties();
+  },
   methods: {
     onMarkerClick(id) {
       // If this property was selected already, toggle
@@ -72,6 +75,26 @@ export default {
         // Get property by ID
         this.selected_property = this.properties.find((prop) => prop.id === id);
       }
+    },
+
+    fetchProperties() {
+      axios({
+        url: "http://localhost:8282/graphql",
+        method: "post",
+        data: {
+          query: `
+            {
+              allAirbnbProperties {
+                id
+                latitude
+                longitude
+              }
+            }
+          `,
+        },
+      }).then((result) => {
+        this.properties = result.data.data.allAirbnbProperties;
+      });
     },
   },
 };

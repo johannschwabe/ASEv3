@@ -48,6 +48,9 @@ export default {
   },
 
   watch: {
+    heatmapPoints() {
+      this.fillMap();
+    },
     /**
      * When show_markers property changes, update all markers
      */
@@ -88,7 +91,14 @@ export default {
 
       // Create map
       this.map = new googleMaps.Map(map_element, map_options);
+    }).catch((e) => {
+      // eslint-disable-next-line no-console
+      console.error(e);
+    });
+  },
 
+  methods: {
+    fillMap() {
       // Options for heatmap overlay
       const heatmap_options = {
         data: this.heatmapPoints,
@@ -103,13 +113,7 @@ export default {
 
       // TODO makes sense here?
       this.placeMarkers(this.markers);
-    }).catch((e) => {
-      // eslint-disable-next-line no-console
-      console.error(e);
-    });
-  },
-
-  methods: {
+    },
     /**
      * Places the given markers on the map
      * @param {Array} markers
@@ -163,7 +167,6 @@ export default {
      * @param {Boolean} show - whether to show the heatmap layer
      */
     setHeatmapVisibility(show) {
-      console.log("Setting heatmap vis...");
       this.heatmap.setMap(show ? this.map : null);
     },
 
