@@ -1,13 +1,10 @@
-# Bom Builder
+# ASE AirBnB Property Evaluator
 
-[![Build](https://github.com/polygon-software/bom-builder-v2/workflows/Test%20%26%20Deploy/badge.svg)](https://github.com/polygon-software/bom-builder-v2/actions)
-[![NPM](https://img.shields.io/badge/Demo-online-green)](https://bom-builder-v2.polygon-demo.ch)
-
-Webpage builder, developed with VueJS.
+Webpage to evaluate the AirBnB value of properties for sale, developed with VueJS.
 
 ## Documentation
 
-[Prosa documentation](https://builder-documentation.polygon-demo.ch)
+[Documentation](https://github.com/johannschwabe/ASEv3/wiki)
 
 ## Tests
 
