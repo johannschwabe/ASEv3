@@ -6,7 +6,9 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test": "jest"
+    "test": "jest",
+    "reports:coverage": "jest --ci --coverage --silent --json --testResultsProcessor=./reports/testResultsProcessor.js --outputFile=./reports/coverage/test-summary.json",
+    "reports:readme": "node ./reports/generator.js"
   },
   "dependencies": {
     "@googlemaps/markerclustererplus": "^1.1.0",
