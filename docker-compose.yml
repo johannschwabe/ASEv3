@@ -51,8 +51,12 @@ services:
       MYSQL_PASSWORD: db_user_pass
     ports:
       - 8686:3306
+    command: --init-file /data/application/init.sql
     volumes:
       - salesdbdata:/var/lib/mysql
+      - ./data/init_sales.sql:/data/application/init.sql
+      - ./data/coords_nyc_api.csv:/data/coords_nyc_api.csv
+
 
 volumes:
   airbnbdbdata:
