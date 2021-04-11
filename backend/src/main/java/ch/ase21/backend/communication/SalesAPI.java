@@ -9,13 +9,12 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SalesAPI {
 
   private static HttpURLConnection setupConnection() throws IOException{
-    URL url = new URL("salesapi:8080");
+    URL url = new URL("http://salesapi:8080/graphql");
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
     connection.setRequestMethod("POST");
     connection.setDoOutput(true);
@@ -49,22 +48,25 @@ public class SalesAPI {
 
   public static List<Property> getAllProperties() throws IOException{
     HttpURLConnection connection = setupConnection();
-    writeToBody(connection,
+    Map<String, String> requestBody = new HashMap<>();
+    requestBody.put("query",
         "{\n" +
-              "allProperties {\n" +
-                "id\n" +
-                "coordinates {\n" +
-                  "latitude\n" +
-                  "longitude\n" +
-                "}\n" +
-              "}\n" +
-            "}"
+          "allProperties {\n" +
+            "id\n" +
+            "coordinates {\n" +
+              "latitude\n" +
+              "longitude\n" +
+            "}\n" +
+          "}\n" +
+        "}"
     );
-    String response = getResponse(connection);
     ObjectMapper mapper = new ObjectMapper();
-    List<JsonNode> nodes = mapper.readValue(response, new TypeReference<>() {});
+    writeToBody(connection, mapper.writeValueAsString(requestBody));
+    String response = getResponse(connection);
+    JsonNode responseObject = mapper.readValue(response, new TypeReference<>() {});
+    Iterator<JsonNode> nodes = responseObject.get("data").get("allProperties").elements();
     List<Property> properties = new ArrayList<>();
-    nodes.forEach(node -> {
+    nodes.forEachRemaining(node -> {
       String id = node.get("id").asText();
       JsonNode coordinates = node.get("coordinates");
       Float latitude = coordinates.get("latitude").floatValue();

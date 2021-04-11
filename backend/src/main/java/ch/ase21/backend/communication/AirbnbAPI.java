@@ -2,18 +2,19 @@ package ch.ase21.backend.communication;
 
 import ch.ase21.backend.entity.Property;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
+import java.util.*;
 
 public class AirbnbAPI {
 
   private static HttpURLConnection setupConnection() throws IOException{
-    URL url = new URL("airbnbapi:8080");
+    URL url = new URL("http://airbnbapi:8080/graphql");
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
     connection.setRequestMethod("POST");
     connection.setDoOutput(true);
@@ -47,17 +48,28 @@ public class AirbnbAPI {
 
   public static List<Property> getAllProperties() throws IOException{
     HttpURLConnection connection = setupConnection();
-    writeToBody(connection,
+    Map<String, String> requestBody = new HashMap<>();
+    requestBody.put("query",
         "{\n" +
-              "allProperties {\n" +
-                "id\n" +
-                "latitude\n" +
-                "longitude\n" +
-              "}\n" +
-            "}"
+          "allProperties {\n" +
+            "id\n" +
+            "latitude\n" +
+            "longitude\n" +
+          "}\n" +
+        "}"
     );
-    String response = getResponse(connection);
     ObjectMapper mapper = new ObjectMapper();
-    return mapper.readValue(response, new TypeReference<>() {});
+    writeToBody(connection, mapper.writeValueAsString(requestBody));
+    String response = getResponse(connection);
+    JsonNode responseObject = mapper.readValue(response, new TypeReference<>() {});
+    Iterator<JsonNode> nodes = responseObject.get("data").get("allProperties").elements();
+    List<Property> properties = new ArrayList<>();
+    nodes.forEachRemaining(node -> {
+      String id = node.get("id").asText();
+      Float latitude = node.get("latitude").floatValue();
+      Float longitude = node.get("longitude").floatValue();
+      properties.add(new Property(id, latitude, longitude));
+    });
+    return properties;
   }
 }
