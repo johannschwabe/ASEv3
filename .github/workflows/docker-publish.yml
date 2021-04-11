@@ -65,5 +65,11 @@ jobs:
         uses: actions/checkout@v2
 
       - name: gradlew build
-        run: ./backend/gradlew test
+        run: ./backend/gradlew -p ./backend/ test
+
+      - name: gradlew build
+        run: ./sales-api/gradlew -p ./sales-api/ test
+
+      - name: gradlew build
+        run: ./airbnb-api/gradlew -p ./airbnb-api/ test
 
