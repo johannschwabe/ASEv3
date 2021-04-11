@@ -1,4 +1,5 @@
 CREATE DATABASE app_db;
+USE app_db;
 CREATE TABLE coordinates (
     id_sale VARCHAR(255) NOT NULL,
     lat REAL,
