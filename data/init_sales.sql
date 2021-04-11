@@ -1,7 +1,7 @@
 CREATE TABLE coordinates (
     id_sale VARCHAR(255) NOT NULL,
-    lat REAL,
-    long REAL,
+    lat INTEGER ,
+    longi INTEGER,
     returned_street_name VARCHAR(255),
     returned_zip_code VARCHAR(255),
     PRIMARY KEY (id_sale),
