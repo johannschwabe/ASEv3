@@ -1,0 +1,39 @@
+type Query {
+    propertyById(id: ID): Property
+    allProperties: [Property]
+}
+
+type Property {
+    id: ID
+    number: Int
+    borough: Int
+    neighborhood: String
+    buildingClassCategory: String
+    taxClassAtPresent: String
+    block: Int
+    lot: Int
+    easement: String
+    buildingClassAtPresent: String
+    address: String
+    apartmentNumber: String
+    zipCode: Int
+    residentialUnits: Int
+    commercialUnits: Int
+    totalUnits: Int
+    landSquareFeet: String
+    grossSquareFeet: String
+    yearBuilt: Int
+    taxClassAtTimeOfSale: Int
+    buildingClassAtTimeOfSale: String
+    salePrice: String
+    saleDate: String
+    coordinates: Coordiantes
+}
+
+type Coordiantes {
+    idSale: ID
+    latitude: Float
+    longitude: Float
+    returnedStreetName: String
+    returnedZipCode: Int
+}

@@ -1,0 +1,22 @@
+type Query {
+    propertyById(id: ID): Property
+}
+
+type Property {
+    id: ID
+    name: String
+    hostId: Int
+    hostName: String
+    neighbourhoodGroup: String
+    neighbourhood: String
+    latitude: Float
+    longitude: Float
+    roomType: String
+    price: Int
+    minimumNights: Int
+    numberOfReviews: Int
+    lastReview: String
+    reviewsPerMonth: Int
+    calculatedHostListingsCount: Int
+    availability365: Int
+}
