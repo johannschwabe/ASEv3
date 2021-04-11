@@ -5,6 +5,7 @@ on:
     # Publish `main` as Docker `latest` image.
     branches:
       - main
+      - dev
 
     # Publish `v1.2.3` tags as releases.
     tags:
@@ -20,57 +21,55 @@ env:
 jobs:
   # Run tests.
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
-  test:
+  testFrontend:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [ 12.x ]
+
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Setup environment
+        run: yarn --cwd frontend/ install --frozen-lockfile
 
       - name: Run tests
-        run: |
-          if [ -f docker-compose.test.yml ]; then
-            docker-compose --file docker-compose.test.yml build
-            docker-compose --file docker-compose.test.yml run sut
-          else
-            docker build frontend/app --file frontend/Dockerfile
-          fi
+        run: yarn --cwd frontend/ run reports:coverage
+        continue-on-error: true
 
-  # Push image to GitHub Packages.
-  # See also https://docs.docker.com/docker-hub/builds/
-  push:
-    # Ensure test job passes before pushing image.
-    needs: test
+      - name: Update README.md
+        run: yarn --cwd frontend/ run reports:readme
 
+      - name: Commit scripts
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Updated Scripts
+          commit_options: '--no-verify --signoff'
+          file_pattern: .
+          commit_user_name: Bot (Autocommit Actions)
+          commit_user_email: actions@github.com
+          commit_author: Github Action <actions@github.com>
+          push_options: '--force'
+
+  testBackend:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME
+      - name: gradlew test backend
+        run: ./backend/gradlew -p ./backend/ test
 
-      - name: Log into registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+      - name: gradlew test sales
+        run: ./sales-api/gradlew -p ./sales-api/ test
 
-      - name: Push image
-        run: |
-          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+      - name: gradlew test airbnb
+        run: ./airbnb-api/gradlew -p ./airbnb-api/ test
 
-          # Change all uppercase to lowercase
-          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-
-          # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-
-          # Use Docker `latest` tag convention
-          [ "$VERSION" == "main" ] && VERSION=latest
-
-          echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$VERSION
-
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION
