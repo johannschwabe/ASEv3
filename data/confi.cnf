@@ -1,1 +1,2 @@
+[mysqld]
 secure_file_priv=/data/
