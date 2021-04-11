@@ -1,9 +1,9 @@
 type Query {
-    propertyById(id: ID): Property
+    propertyById(id: Int): Property
 }
 
 type Property {
-    id: ID
+    id: Int
     number: Int
     borough: Int
     neighborhood: String
@@ -30,7 +30,7 @@ type Property {
 }
 
 type Coordiantes {
-    idSale: ID
+    idSale: String
     latitude: Float
     longitude: Float
     returnedStreetName: String

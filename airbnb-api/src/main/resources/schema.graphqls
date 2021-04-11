@@ -1,9 +1,9 @@
 type Query {
-    propertyById(id: ID): Property
+    propertyById(id: Int): Property
 }
 
 type Property {
-    id: ID
+    id: Int
     name: String
     hostID: Int
     hostName: String

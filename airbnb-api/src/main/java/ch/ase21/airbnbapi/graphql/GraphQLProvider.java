@@ -1,4 +1,4 @@
-package ch.ase21.salesapi.bookdetails;
+package ch.ase21.airbnbapi.graphql;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -50,8 +50,6 @@ public class GraphQLProvider {
     return RuntimeWiring.newRuntimeWiring()
         .type(newTypeWiring("Query")
             .dataFetcher("propertyById", graphQLDataFetchers.getPropertyByIdDataFetcher()))
-        .type(newTypeWiring("Property")
-            .dataFetcher("coordinates", graphQLDataFetchers.getCoordinatesDataFetcher()))
         .build();
   }
 }

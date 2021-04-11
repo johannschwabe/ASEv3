@@ -1,4 +1,4 @@
-package ch.ase21.airbnbapi.bookdetails;
+package ch.ase21.airbnbapi.graphql;
 
 import ch.ase21.airbnbapi.entity.Property;
 import ch.ase21.airbnbapi.repository.PropertyRepository;

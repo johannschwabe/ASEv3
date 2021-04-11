@@ -1,4 +1,4 @@
-package ch.ase21.salesapi.bookdetails;
+package ch.ase21.salesapi.graphql;
 
 import ch.ase21.salesapi.entity.Coordinates;
 import ch.ase21.salesapi.entity.Property;
