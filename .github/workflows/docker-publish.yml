@@ -64,12 +64,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: gradlew build
+      - name: gradlew test backend
         run: ./backend/gradlew -p ./backend/ test
 
-      - name: gradlew build
+      - name: gradlew test sales
         run: ./sales-api/gradlew -p ./sales-api/ test
 
-      - name: gradlew build
+      - name: gradlew test airbnb
         run: ./airbnb-api/gradlew -p ./airbnb-api/ test
 
