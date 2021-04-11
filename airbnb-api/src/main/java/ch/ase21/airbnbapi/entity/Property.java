@@ -7,24 +7,24 @@ import java.sql.Date;
 @Entity
 public class Property {
   @Id
-  private Long id;
+  private String id;
   private String name;
-  private Long hostId;
+  private Integer hostId;
   private String hostName;
   private String neighbourhoodGroup;
   private String neighbourhood;
   private Float latitude;
   private Float longitude;
   private String roomType;
-  private Long price;
-  private Long minimumNights;
-  private Long numberOfReviews;
+  private Integer price;
+  private Integer minimumNights;
+  private Integer numberOfReviews;
   private Date lastReview;
-  private Long reviewsPerMonth;
-  private Long calculatedHostListingsCount;
-  private Long availability365;
+  private Integer reviewsPerMonth;
+  private Integer calculatedHostListingsCount;
+  private Integer availability365;
 
-  public Long getId(){
+  public String getId(){
     return id;
   }
 
@@ -32,7 +32,7 @@ public class Property {
     return name;
   }
 
-  public Long getHostId(){
+  public Integer getHostId(){
     return hostId;
   }
 
@@ -52,7 +52,7 @@ public class Property {
     return latitude;
   }
 
-  public Float getLongitude(){
+  public Float getIntegeritude(){
     return longitude;
   }
 
@@ -60,15 +60,15 @@ public class Property {
     return roomType;
   }
 
-  public Long getPrice(){
+  public Integer getPrice(){
     return price;
   }
 
-  public Long getMinimumNights(){
+  public Integer getMinimumNights(){
     return minimumNights;
   }
 
-  public Long getNumberOfReviews(){
+  public Integer getNumberOfReviews(){
     return numberOfReviews;
   }
 
@@ -76,15 +76,15 @@ public class Property {
     return lastReview;
   }
 
-  public Long getReviewsPerMonth(){
+  public Integer getReviewsPerMonth(){
     return reviewsPerMonth;
   }
 
-  public Long getCalculatedHostListingsCount(){
+  public Integer getCalculatedHostListingsCount(){
     return calculatedHostListingsCount;
   }
 
-  public Long getAvailability365(){
+  public Integer getAvailability365(){
     return availability365;
   }
 }

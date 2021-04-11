@@ -10,7 +10,7 @@ public class Coordinates {
   private Float latitude;
   private Float longitude;
   private String returnedStreetName;
-  private Long returnedZipCode;
+  private Integer returnedZipCode;
 
   public String getIdSale(){
     return idSale;
@@ -20,7 +20,7 @@ public class Coordinates {
     return latitude;
   }
 
-  public Float getLongitude(){
+  public Float getIntegeritude(){
     return longitude;
   }
 
@@ -28,7 +28,7 @@ public class Coordinates {
     return returnedStreetName;
   }
 
-  public Long getReturnedZipCode(){
+  public Integer getReturnedZipCode(){
     return returnedZipCode;
   }
 }

@@ -15,7 +15,7 @@ public class GraphQLDataFetchers {
 
   public DataFetcher<Property> getPropertyByIdDataFetcher() {
     return dataFetchingEnvironment -> {
-      Long propertyId = dataFetchingEnvironment.getArgument("id");
+      String propertyId = dataFetchingEnvironment.getArgument("id");
       return propertyRepository
           .findById(propertyId)
           .orElse(null);

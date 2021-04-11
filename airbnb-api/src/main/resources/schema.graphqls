@@ -1,11 +1,11 @@
 type Query {
-    propertyById(id: Int): Property
+    propertyById(id: ID): Property
 }
 
 type Property {
-    id: Int
+    id: ID
     name: String
-    hostID: Int
+    hostId: Int
     hostName: String
     neighbourhoodGroup: String
     neighbourhood: String
