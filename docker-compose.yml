@@ -56,7 +56,7 @@ services:
       - salesdbdata:/var/lib/mysql
       - ./data/init_sales.sql:/data/application/init.sql
       - ./data/coords_nyc_api.csv:/data/coords_nyc_api.csv
-      - ./data: /etc/mysql/conf.d
+      - ./data:/etc/mysql/conf.d
 
 
 volumes:
