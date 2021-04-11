@@ -58,3 +58,12 @@ jobs:
           commit_author: Github Action <actions@github.com>
           push_options: '--force'
 
+  testBackend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: gradlew build
+        run: ./backend/gradlew test
+
