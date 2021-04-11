@@ -5,7 +5,7 @@ type Query {
 type Property {
     id: ID
     name: String
-    hostID: Int
+    hostId: Int
     hostName: String
     neighbourhoodGroup: String
     neighbourhood: String

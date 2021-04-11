@@ -7,39 +7,39 @@ import java.sql.Timestamp;
 @Entity
 public class Property {
   @Id
-  private Long id;
-  private Long number;
-  private Long borough;
+  private String id;
+  private Integer number;
+  private Integer borough;
   private String neighborhood;
   private String buildingClassCategory;
   private String taxClassAtPresent;
-  private Long block;
-  private Long lot;
+  private Integer block;
+  private Integer lot;
   private String easement;
   private String buildingClassAtPresent;
   private String address;
   private String apartmentNumber;
-  private Long zipCode;
-  private Long residentialUnits;
-  private Long commercialUnits;
-  private Long totalUnits;
+  private Integer zipCode;
+  private Integer residentialUnits;
+  private Integer commercialUnits;
+  private Integer totalUnits;
   private String landSquareFeet;
   private String grossSquareFeet;
-  private Long yearBuilt;
-  private Long taxClassAtTimeOfSale;
+  private Integer yearBuilt;
+  private Integer taxClassAtTimeOfSale;
   private String buildingClassAtTimeOfSale;
   private String salePrice;
   private Timestamp saleDate;
   
-  public Long getId(){
+  public String getId(){
     return id;
   }
 
-  public Long getNumber(){
+  public Integer getNumber(){
     return number;
   }
 
-  public Long getBorough(){
+  public Integer getBorough(){
     return borough;
   }
 
@@ -55,11 +55,11 @@ public class Property {
     return taxClassAtPresent;
   }
 
-  public Long getBlock(){
+  public Integer getBlock(){
     return block;
   }
 
-  public Long getLot(){
+  public Integer getLot(){
     return lot;
   }
 
@@ -79,19 +79,19 @@ public class Property {
     return apartmentNumber;
   }
 
-  public Long getZipCode(){
+  public Integer getZipCode(){
     return zipCode;
   }
 
-  public Long getResidentialUnits(){
+  public Integer getResidentialUnits(){
     return residentialUnits;
   }
 
-  public Long getCommercialUnits(){
+  public Integer getCommercialUnits(){
     return commercialUnits;
   }
 
-  public Long getTotalUnits(){
+  public Integer getTotalUnits(){
     return totalUnits;
   }
 
@@ -103,11 +103,11 @@ public class Property {
     return grossSquareFeet;
   }
 
-  public Long getYearBuilt(){
+  public Integer getYearBuilt(){
     return yearBuilt;
   }
 
-  public Long getTaxClassAtTimeOfSale(){
+  public Integer getTaxClassAtTimeOfSale(){
     return taxClassAtTimeOfSale;
   }
 

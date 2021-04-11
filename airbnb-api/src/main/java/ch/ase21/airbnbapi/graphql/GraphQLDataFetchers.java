@@ -1,4 +1,4 @@
-package ch.ase21.airbnbapi.bookdetails;
+package ch.ase21.airbnbapi.graphql;
 
 import ch.ase21.airbnbapi.entity.Property;
 import ch.ase21.airbnbapi.repository.PropertyRepository;
@@ -15,7 +15,7 @@ public class GraphQLDataFetchers {
 
   public DataFetcher<Property> getPropertyByIdDataFetcher() {
     return dataFetchingEnvironment -> {
-      Long propertyId = dataFetchingEnvironment.getArgument("id");
+      String propertyId = dataFetchingEnvironment.getArgument("id");
       return propertyRepository
           .findById(propertyId)
           .orElse(null);
