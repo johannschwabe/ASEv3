@@ -2,18 +2,20 @@ package ch.ase21.backend.communication;
 
 import ch.ase21.backend.entity.Property;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
-public class AirbnbAPI {
+public class SalesAPI {
 
   private static HttpURLConnection setupConnection() throws IOException{
-    URL url = new URL("airbnbapi:8080");
+    URL url = new URL("salesapi:8080");
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
     connection.setRequestMethod("POST");
     connection.setDoOutput(true);
@@ -51,13 +53,24 @@ public class AirbnbAPI {
         "{\n" +
               "allProperties {\n" +
                 "id\n" +
-                "latitude\n" +
-                "longitude\n" +
+                "coordinates {\n" +
+                  "latitude\n" +
+                  "longitude\n" +
+                "}\n" +
               "}\n" +
             "}"
     );
     String response = getResponse(connection);
     ObjectMapper mapper = new ObjectMapper();
-    return mapper.readValue(response, new TypeReference<>() {});
+    List<JsonNode> nodes = mapper.readValue(response, new TypeReference<>() {});
+    List<Property> properties = new ArrayList<>();
+    nodes.forEach(node -> {
+      String id = node.get("id").asText();
+      JsonNode coordinates = node.get("coordinates");
+      Float latitude = coordinates.get("latitude").floatValue();
+      Float longitude = coordinates.get("longitude").floatValue();
+      properties.add(new Property(id, latitude, longitude));
+    });
+    return properties;
   }
 }

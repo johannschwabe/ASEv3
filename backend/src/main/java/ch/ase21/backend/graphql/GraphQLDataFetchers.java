@@ -1,5 +1,8 @@
 package ch.ase21.backend.graphql;
 
+import ch.ase21.backend.communication.AirbnbAPI;
+import ch.ase21.backend.communication.SalesAPI;
+import ch.ase21.backend.entity.Property;
 import com.google.common.collect.ImmutableMap;
 import graphql.schema.DataFetcher;
 import org.springframework.stereotype.Component;
@@ -11,60 +14,12 @@ import java.util.Map;
 @Component
 public class GraphQLDataFetchers {
 
-  private static final List<Map<String, String>> books = Arrays.asList(
-      ImmutableMap.of("id", "book-1",
-          "name", "Harry Potter and the Philosopher's Stone",
-          "pageCount", "223",
-          "authorId", "author-1"),
-      ImmutableMap.of("id", "book-2",
-          "name", "Moby Dick",
-          "pageCount", "635",
-          "authorId", "author-2"),
-      ImmutableMap.of("id", "book-3",
-          "name", "Interview with the vampire",
-          "totalPages", "371",
-          "authorId", "author-3")
-  );
 
-  private static final List<Map<String, String>> authors = Arrays.asList(
-      ImmutableMap.of("id", "author-1",
-          "firstName", "Joanne",
-          "lastName", "Rowling"),
-      ImmutableMap.of("id", "author-2",
-          "firstName", "Herman",
-          "lastName", "Melville"),
-      ImmutableMap.of("id", "author-3",
-          "firstName", "Anne",
-          "lastName", "Rice")
-  );
-
-  public DataFetcher<Map<String,String>> getBookByIdDataFetcher() {
-    return dataFetchingEnvironment -> {
-      String bookId = dataFetchingEnvironment.getArgument("id");
-      return books
-          .stream()
-          .filter(book -> book.get("id").equals(bookId))
-          .findFirst()
-          .orElse(null);
-    };
+  public DataFetcher<Iterable<Property>> getAllAirbnbPropertiesDataFetcher() {
+    return dataFetchingEnvironment -> AirbnbAPI.getAllProperties();
   }
 
-  public DataFetcher<Map<String,String>> getAuthorDataFetcher() {
-    return dataFetchingEnvironment -> {
-      Map<String,String> book = dataFetchingEnvironment.getSource();
-      String authorId = book.get("authorId");
-      return authors
-          .stream()
-          .filter(author -> author.get("id").equals(authorId))
-          .findFirst()
-          .orElse(null);
-    };
-  }
-
-  public DataFetcher<String> getPageCountDataFetcher() {
-    return dataFetchingEnvironment -> {
-      Map<String,String> book = dataFetchingEnvironment.getSource();
-      return book.get("totalPages");
-    };
+  public DataFetcher<Iterable<Property>> getAllSalesPropertiesDataFetcher() {
+    return dataFetchingEnvironment -> SalesAPI.getAllProperties();
   }
 }
