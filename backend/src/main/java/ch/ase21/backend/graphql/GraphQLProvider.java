@@ -1,4 +1,4 @@
-package ch.ase21.backend.bookdetails;
+package ch.ase21.backend.graphql;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;

@@ -1,5 +1,6 @@
 type Query {
     propertyById(id: ID): Property
+    allProperties: [Property]
 }
 
 type Property {

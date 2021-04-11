@@ -1,4 +1,4 @@
-package ch.ase21.backend.bookdetails;
+package ch.ase21.backend.graphql;
 
 import com.google.common.collect.ImmutableMap;
 import graphql.schema.DataFetcher;
