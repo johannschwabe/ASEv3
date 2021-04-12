@@ -52,5 +52,15 @@ Rolling Sales dataset:
     
 6. Property import configuration:
     - Tick `First row is header`.
-    - Click on the first attribute `id` and tick `Auto increment`
+    - Click on the first attribute `id`, chang type to `bigint` and tick `Auto increment`
     - Select `Import`.
+    - Click `Yes` if prompted to change schema.
+   
+7. Create index on `property` table
+   - Right-click on table `property`.
+   - Select `Modify Table...`.
+   - Go to the `Indexes` tab.
+   - Add a new Index `+`
+   - Tick `Unique`
+   - Add columns `number` and `borough`
+   - CLick `Execute`
