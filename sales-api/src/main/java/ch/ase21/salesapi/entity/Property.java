@@ -31,8 +31,6 @@ public class Property {
   private String buildingClassAtTimeOfSale;
   private String salePrice;
   private Timestamp saleDate;
-  @Transient
-  private Coordinates coordinates;
   
   public String getId(){
     return id;
@@ -124,13 +122,5 @@ public class Property {
 
   public Timestamp getSaleDate(){
     return saleDate;
-  }
-
-  public Coordinates getCoordinates(){
-    return coordinates;
-  }
-
-  public void setCoordinates(Coordinates coordinates){
-    this.coordinates = coordinates;
   }
 }

@@ -50,7 +50,8 @@ public class GraphQLProvider {
     return RuntimeWiring.newRuntimeWiring()
         .type(newTypeWiring("Query")
             .dataFetcher("propertyById", graphQLDataFetchers.getPropertyByIdDataFetcher())
-            .dataFetcher("allProperties", graphQLDataFetchers.getAllPropertiesDataFetcher()))
+            .dataFetcher("propertyByCoordinatesId", graphQLDataFetchers.getPropertyByCoordinatesIdDataFetcher())
+            .dataFetcher("allCoordinates", graphQLDataFetchers.getAllCoordinatesDataFetcher()))
         .type(newTypeWiring("Property")
             .dataFetcher("coordinates", graphQLDataFetchers.getCoordinatesDataFetcher()))
         .build();

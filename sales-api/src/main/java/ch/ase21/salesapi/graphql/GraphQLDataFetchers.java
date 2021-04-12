@@ -5,6 +5,7 @@ import ch.ase21.salesapi.entity.Property;
 import ch.ase21.salesapi.repository.CoordinatesRepository;
 import ch.ase21.salesapi.repository.PropertyRepository;
 import graphql.schema.DataFetcher;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,29 +30,25 @@ public class GraphQLDataFetchers {
     };
   }
 
-  public DataFetcher<Iterable<Property>> getAllPropertiesDataFetcher() {
+  public DataFetcher<Property> getPropertyByCoordinatesIdDataFetcher() {
     return dataFetchingEnvironment -> {
-      Iterable<Coordinates> coordinatesIterable = coordinatesRepository.findAll();
-      List<Property> properties = new ArrayList<>();
-      coordinatesIterable.forEach((coordinates) -> {
-        String[] values = coordinates.getIdSale().split("_");
-        Property property = propertyRepository.findByNumberAndBorough(Integer.parseInt(values[0]), Integer.parseInt(values[1])).orElse(null);
-        if (property != null) {
-          property.setCoordinates(coordinates);
-          properties.add(property);
-        }
-      });
-      return properties;
+      String coordinatesId = dataFetchingEnvironment.getArgument("id");
+      String[] values = coordinatesId.split("_");
+      Integer number = Integer.parseInt(values[0]);
+      Integer borough = Integer.parseInt(values[1]);
+      return propertyRepository
+          .findByNumberAndBorough(number, borough)
+          .orElse(null);
     };
+  }
+
+  public DataFetcher<Iterable<Coordinates>> getAllCoordinatesDataFetcher() {
+    return dataFetchingEnvironment -> coordinatesRepository.findAll();
   }
 
   public DataFetcher<Coordinates> getCoordinatesDataFetcher() {
     return dataFetchingEnvironment -> {
       Property property = dataFetchingEnvironment.getSource();
-      Coordinates coordinates = property.getCoordinates();
-      if (coordinates != null) {
-        return coordinates;
-      }
       String coordinatesId = property.getNumber().toString() + "_" + property.getBorough().toString();
       return coordinatesRepository
           .findById(coordinatesId)
