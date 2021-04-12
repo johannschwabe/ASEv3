@@ -21,4 +21,8 @@ public class GraphQLDataFetchers {
           .orElse(null);
     };
   }
+
+  public DataFetcher<Iterable<Property>> getAllPropertiesDataFetcher() {
+    return dataFetchingEnvironment -> propertyRepository.findAll();
+  }
 }
