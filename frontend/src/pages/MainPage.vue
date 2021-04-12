@@ -32,11 +32,9 @@
 <script>
 
 /* eslint-disable import/no-unresolved */
-import airbnbs_data from "@/data/airbnb.json";
-import properties_data from "@/data/properties.json";
-import properties_locations from "@/data/properties_locations.json";
 import Heatmap from "@/components/map/Heatmap.vue";
 import PropertyCard from "@/components/PropertyCard.vue";
+import axios from "axios";
 import AirbnbCard from "@/components/AirbnbCard.vue";
 import * as OPTIONS from "@/constants/OPTIONS.js";
 
@@ -50,9 +48,8 @@ export default {
   data() {
     return {
       center: { lat: 40.730610, lng: -73.935242 },
-      airbnbs: airbnbs_data, // TODO get from backend
-      properties: properties_data, // TODO
-      properties_location_data: properties_locations, // TODO
+      properties: [],
+      selected_property: null, // The property that was clicked
     };
   },
   computed: {
@@ -130,6 +127,10 @@ export default {
     },
   },
 
+  mounted() {
+    this.fetchProperties();
+  },
+
   methods: {
     /**
      * Upon manually closing card, discard selected property
@@ -176,6 +177,26 @@ export default {
         // Commit selection change
         this.$store.commit("setSelectedProperty", { selected_property: _property });
       }
+    },
+
+    fetchProperties() {
+      axios({
+        url: "http://localhost:8282/graphql",
+        method: "post",
+        data: {
+          query: `
+            {
+              allAirbnbProperties {
+                id
+                latitude
+                longitude
+              }
+            }
+          `,
+        },
+      }).then((result) => {
+        this.properties = result.data.data.allAirbnbProperties;
+      });
     },
   },
 };

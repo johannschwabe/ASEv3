@@ -1,24 +1,27 @@
-# app
+# ASE AirBnB Property Evaluator
 
-## Project setup
-```
-yarn install
-```
+Webpage to evaluate the AirBnB value of properties for sale, developed with VueJS.
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+## Documentation
 
-### Compiles and minifies for production
-```
-yarn build
-```
+[Documentation](https://github.com/johannschwabe/ASEv3/wiki)
 
-### Lints and fixes files
-```
-yarn lint
-```
+## Tests
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+![Build](https://img.shields.io/badge/Tests-Successfull-brightgreen)
+
+### Number of tests
+![Build](https://img.shields.io/badge/Total-2-lightgrey)
+![Build](https://img.shields.io/badge/Failing-0-red)
+![Build](https://img.shields.io/badge/Passing-2-brightgreen)
+
+### Coverage
+
+![Line Coverage](https://img.shields.io/badge/LineCoverage-6.25-orange)
+![Functions Coverage](https://img.shields.io/badge/FunctionsCoverage-7.55-orange)
+![Statement Coverage](https://img.shields.io/badge/StatementCoverage-6.25-orange)
+![Branche Coverage](https://img.shields.io/badge/BranchCoverage-14.29-orange)
+
+## Open Bugs (Failed tests)
+
+No failed tests

@@ -1,16 +1,23 @@
 type Query {
-    bookById(id: ID): Book
+    propertyById(id: ID): Property
+    allProperties: [Property]
 }
 
-type Book {
+type Property {
     id: ID
     name: String
-    pageCount: Int
-    author: Author
-}
-
-type Author {
-    id: ID
-    firstName: String
-    lastName: String
+    hostId: Int
+    hostName: String
+    neighbourhoodGroup: String
+    neighbourhood: String
+    latitude: Float
+    longitude: Float
+    roomType: String
+    price: Int
+    minimumNights: Int
+    numberOfReviews: Int
+    lastReview: String
+    reviewsPerMonth: Int
+    calculatedHostListingsCount: Int
+    availability365: Int
 }

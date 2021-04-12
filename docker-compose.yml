@@ -22,6 +22,7 @@ services:
       - 8383:8080
     depends_on:
       - airbnbdb
+    restart: always
 
   salesapi:
     build: ./sales-api
@@ -29,6 +30,7 @@ services:
       - 8484:8080
     depends_on:
       - salesdb
+    restart: always
 
   airbnbdb:
     image: mysql

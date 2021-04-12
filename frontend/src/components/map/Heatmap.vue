@@ -69,6 +69,9 @@ export default {
   },
 
   watch: {
+    heatmapPoints() {
+      this.fillMap();
+    },
     /**
      * When show_markers property changes, update all markers
      */
@@ -129,31 +132,38 @@ export default {
     // Create map
     this.map = new this.maps_api.Map(map_element, map_options);
 
-    // Add neighbourhood layer
-    this.neighbourhoods_layer = new this.maps_api.KmlLayer({
-      url: "https://www.google.com/maps/d/kml?forcekml=1&mid=1-_H_BR22bTWqVXbBX6FcRwNF4mpKKR4x",
-      map: this.show_neighbourhoods ? this.map : null,
-      preserveViewport: true,
-      suppressInfoWindows: true,
-      clickable: false,
-      zIndex: 1,
-    });
-
-    // Options for heatmap layer
-    const heatmap_options = {
-      data: this.heatmap_points,
-      map: this.map,
-      radius: this.heatmap_radius,
-    };
-
-    // Add heatmap layer
-    this.heatmap = new this.maps_api.visualization.HeatmapLayer(heatmap_options);
-
-    // Place markers
-    this.placeMarkers(this.markers);
+    this.fillMap()
   },
 
   methods: {
+    /**
+     * Fills the stored map with neighborhood and heatmap layers and adds markers
+     */
+    fillMap() {
+      // Add neighbourhood layer
+      this.neighbourhoods_layer = new this.maps_api.KmlLayer({
+        url: "https://www.google.com/maps/d/kml?forcekml=1&mid=1-_H_BR22bTWqVXbBX6FcRwNF4mpKKR4x",
+        map: this.show_neighbourhoods ? this.map : null,
+        preserveViewport: true,
+        suppressInfoWindows: true,
+        clickable: false,
+        zIndex: 1,
+      });
+
+      // Options for heatmap overlay
+      const heatmap_options = {
+        data: this.heatmap_points,
+        map: this.map,
+      };
+
+      // Add heatmap to map
+      // Store locally
+      this.heatmap = new this.maps_api.visualization.HeatmapLayer(heatmap_options);
+
+      // Place markers
+      this.placeMarkers(this.markers);
+    },
+
     /**
      * Places the given markers on the map
      * @param {Array} markers
