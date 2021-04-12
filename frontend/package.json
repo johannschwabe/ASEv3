@@ -10,7 +10,6 @@
     "reports:coverage": "jest --ci --coverage --silent --json --testResultsProcessor=./reports/testResultsProcessor.js --outputFile=./reports/coverage/test-summary.json",
     "reports:readme": "node ./reports/generator.js",
     "generate:CNAME": "node ./reports/cname.js"
-
   },
   "dependencies": {
     "@googlemaps/markerclustererplus": "^1.1.0",
