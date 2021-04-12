@@ -132,7 +132,7 @@ export default {
     // Create map
     this.map = new this.maps_api.Map(map_element, map_options);
 
-    this.fillMap()
+    this.fillMap();
   },
 
   methods: {

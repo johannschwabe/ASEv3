@@ -89,26 +89,6 @@ export default {
     maps_api() {
       return this.$store.getters.mapsApi;
     },
-  //
-  //  TODO get via axios
-  //   /**
-  //    * Geographical Property distribution
-  //    * @returns {Array}
-  //    */
-  //   property_locations() {
-  //     const result = [];
-  //     this.properties_location_data.forEach((property) => {
-  //       if (property.lat && property.lng) {
-  //         result.push({
-  //           lat: property.lat,
-  //           lng: property.lng,
-  //           id: property.id,
-  //         });
-  //       }
-  //     });
-  //
-  //     return result;
-  //   },
   },
 
   mounted() {
@@ -182,14 +162,14 @@ export default {
             }
           `,
         },
-        headers: {
-          // TODO
-          "Content-type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-        },
       }).then((result) => {
-        this.airbnbs = result.data.data.allAirbnbProperties;
+        result.data.data.allAirbnbProperties.forEach((property) => {
+          this.airbnbs.push({
+            id: property.id,
+            lat: property.latitude,
+            lng: property.longitude,
+          });
+        });
       });
     },
 
@@ -197,24 +177,30 @@ export default {
      * Fetches location data for all properties
      */
     fetchProperties() {
-      // TODO fetch
-      // axios({
-      //   url: "http://localhost:8282/graphql",
-      //   method: "post",
-      //   data: {
-      //     query: `
-      //       {
-      //         allAirbnbProperties {
-      //           id
-      //           latitude
-      //           longitude
-      //         }
-      //       }
-      //     `,
-      //   },
-      // }).then((result) => {
-      //   this.properties = result.data.data.allAirbnbProperties;
-      // });
+      axios({
+        url: "http://localhost:8282/graphql",
+        method: "post",
+        data: {
+          query: `
+            {
+              allSalesProperties {
+                id
+                latitude
+                longitude
+              }
+            }
+          `,
+        },
+      }).then((result) => {
+        console.log("got properties:", result.data.data);
+        result.data.data.allSalesProperties.forEach((property) => {
+          this.properties.push({
+            id: property.id,
+            lat: property.latitude,
+            lng: property.longitude,
+          });
+        });
+      });
     },
   },
 };
