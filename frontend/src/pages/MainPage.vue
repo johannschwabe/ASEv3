@@ -192,7 +192,6 @@ export default {
           `,
         },
       }).then((result) => {
-        console.log("got properties:", result.data.data);
         result.data.data.allSalesProperties.forEach((property) => {
           this.properties.push({
             id: property.id,
