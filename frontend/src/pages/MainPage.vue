@@ -49,7 +49,7 @@ export default {
     return {
       center: { lat: 40.730610, lng: -73.935242 },
       properties: [],
-      selected_property: null, // The property that was clicked
+      airbnbs: [],
     };
   },
   computed: {
@@ -73,9 +73,9 @@ export default {
     map_points() {
       switch (this.map_type) {
         case OPTIONS.MAP_TYPES.AIRBNB:
-          return this.airbnb_locations;
+          return this.airbnbs;
         case OPTIONS.MAP_TYPES.PROPERTY:
-          return this.property_locations;
+          return this.properties;
         case OPTIONS.MAP_TYPES.RATING:
           return []; // TODO
         default:
@@ -89,45 +89,30 @@ export default {
     maps_api() {
       return this.$store.getters.mapsApi;
     },
-
-    /**
-     * Geographical Airbnb distribution
-     * @returns {Array}
-     */
-    airbnb_locations() {
-      const result = [];
-      this.airbnbs.forEach((property) => {
-        result.push({
-          lat: property.latitude,
-          lng: property.longitude,
-          id: property.id.toString(),
-        });
-      });
-
-      return result;
-    },
-
-    /**
-     * Geographical Airbnb distribution
-     * @returns {Array}
-     */
-    property_locations() {
-      const result = [];
-      this.properties_location_data.forEach((property) => {
-        if (property.lat && property.lng) {
-          result.push({
-            lat: property.lat,
-            lng: property.lng,
-            id: property.id,
-          });
-        }
-      });
-
-      return result;
-    },
+  //
+  //  TODO get via axios
+  //   /**
+  //    * Geographical Property distribution
+  //    * @returns {Array}
+  //    */
+  //   property_locations() {
+  //     const result = [];
+  //     this.properties_location_data.forEach((property) => {
+  //       if (property.lat && property.lng) {
+  //         result.push({
+  //           lat: property.lat,
+  //           lng: property.lng,
+  //           id: property.id,
+  //         });
+  //       }
+  //     });
+  //
+  //     return result;
+  //   },
   },
 
   mounted() {
+    this.fetchAirbnbs();
     this.fetchProperties();
   },
 
@@ -179,7 +164,10 @@ export default {
       }
     },
 
-    fetchProperties() {
+    /**
+     * Fetches location data for all Airbnbs
+     */
+    fetchAirbnbs() {
       axios({
         url: "http://localhost:8282/graphql",
         method: "post",
@@ -194,9 +182,39 @@ export default {
             }
           `,
         },
+        headers: {
+          // TODO
+          "Content-type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+        },
       }).then((result) => {
-        this.properties = result.data.data.allAirbnbProperties;
+        this.airbnbs = result.data.data.allAirbnbProperties;
       });
+    },
+
+    /**
+     * Fetches location data for all properties
+     */
+    fetchProperties() {
+      // TODO fetch
+      // axios({
+      //   url: "http://localhost:8282/graphql",
+      //   method: "post",
+      //   data: {
+      //     query: `
+      //       {
+      //         allAirbnbProperties {
+      //           id
+      //           latitude
+      //           longitude
+      //         }
+      //       }
+      //     `,
+      //   },
+      // }).then((result) => {
+      //   this.properties = result.data.data.allAirbnbProperties;
+      // });
     },
   },
 };
