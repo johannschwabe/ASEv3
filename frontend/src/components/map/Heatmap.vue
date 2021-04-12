@@ -131,7 +131,7 @@ export default {
 
     // Add neighbourhood layer
     this.neighbourhoods_layer = new this.maps_api.KmlLayer({
-      url: "http://www.google.com/maps/d/kml?forcekml=1&mid=1-_H_BR22bTWqVXbBX6FcRwNF4mpKKR4x",
+      url: "https://www.google.com/maps/d/kml?forcekml=1&mid=1-_H_BR22bTWqVXbBX6FcRwNF4mpKKR4x",
       map: this.show_neighbourhoods ? this.map : null,
       preserveViewport: true,
       suppressInfoWindows: true,

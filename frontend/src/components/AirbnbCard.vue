@@ -230,7 +230,7 @@ export default {
     }
 
     // TODO remove fake
-    this.property.computed_rating = Math.floor(Math.random() * 4) + 1;
+    this.property.computed_rating = 3;
   },
   methods: {
     onHide() {
