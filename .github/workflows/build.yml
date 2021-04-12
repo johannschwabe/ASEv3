@@ -64,7 +64,7 @@ jobs:
         run: ./airbnb-api/gradlew -p ./airbnb-api/ build sonarqube --info
 
   sonarcloud_sales:
-    name: BuildAirbnb
+    name: BuildSales
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
