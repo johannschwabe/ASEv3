@@ -20,7 +20,8 @@
     "load-google-maps-api": "^2.0.2",
     "quasar": "^1.15.9",
     "vue": "^2.6.11",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "axios": "^0.21.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
