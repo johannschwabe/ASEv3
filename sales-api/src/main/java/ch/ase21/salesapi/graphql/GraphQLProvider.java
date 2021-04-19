@@ -1,6 +1,5 @@
 package ch.ase21.salesapi.graphql;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import static graphql.schema.idl.TypeRuntimeWiring.newTypeWiring;
 
@@ -30,7 +30,7 @@ public class GraphQLProvider {
   @PostConstruct
   public void init() throws IOException{
     var url = Resources.getResource("schema.graphqls");
-    var sdl = Resources.toString(url, Charsets.UTF_8);
+    var sdl = Resources.toString(url, StandardCharsets.UTF_8);
     var graphQLSchema = buildSchema(sdl);
     this.graphQL = GraphQL.newGraphQL(graphQLSchema).build();
   }
