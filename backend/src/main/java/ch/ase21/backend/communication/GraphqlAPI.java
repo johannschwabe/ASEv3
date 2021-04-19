@@ -17,7 +17,7 @@ public abstract class GraphqlAPI {
   protected GraphqlAPI() {/* void */}
 
   protected static HttpURLConnection setupConnection(String urlString) throws IOException{
-    URL url = new URL(urlString);
+    var url = new URL(urlString);
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
     connection.setRequestMethod("POST");
     connection.setDoOutput(true);
@@ -29,9 +29,9 @@ public abstract class GraphqlAPI {
   protected static void insertQuery(HttpURLConnection connection, String queryString) throws IOException{
     Map<String, String> requestBody = new HashMap<>();
     requestBody.put("query", queryString);
-    String content = MAPPER.writeValueAsString(requestBody);
-    OutputStream outputStream = connection.getOutputStream();
-    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
+    var content = MAPPER.writeValueAsString(requestBody);
+    var outputStream = connection.getOutputStream();
+    var outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
     outputStreamWriter.write(content);
     outputStreamWriter.flush();
     outputStreamWriter.close();
@@ -40,9 +40,9 @@ public abstract class GraphqlAPI {
 
   protected static JsonNode getResponseData(HttpURLConnection connection) throws IOException{
     connection.connect();
-    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+    var in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
     String inputLine;
-    StringBuilder content = new StringBuilder();
+    var content = new StringBuilder();
     while ((inputLine = in.readLine()) != null) {
       content.append(inputLine);
     }
