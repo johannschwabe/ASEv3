@@ -30,9 +30,9 @@ public class GraphQLProvider {
 
   @PostConstruct
   public void init() throws IOException{
-    URL url = Resources.getResource("schema.graphqls");
-    String sdl = Resources.toString(url, Charsets.UTF_8);
-    GraphQLSchema graphQLSchema = buildSchema(sdl);
+    var url = Resources.getResource("schema.graphqls");
+    var sdl = Resources.toString(url, Charsets.UTF_8);
+    var graphQLSchema = buildSchema(sdl);
     this.graphQL = GraphQL.newGraphQL(graphQLSchema).build();
   }
 
@@ -41,8 +41,8 @@ public class GraphQLProvider {
 
   private GraphQLSchema buildSchema(String sdl) {
     TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(sdl);
-    RuntimeWiring runtimeWiring = buildWiring();
-    SchemaGenerator schemaGenerator = new SchemaGenerator();
+    var runtimeWiring = buildWiring();
+    var schemaGenerator = new SchemaGenerator();
     return schemaGenerator.makeExecutableSchema(typeRegistry, runtimeWiring);
   }
 
