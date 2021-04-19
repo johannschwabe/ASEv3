@@ -1,6 +1,5 @@
 package ch.ase21.salesapi.graphql;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import static graphql.schema.idl.TypeRuntimeWiring.newTypeWiring;
 
@@ -30,9 +29,9 @@ public class GraphQLProvider {
 
   @PostConstruct
   public void init() throws IOException{
-    URL url = Resources.getResource("schema.graphqls");
-    String sdl = Resources.toString(url, Charsets.UTF_8);
-    GraphQLSchema graphQLSchema = buildSchema(sdl);
+    var url = Resources.getResource("schema.graphqls");
+    var sdl = Resources.toString(url, StandardCharsets.UTF_8);
+    var graphQLSchema = buildSchema(sdl);
     this.graphQL = GraphQL.newGraphQL(graphQLSchema).build();
   }
 
@@ -41,8 +40,8 @@ public class GraphQLProvider {
 
   private GraphQLSchema buildSchema(String sdl) {
     TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(sdl);
-    RuntimeWiring runtimeWiring = buildWiring();
-    SchemaGenerator schemaGenerator = new SchemaGenerator();
+    var runtimeWiring = buildWiring();
+    var schemaGenerator = new SchemaGenerator();
     return schemaGenerator.makeExecutableSchema(typeRegistry, runtimeWiring);
   }
 
@@ -50,7 +49,8 @@ public class GraphQLProvider {
     return RuntimeWiring.newRuntimeWiring()
         .type(newTypeWiring("Query")
             .dataFetcher("propertyById", graphQLDataFetchers.getPropertyByIdDataFetcher())
-            .dataFetcher("allProperties", graphQLDataFetchers.getAllPropertiesDataFetcher()))
+            .dataFetcher("propertyByCoordinatesId", graphQLDataFetchers.getPropertyByCoordinatesIdDataFetcher())
+            .dataFetcher("allCoordinates", graphQLDataFetchers.getAllCoordinatesDataFetcher()))
         .type(newTypeWiring("Property")
             .dataFetcher("coordinates", graphQLDataFetchers.getCoordinatesDataFetcher()))
         .build();

@@ -1,6 +1,7 @@
 type Query {
     propertyById(id: ID): Property
-    allProperties: [Property]
+    propertyByCoordinatesId(id: ID): Property
+    allCoordinates: [Coordiantes]
 }
 
 type Property {
