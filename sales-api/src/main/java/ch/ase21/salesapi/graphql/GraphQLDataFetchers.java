@@ -5,12 +5,9 @@ import ch.ase21.salesapi.entity.Property;
 import ch.ase21.salesapi.repository.CoordinatesRepository;
 import ch.ase21.salesapi.repository.PropertyRepository;
 import graphql.schema.DataFetcher;
-import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class GraphQLDataFetchers {

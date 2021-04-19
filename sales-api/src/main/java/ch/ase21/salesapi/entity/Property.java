@@ -2,7 +2,6 @@ package ch.ase21.salesapi.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 import java.sql.Timestamp;
 
 @Entity
