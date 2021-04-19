@@ -1,17 +1,15 @@
 package ch.ase21.backend.communication;
 
 import ch.ase21.backend.entity.Property;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class SalesAPI extends GraphqlAPI{
+
+  private SalesAPI() {/* void */}
 
   public static List<Property> getAllProperties() throws IOException{
     HttpURLConnection connection = setupConnection("http://salesapi:8080/graphql");

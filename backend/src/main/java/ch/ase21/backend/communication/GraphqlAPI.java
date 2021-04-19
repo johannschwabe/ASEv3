@@ -14,6 +14,8 @@ import java.util.Map;
 public abstract class GraphqlAPI {
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
+  protected GraphqlAPI() {/* void */}
+
   protected static HttpURLConnection setupConnection(String urlString) throws IOException{
     URL url = new URL(urlString);
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
