@@ -92,8 +92,8 @@ export default {
   },
 
   mounted() {
-    this.fetchAirbnbs();
-    this.fetchProperties();
+    this.fetchAirbnbCoordinates();
+    this.fetchPropertyCoordinates();
   },
 
   methods: {
@@ -147,14 +147,14 @@ export default {
     /**
      * Fetches location data for all Airbnbs
      */
-    fetchAirbnbs() {
+    fetchAirbnbCoordinates() {
       axios({
         url: "http://localhost:8282/graphql",
         method: "post",
         data: {
           query: `
             {
-              allAirbnbProperties {
+              allAirbnbCoordinates {
                 id
                 latitude
                 longitude
@@ -163,7 +163,7 @@ export default {
           `,
         },
       }).then((result) => {
-        result.data.data.allAirbnbProperties.forEach((property) => {
+        result.data.data.allAirbnbCoordinates.forEach((property) => {
           this.airbnbs.push({
             id: property.id,
             lat: property.latitude,
@@ -176,14 +176,14 @@ export default {
     /**
      * Fetches location data for all properties
      */
-    fetchProperties() {
+    fetchPropertyCoordinates() {
       axios({
         url: "http://localhost:8282/graphql",
         method: "post",
         data: {
           query: `
             {
-              allSalesProperties {
+              allSalesCoordinates {
                 id
                 latitude
                 longitude
@@ -192,7 +192,7 @@ export default {
           `,
         },
       }).then((result) => {
-        result.data.data.allSalesProperties.forEach((property) => {
+        result.data.data.allSalesCoordinates.forEach((property) => {
           this.properties.push({
             id: property.id,
             lat: property.latitude,
