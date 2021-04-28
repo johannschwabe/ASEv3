@@ -61,9 +61,9 @@
           </q-item-section>
           <q-item-section>
             <div class="text-bold">
-              {{ property.host_name }}
+              {{ property.hostName }}
             </div>
-            {{ property.calculated_host_listings_count }} listing(s)
+            {{ property.calculatedHostListingsCount }} listing(s)
             <br>
             More host info may go here.
           </q-item-section>
@@ -83,7 +83,7 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section class="col-8">
-          {{ property.room_type }}
+          {{ property.roomType }}
         </q-card-section>
       </q-card-section>
 
@@ -95,7 +95,7 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.neighbourhood_group }}
+          {{ property.neighbourhoodGroup }}
         </q-card-section>
       </q-card-section>
 
@@ -148,7 +148,7 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.minimum_nights }} (${{ property.minimum_nights * property.price }})
+          {{ property.minimumNights }} (${{ property.minimumNights * property.price }})
         </q-card-section>
       </q-card-section>
 
@@ -165,7 +165,7 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.number_of_reviews }} ({{ property.reviews_per_month }} per month)
+          {{ property.numberOfReviews }} ({{ property.reviewsPerMonth }} per month)
         </q-card-section>
       </q-card-section>
 
@@ -177,7 +177,7 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.availability_365 }} days per year ({{ 365-property.availability_365 }} days booked)
+          {{ property.availability365 }} days per year ({{ 365-property.availability365 }} days booked)
         </q-card-section>
       </q-card-section>
 
@@ -200,13 +200,17 @@
 </template>
 
 <script>
+import axios from "axios";
 import { API_KEY } from "../constants/API.js";
 
 export default {
   name: "AirbnbCard",
   props: {
-    property: { type: Object, required: true },
+    coordinates: { type: String, required: true },
   },
+  data: () => ({
+    property: null,
+  }),
   computed: {
     host_image_url() {
       // TODO
@@ -215,19 +219,24 @@ export default {
 
     /**
      * Gets the image URL for a street view image of the property
-     * @returns {string}
+     * @returns {string|null}
      */
     listing_image_url() {
-      const lat = this.property.lat.toFixed(6);
-      const lng = this.property.lng.toFixed(6);
-      return `https://maps.googleapis.com/maps/api/streetview?size=500x300&location=${lat},${lng}&fov=120&pitch=15&source=outdoor&key=${API_KEY}`;
+      if (this.property) {
+        const lat = this.property.latitude.toFixed(6);
+        const lng = this.property.longitude.toFixed(6);
+        return `https://maps.googleapis.com/maps/api/streetview?size=500x300&location=${lat},${lng}&fov=120&pitch=15&source=outdoor&key=${API_KEY}`;
+      }
+      return null;
+    },
+  },
+  watch: {
+    coordinates() {
+      this.fetchProperty();
     },
   },
   created() {
-    // Fill missing data TODO remove once backend gives
-    if (!this.property.reviews_per_month) {
-      this.property.reviews_per_month = 0;
-    }
+    this.fetchProperty();
 
     // TODO remove fake
     this.property.computed_rating = 3;
@@ -235,6 +244,37 @@ export default {
   methods: {
     onHide() {
       this.$emit("hide");
+    },
+
+    fetchProperty() {
+      axios({
+        url: "http://localhost:8282/graphql",
+        method: "post",
+        data: {
+          query: `
+            {
+              airbnbById(id: "${this.coordinates}") {
+                id
+                name
+                hostName
+                calculatedHostListingsCount
+                roomType
+                neighbourhoodGroup
+                neighbourhood
+                latitude
+                longitude
+                price
+                minimumNights
+                numberOfReviews
+                reviewsPerMonth
+                availability365
+              }
+            }
+          `,
+        },
+      }).then((result) => {
+        this.property = result.data.data.airbnbById;
+      });
     },
   },
 };

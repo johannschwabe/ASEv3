@@ -8,5 +8,5 @@ export default {
   drawer_open: false,
   map_type: OPTIONS.MAP_TYPES.PROPERTY,
   heatmap_radius: 10,
-  selected_property: null,
+  selected_coordinates: null,
 };
