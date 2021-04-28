@@ -3,8 +3,15 @@
     v-scroll
     class="propertyCard overflow-hidden"
   >
+    <div style="position: absolute; top: 0; right: 0; z-index: 1">
+      <q-btn
+        flat
+        icon="mdi-close"
+        @click="onHide"
+      />
+    </div>
     <q-scroll-area style="height: 100%">
-      <!-- Card header: Name & host -->
+      <!-- Card header: Address & price -->
       <q-card-section class="bg-primary text-white no-padding">
         <img
           :src="listing_image_url"
@@ -14,54 +21,103 @@
           class="row justify-between"
           style="padding: 20px"
         >
-          <div class="text-h6">
-            {{ property.name }}
+          <div
+            class="text-h6"
+          >
+            {{ capitalizeWords(property.ADDRESS.toLowerCase()) }}
           </div>
 
-          <div>
-            <q-icon
-              v-for="i in property.computed_rating"
-              :key="i"
-              name="star"
-              color="white"
-              size="24px"
-            />
+          <div
+            class="text-h6"
+          >
+            ${{ property['SALE PRICE'].toLocaleString() }}
           </div>
         </div>
       </q-card-section>
 
-      <!-- Host title -->
+      <!-- Rating title -->
       <q-card-section class="bg-grey-3">
         <div class="text-bold">
-          Host
+          Overall Rating
         </div>
       </q-card-section>
-      <q-card-section>
-        <q-item>
-          <q-item-section avatar>
-            <q-avatar
-              color="grey-3"
-              :icon="host_image_url ? undefined : 'person'"
-              text-color="primary"
-              size="60px"
-            >
-              <img
-                v-if="host_image_url"
-                :src="host_image_url"
-                alt="host image"
-              >
-            </q-avatar>
-          </q-item-section>
-          <q-item-section>
-            <div class="text-bold">
-              {{ property.host_name }}
-            </div>
-            {{ property.calculated_host_listings_count }} listing(s)
-            <br>
-            More host info may go here.
-          </q-item-section>
-        </q-item>
-      </q-card-section>
+
+      <!-- TODO generated rating -->
+      <q-linear-progress
+        rounded
+        size="40px"
+        :value="rating_slider_position"
+        :color="rating_slider_color"
+        class="q-mt-sm"
+        style="margin: 10px; width: calc(100% - 20px)"
+      >
+        <div class="absolute-full flex flex-center">
+          <q-badge
+            color="white"
+            text-color="grey-9"
+            :label="rating_object.shortname"
+          />
+        </div>
+      </q-linear-progress>
+
+      <div
+        class="text-h5 text-grey-8"
+        style="text-align: center; margin-bottom: 10px;"
+      >
+        {{ rating_object.name }}
+      </div>
+
+      <q-separator />
+
+      <div style="margin: 10px 10px 40px 10px">
+        <strong>Price rating</strong>
+      </div>
+
+      <!-- Badge for sales price -->
+      <div
+        :style="'position: relative; left: calc('+ price_badge_offset + '% - 40px)'"
+      >
+        <q-badge
+          color="grey-3"
+          :text-color="property['SALE PRICE'] < estimated_price ? 'positive' : 'negative'"
+          :label="'$' + property['SALE PRICE'].toLocaleString()"
+        />
+      </div>
+
+      <q-linear-progress
+        rounded
+        size="20px"
+        :value="price_slider_position"
+        :color="price_slider_color"
+        class="q-mt-sm"
+        style="margin: 10px; width: calc(100% - 20px)"
+      />
+
+      <!-- Overlay for market price -->
+      <div
+        class="bg-grey-8"
+        style="height: 30px; width: 8px; border-radius: 4px; position: relative; top: -35px; left: calc(50% - 4px)"
+      />
+      <div
+        class="full-width flex flex-center"
+        style="position: relative; top: -20px"
+      >
+        <q-badge
+          color="grey-3"
+          text-color="grey-9"
+          :label="'$' + estimated_price.toLocaleString()"
+        />
+      </div>
+
+      <q-item-label
+        caption
+        style="padding: 10px"
+      >
+        Ratings are generated from aggregate data blabla.
+        <br>
+        <a href="https://www.google.ch">Learn how we determine ratings</a>
+        <!-- TODO -->
+      </q-item-label>
 
       <!-- Info title -->
       <q-card-section class="bg-grey-3">
@@ -72,11 +128,11 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Type</b>
+          <strong>Built</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section class="col-8">
-          {{ property.room_type }}
+          {{ property['YEAR BUILT'] }}
         </q-card-section>
       </q-card-section>
 
@@ -84,11 +140,11 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Area</b>
+          <strong>Zip Code</strong>
         </q-card-section>
         <q-separator vertical />
-        <q-card-section>
-          {{ property.neighbourhood_group }}
+        <q-card-section class="col-8">
+          {{ property['ZIP CODE'] }}
         </q-card-section>
       </q-card-section>
 
@@ -96,11 +152,11 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Neighbourhood</b>
+          <strong>Category</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.neighbourhood }}
+          {{ capitalizeWords(property['BUILDING CLASS CATEGORY'].toLowerCase()) }}
         </q-card-section>
       </q-card-section>
 
@@ -108,28 +164,40 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Coordinates</b>
+          <strong>Neighbourhood</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.latitude }}, {{ property.longitude }}
+          {{ capitalizeWords(property['NEIGHBORHOOD'].toLowerCase()) }}
+        </q-card-section>
+      </q-card-section>
+
+      <q-separator />
+
+      <q-card-section horizontal>
+        <q-card-section class="col-3">
+          <strong>Coordinates</strong>
+        </q-card-section>
+        <q-separator vertical />
+        <q-card-section>
+          {{ property.lat.toFixed(6) }}, {{ property.lng.toFixed(6) }}
         </q-card-section>
       </q-card-section>
 
       <!-- Pricing title -->
       <q-card-section class="bg-grey-3">
         <div class="text-bold">
-          Pricing
+          Pricing & Profitability
         </div>
       </q-card-section>
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Price</b>
+          <strong>Price</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          ${{ property.price }}
+          ${{ property['SALE PRICE'].toLocaleString() }}
         </q-card-section>
       </q-card-section>
 
@@ -137,28 +205,28 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Min. nights</b>
+          <strong>Est. Price per Night</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.minimum_nights }} (${{ property.minimum_nights * property.price }})
+          $123 TODO
         </q-card-section>
       </q-card-section>
 
       <!-- Rating title -->
       <q-card-section class="bg-grey-3">
         <div class="text-bold">
-          Rating
+          Break-even
         </div>
       </q-card-section>
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Reviews</b>
+          <strong>At 100%</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.number_of_reviews }} ({{ property.reviews_per_month }} per month)
+          2 years 5 months TODO
         </q-card-section>
       </q-card-section>
 
@@ -166,13 +234,41 @@
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <b>Availability</b>
+          <strong>At 80%</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.availability_365 }} days per year ({{ 365-property.availability_365 }} days booked)
+          5 years 5 months TODO
         </q-card-section>
       </q-card-section>
+
+      <q-separator />
+
+      <q-card-section horizontal>
+        <q-card-section class="col-3">
+          <strong>At 60%</strong>
+        </q-card-section>
+        <q-separator vertical />
+        <q-card-section>
+          8 years 5 months TODO
+        </q-card-section>
+      </q-card-section>
+
+      <q-separator />
+
+      <q-item-label
+        caption
+        style="padding: 10px"
+      >
+        The break-even rating considers the following:
+        <br>
+        - Est. maintenance cost of 10%
+        <br>
+        - The stated capacity at the estimated price per night
+        <br>
+        - Mortgage costs of 1.23% ($5678 p.a.)
+        <!-- TODO -->
+      </q-item-label>
 
       <q-separator />
 
@@ -181,42 +277,95 @@
         <q-btn flat>
           Favorite
         </q-btn>
-        <q-btn flat>
-          Show all by host
-        </q-btn>
-        <q-btn flat>
-          Hide
-        </q-btn>
       </q-card-actions>
     </q-scroll-area>
   </q-card>
 </template>
 
 <script>
+import { SLIDER_COLORS } from "../constants/COLORS.js";
+import { RATINGS } from "../constants/RATINGS.js";
+import { API_KEY } from "../constants/API.js";
+import { capitalizeWords } from "../data/helpers.js";
+
 export default {
   name: "PropertyCard",
   props: {
     property: { type: Object, required: true },
   },
+  data() {
+    return {
+      estimated_price: 6500000, // TODO get from backend
+      rating: 7, // TODO, 1 to 10 expected
+    };
+  },
   computed: {
-    host_image_url() {
-      // TODO
-      return "https://picsum.photos/100";
+    /**
+     * Gets the image URL for a street view image of the property
+     * @returns {string}
+     */
+    listing_image_url() {
+      const lat = this.property.lat.toFixed(6);
+      const lng = this.property.lng.toFixed(6);
+      return `https://maps.googleapis.com/maps/api/streetview?size=500x300&location=${lat},${lng}&fov=120&pitch=15&source=outdoor&key=${API_KEY}`;
     },
 
-    listing_image_url() {
-      // TODO
-      return "https://picsum.photos/500/300";
+    /**
+     * The position of the slider showing the overall rating
+     */
+    rating_slider_position() {
+      return this.rating / 10;
+    },
+
+    /**
+     * The color of the slider showing the rating
+     */
+    rating_slider_color() {
+      // Color distribution in intervals
+      const ratio = Math.min(Math.max(Math.round(this.rating_slider_position * 10) - 1, 0), 9);
+      return SLIDER_COLORS[9 - ratio];
+    },
+
+    /**
+     * The rating object, containing number, shortname and description
+     */
+    rating_object() {
+      return RATINGS[this.rating];
+    },
+
+    /**
+     * The position of the slider comparing expected and actual price
+     */
+    price_slider_position() {
+      const ratio = this.property["SALE PRICE"] / this.estimated_price;
+      // Due to the middle of the slider meaning sales price equals expected, we divide by two
+      return ratio / 2;
+    },
+
+    /**
+     * The color of the slider comparing expected and actual price
+     */
+    price_slider_color() {
+      // Color distribution in intervals
+      const ratio = Math.min(Math.max(Math.round(this.price_slider_position * 10) - 1, 0), 9);
+      return SLIDER_COLORS[ratio];
+    },
+
+    /**
+     * Offset of the actual price badge in %
+     */
+    price_badge_offset() {
+      const result = Math.round(this.price_slider_position * 100);
+      return Math.min(Math.max(result, 10), 90);
     },
   },
-  created() {
-    // Fill missing data TODO remove once backend gives
-    if (!this.property.reviews_per_month) {
-      this.property.reviews_per_month = 0;
-    }
 
-    // TODO remove fake
-    this.property.computed_rating = Math.floor(Math.random() * 4) + 1;
+  methods: {
+    capitalizeWords,
+
+    onHide() {
+      this.$emit("hide");
+    },
   },
 };
 </script>

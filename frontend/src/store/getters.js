@@ -9,3 +9,23 @@ export function showMarkers(state) {
 export function showHeatmap(state) {
   return state.show_heatmap;
 }
+
+export function showNeighbourhoods(state) {
+  return state.show_neighbourhoods;
+}
+
+export function mapsApi(state) {
+  return state.maps_api;
+}
+
+export function mapType(state) {
+  return state.map_type;
+}
+
+export function heatmapRadius(state) {
+  return state.heatmap_radius;
+}
+
+export function selectedProperty(state) {
+  return state.selected_property;
+}

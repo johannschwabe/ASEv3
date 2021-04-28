@@ -10,19 +10,26 @@ export default {
   props: {
     center: {type: Object, default: () => { return {lat: 40.730610, lng: -73.935242}; }},
     initial_zoom: {type: Number, default: () => 13},
-    points: {type: Array, default: () => []},
-    markers: {type: Array, default: () => []},
+    points: {type: Array, default: () => []}, // The points to generate the heatmap from
+    markers: {type: Array, default: () => []}, // The markers to place on the map
   },
   data() {
     return {
-      maps_api: null, // Google Maps API instance
       map: null, // Google Map object
       heatmap: null, // Heatmap layer
       map_markers: [], // Map marker objects
       marker_clusterer: null, // Marker clusterer instance
+      neighbourhoods_layer: null,
     };
   },
   computed: {
+    /**
+     * Google Maps API instance
+     */
+    maps_api() {
+      return this.$store.getters.mapsApi;
+    },
+
     /**
      * Whether to show the markers
      */
@@ -38,11 +45,25 @@ export default {
     },
 
     /**
+     * Whether to show neighbourhood borders
+     */
+    show_neighbourhoods() {
+      return this.$store.getters.showNeighbourhoods;
+    },
+
+    /**
+     * Pixel radius of heatmap points
+     */
+    heatmap_radius() {
+      return this.$store.getters.heatmapRadius;
+    },
+
+    /**
      * The points to construct the heatmap from
      */
-    heatmapPoints() {
+    heatmap_points() {
       return this.points.map(
-        (point) => new this.maps_api.LatLng(point.lat, point.lng),
+        (point) => new this.maps_api.LatLng(point.lat.toFixed(6), point.lng.toFixed(6)),
       );
     },
   },
@@ -64,56 +85,85 @@ export default {
     show_heatmap(show) {
       this.setHeatmapVisibility(show);
     },
+
+    /**
+     * When show_neighbourhoods property changes, update layer visibility
+     */
+    show_neighbourhoods(show) {
+      this.neighbourhoods_layer.setMap(show ? this.map : null);
+    },
+
+    /**
+     * When points change, update heatmap
+     */
+    points() {
+      this.heatmap.setData(this.heatmap_points);
+    },
+
+    /**
+     * When markers change, remove and place new ones
+     */
+    markers() {
+      this.removeMarkers();
+      this.placeMarkers(this.markers);
+    },
+
+    /**
+     * When points change, update heatmap
+     */
+    heatmap_radius() {
+      this.heatmap.set("radius", this.heatmap_radius);
+    },
   },
 
-  created() {
-    // eslint-disable-next-line global-require
-    const loadGoogleMapsApi = require("load-google-maps-api");
-    const api_key = process.env.VUE_APP_API_KEY;
-    const options = {
-      key: api_key,
-      libraries: ["visualization"],
+  mounted() {
+    const map_element = this.$refs.map;
+
+    // Options for map
+    const map_options = {
+      zoom: this.initial_zoom,
+      center: this.center,
+      mapTypeId: "roadmap",
+      mapTypeControl: false,
+      streetViewControl: false,
+      fullscreenControl: false,
     };
 
-    loadGoogleMapsApi(options).then((googleMaps) => {
-      this.maps_api = googleMaps;
-      const map_element = this.$refs.map;
+    // Create map
+    this.map = new this.maps_api.Map(map_element, map_options);
 
-      // Options for map
-      const map_options = {
-        zoom: this.initial_zoom,
-        center: this.center,
-        mapTypeId: "roadmap",
-        mapTypeControl: false,
-        streetViewControl: false,
-        fullscreenControl: false,
-      };
-
-      // Create map
-      this.map = new googleMaps.Map(map_element, map_options);
-    }).catch((e) => {
-      // eslint-disable-next-line no-console
-      console.error(e);
-    });
+    this.fillMap();
   },
 
   methods: {
+    /**
+     * Fills the stored map with neighborhood and heatmap layers and adds markers
+     */
     fillMap() {
+      // Add neighbourhood layer
+      this.neighbourhoods_layer = new this.maps_api.KmlLayer({
+        url: "https://www.google.com/maps/d/kml?forcekml=1&mid=1-_H_BR22bTWqVXbBX6FcRwNF4mpKKR4x",
+        map: this.show_neighbourhoods ? this.map : null,
+        preserveViewport: true,
+        suppressInfoWindows: true,
+        clickable: false,
+        zIndex: 1,
+      });
+
       // Options for heatmap overlay
       const heatmap_options = {
-        data: this.heatmapPoints,
-        map: this.$mapObject,
+        data: this.heatmap_points,
+        map: this.map,
       };
 
       // Add heatmap to map
       // Store locally
       this.heatmap = new this.maps_api.visualization.HeatmapLayer(heatmap_options);
 
-      this.heatmap.setMap(this.map);
-
-      // TODO makes sense here?
+      // Place markers
       this.placeMarkers(this.markers);
     },
+
     /**
      * Places the given markers on the map
      * @param {Array} markers
@@ -125,9 +175,7 @@ export default {
       markers.forEach((marker) => {
         const options = {
           position: new this.maps_api.LatLng(marker.lat, marker.lng),
-          // map: this.map,
           visible: this.show_markers,
-          // label: "something" // TODO remove?
         };
 
         // Create marker and add ID from data
@@ -135,17 +183,31 @@ export default {
         new_marker.id = marker.id;
 
         // Add click listener
-        new_marker.addListener("click", () => this.onMarkerClick(new_marker.id));
+        new_marker.addListener("click", () => this.onMarkerClick({id: new_marker.id, lat: marker.lat, lng: marker.lng}));
 
         // Add to local array
         this.map_markers.push(new_marker);
       });
 
-      // Add a marker clusterer to manage the markers.
+      // Add a marker clusterer to manage the markers
       this.marker_clusterer = new MarkerClusterer(this.map, this.map_markers, {
         ignoreHidden: true, // Ignore hidden markers, so clusters aren't shown if markers are hidden
         imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
       });
+    },
+
+    /**
+     * Removes all markers from the map
+     */
+    removeMarkers() {
+      this.map_markers.forEach((marker) => {
+        marker.setVisible(false);
+        marker.setMap(null);
+      });
+
+      // Disable clusterer
+      this.marker_clusterer.setMap(null);
+      this.map_markers = [];
     },
 
     /**
