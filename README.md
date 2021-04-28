@@ -63,4 +63,4 @@ Rolling Sales dataset:
    - Add a new Index `+`
    - Tick `Unique`
    - Add columns `number` and `borough`
-   - CLick `Execute`
+   - Click `Execute`
