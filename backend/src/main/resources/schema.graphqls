@@ -16,7 +16,7 @@ type Sale {
     id: ID
     number: Int
     borough: Int
-    neighborhood: String
+    neighbourhood: String
     buildingClassCategory: String
     taxClassAtPresent: String
     block: Int

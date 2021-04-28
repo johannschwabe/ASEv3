@@ -6,7 +6,7 @@ public class Sale {
   private final String id;
   private final Integer number;
   private final Integer borough;
-  private final String neighborhood;
+  private final String neighbourhood;
   private final String buildingClassCategory;
   private final String taxClassAtPresent;
   private final Integer block;
@@ -36,7 +36,7 @@ public class Sale {
   public Sale(String id,
               Integer number,
               Integer borough,
-              String neighborhood,
+              String neighbourhood,
               String buildingClassCategory,
               String taxClassAtPresent,
               Integer block,
@@ -65,7 +65,7 @@ public class Sale {
     this.id = id;
     this.number = number;
     this.borough = borough;
-    this.neighborhood = neighborhood;
+    this.neighbourhood = neighbourhood;
     this.buildingClassCategory = buildingClassCategory;
     this.taxClassAtPresent = taxClassAtPresent;
     this.block = block;
@@ -105,8 +105,8 @@ public class Sale {
     return borough;
   }
 
-  public String getNeighborhood(){
-    return neighborhood;
+  public String getNeighbourhood(){
+    return neighbourhood;
   }
 
   public String getBuildingClassCategory(){

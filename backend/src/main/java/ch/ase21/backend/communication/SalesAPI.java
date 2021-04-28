@@ -50,7 +50,7 @@ public class SalesAPI extends GraphqlAPI{
     String propertyId = node.get("id").asText();
     Integer number = node.get("number").intValue();
     Integer borough = node.get("borough").intValue();
-    String neighborhood = node.get("neighborhood").asText();
+    String neighbourhood = node.get("neighborhood").asText();
     String buildingClassCategory = node.get("buildingClassCategory").asText();
     String taxClassAtPresent = node.get("taxClassAtPresent").asText();
     Integer block = node.get("block").intValue();
@@ -82,7 +82,7 @@ public class SalesAPI extends GraphqlAPI{
         propertyId,
         number,
         borough,
-        neighborhood,
+        neighbourhood,
         buildingClassCategory,
         taxClassAtPresent,
         block,
