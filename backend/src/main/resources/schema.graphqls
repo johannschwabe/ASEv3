@@ -1,10 +1,63 @@
 type Query {
-    allAirbnbProperties: [Property]
-    allSalesProperties: [Property]
+    allAirbnbCoordinates: [Coordiantes]
+    allSalesCoordinates: [Coordiantes]
+    saleById(id: ID): Sale
+    saleByCoordinatesId(id: ID): Sale
+    airbnbById(id: ID): Sale
 }
 
-type Property {
+type Coordiantes {
     id: ID
     latitude: Float
     longitude: Float
+}
+
+type Sale {
+    id: ID
+    number: Int
+    borough: Int
+    neighborhood: String
+    buildingClassCategory: String
+    taxClassAtPresent: String
+    block: Int
+    lot: Int
+    easement: String
+    buildingClassAtPresent: String
+    address: String
+    apartmentNumber: String
+    zipCode: Int
+    residentialUnits: Int
+    commercialUnits: Int
+    totalUnits: Int
+    landSquareFeet: String
+    grossSquareFeet: String
+    yearBuilt: Int
+    taxClassAtTimeOfSale: Int
+    buildingClassAtTimeOfSale: String
+    salePrice: String
+    saleDate: String
+    idSale: ID
+    latitude: Float
+    longitude: Float
+    returnedStreetName: String
+    returnedZipCode: Int
+}
+
+type Airbnb {
+    id: ID
+    name: String
+    hostId: Int
+    hostName: String
+    neighbourhoodGroup: String
+    neighbourhood: String
+    latitude: Float
+    longitude: Float
+    roomType: String
+    price: Int
+    minimumNights: Int
+    numberOfReviews: Int
+    lastReview: String
+    reviewsPerMonth: Int
+    calculatedHostListingsCount: Int
+    availability365: Int
 }
