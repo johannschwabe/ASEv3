@@ -97,7 +97,7 @@ public class AirbnbAPI extends GraphqlAPI {
     HttpURLConnection connection = setupConnection("http://airbnbapi:8080/graphql");
     String query =
         "{\n" +
-          "propertyById(id: " + id + ") {\n" +
+          "propertyById(id: \"" + id + "\") {\n" +
             propertyFields +
           "}\n" +
         "}";

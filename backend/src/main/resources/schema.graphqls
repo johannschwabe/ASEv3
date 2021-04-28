@@ -3,7 +3,7 @@ type Query {
     allSalesCoordinates: [Coordiantes]
     saleById(id: ID): Sale
     saleByCoordinatesId(id: ID): Sale
-    airbnbById(id: ID): Sale
+    airbnbById(id: ID): Airbnb
 }
 
 type Coordiantes {
@@ -36,7 +36,7 @@ type Sale {
     buildingClassAtTimeOfSale: String
     salePrice: String
     saleDate: String
-    idSale: ID
+    idSale: String
     latitude: Float
     longitude: Float
     returnedStreetName: String

@@ -13,6 +13,7 @@ public class SalesAPI extends GraphqlAPI{
 
   private static final String propertyFields =
       "id\n" +
+      "number\n" +
       "borough\n" +
       "neighborhood\n" +
       "buildingClassCategory\n" +
@@ -136,7 +137,7 @@ public class SalesAPI extends GraphqlAPI{
     HttpURLConnection connection = setupConnection("http://salesapi:8080/graphql");
     String query =
         "{\n" +
-          "propertyById(id: " + id + ") {\n" +
+          "propertyById(id: \"" + id + "\") {\n" +
             propertyFields +
           "}\n" +
         "}";
@@ -150,7 +151,7 @@ public class SalesAPI extends GraphqlAPI{
     HttpURLConnection connection = setupConnection("http://salesapi:8080/graphql");
     String query =
         "{\n" +
-          "propertyByCoordinatesId(id: " + id + ") {\n" +
+          "propertyByCoordinatesId(id: \"" + id + "\") {\n" +
             propertyFields +
           "}\n" +
         "}";
