@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.sql.Date;
 import java.util.*;
 
 public class AirbnbAPI extends GraphqlAPI {
@@ -45,7 +44,7 @@ public class AirbnbAPI extends GraphqlAPI {
     Integer price = node.get("price").intValue();
     Integer minimumNights = node.get("minimumNights").intValue();
     Integer numberOfReviews = node.get("numberOfReviews").intValue();
-    Date lastReview = Date.valueOf(node.get("lastReview").asText());
+    String lastReview = node.get("lastReview").asText();
     Integer reviewsPerMonth = node.get("reviewsPerMonth").intValue();
     Integer calculatedHostListingsCount = node.get("calculatedHostListingsCount").intValue();
     Integer availability365 = node.get("availability365").intValue();

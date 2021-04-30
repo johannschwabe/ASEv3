@@ -1,7 +1,5 @@
 package ch.ase21.backend.entity;
 
-import java.sql.Date;
-
 public class Airbnb {
   private final String id;
   private final String name;
@@ -15,7 +13,7 @@ public class Airbnb {
   private final Integer price;
   private final Integer minimumNights;
   private final Integer numberOfReviews;
-  private final Date lastReview;
+  private final String lastReview;
   private final Integer reviewsPerMonth;
   private final Integer calculatedHostListingsCount;
   private final Integer availability365;
@@ -32,7 +30,7 @@ public class Airbnb {
                 Integer price,
                 Integer minimumNights,
                 Integer numberOfReviews,
-                Date lastReview,
+                String lastReview,
                 Integer reviewsPerMonth,
                 Integer calculatedHostListingsCount,
                 Integer availability365)
@@ -103,7 +101,7 @@ public class Airbnb {
     return numberOfReviews;
   }
 
-  public Date getLastReview(){
+  public String getLastReview(){
     return lastReview;
   }
 

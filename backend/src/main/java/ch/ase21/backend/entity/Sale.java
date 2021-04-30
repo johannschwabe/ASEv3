@@ -1,7 +1,5 @@
 package ch.ase21.backend.entity;
 
-import java.sql.Timestamp;
-
 public class Sale {
   private final String id;
   private final Integer number;
@@ -25,7 +23,7 @@ public class Sale {
   private final Integer taxClassAtTimeOfSale;
   private final String buildingClassAtTimeOfSale;
   private final String salePrice;
-  private final Timestamp saleDate;
+  private final String saleDate;
   // Coordinates
   private final String idSale;
   private final Float latitude;
@@ -55,7 +53,7 @@ public class Sale {
               Integer taxClassAtTimeOfSale,
               String buildingClassAtTimeOfSale,
               String salePrice,
-              Timestamp saleDate,
+              String saleDate,
               String idSale,
               Float latitude,
               Float longitude,
@@ -181,7 +179,7 @@ public class Sale {
     return salePrice;
   }
 
-  public Timestamp getSaleDate(){
+  public String getSaleDate(){
     return saleDate;
   }
 

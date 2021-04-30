@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.sql.Timestamp;
 import java.util.*;
 
 public class SalesAPI extends GraphqlAPI{
@@ -69,7 +68,7 @@ public class SalesAPI extends GraphqlAPI{
     Integer taxClassAtTimeOfSale = node.get("taxClassAtTimeOfSale").intValue();
     String buildingClassAtTimeOfSale = node.get("buildingClassAtTimeOfSale").asText();
     String salePrice = node.get("salePrice").asText();
-    Timestamp saleDate = Timestamp.valueOf(node.get("saleDate").asText());
+    String saleDate = node.get("saleDate").asText();
     // Coordinates
     JsonNode coordinates = node.get("coordinates");
     String idSale = coordinates.get("idSale").asText();
