@@ -24,13 +24,19 @@
           <div
             class="text-h6"
           >
-            {{ property ? capitalizeWords(property.address.toLowerCase()) : "" }}
+            <q-spinner-dots v-if="loading" />
+            <div v-else>
+              {{ property ? capitalizeWords(property.address.toLowerCase()) : "" }}
+            </div>
           </div>
 
           <div
             class="text-h6"
           >
-            ${{ property ? property.salePrice.toLocaleString() : 0 }}
+            <q-spinner-dots v-if="loading" />
+            <div v-else>
+              ${{ property ? property.salePrice.toLocaleString() : "" }}
+            </div>
           </div>
         </div>
       </q-card-section>
@@ -78,9 +84,10 @@
         :style="'position: relative; left: calc('+ price_badge_offset + '% - 40px)'"
       >
         <q-badge
+          v-if="property"
           color="grey-3"
-          :text-color="property ? (property.salePrice < estimated_price ? 'positive' : 'negative') : null"
-          :label="property ? ('$' + property.salePrice.toLocaleString()) : null"
+          :text-color="property.salePrice < estimated_price ? 'positive' : 'negative'"
+          :label="'$' + property.salePrice.toLocaleString()"
         />
       </div>
 
@@ -132,7 +139,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section class="col-8">
-          {{ property ? property.yearBuilt : "" }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? property.yearBuilt : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -144,7 +154,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section class="col-8">
-          {{ property ? property.zipCode : "" }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? property.zipCode : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -156,7 +169,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property ? capitalizeWords(property.buildingClassCategory.toLowerCase()) : "" }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? capitalizeWords(property.buildingClassCategory.toLowerCase()) : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -168,7 +184,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property ? capitalizeWords(property.neighbourhood.toLowerCase()) : "" }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? capitalizeWords(property.neighbourhood.toLowerCase()) : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -180,7 +199,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property ? property.latitude.toFixed(6) : 0 }}, {{ property ? property.longitude.toFixed(6) : 0 }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? `${property.latitude.toFixed(6)}, ${property.longitude.toFixed(6)}` : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -197,7 +219,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          ${{ property ? property.salePrice.toLocaleString() : 0 }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? `$${property.salePrice.toLocaleString()}` : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -299,6 +324,7 @@ export default {
       estimated_price: 6500000, // TODO get from backend
       rating: 7, // TODO, 1 to 10 expected
       property: null,
+      loading: true,
     };
   },
   computed: {
@@ -383,6 +409,7 @@ export default {
     },
 
     fetchProperty() {
+      this.loading = true;
       axios({
         url: "http://localhost:8282/graphql",
         method: "post",
@@ -406,6 +433,8 @@ export default {
         },
       }).then((result) => {
         this.property = result.data.data.saleByCoordinatesId;
+      }).finally(() => {
+        this.loading = false;
       });
     },
   },

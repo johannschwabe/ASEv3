@@ -21,11 +21,15 @@
           class="row justify-between"
           style="padding: 20px"
         >
-          <div class="text-h6">
+          <q-spinner-dots v-if="loading" />
+          <div
+            v-else-if="property"
+            class="text-h6"
+          >
             {{ property.name }}
           </div>
 
-          <div>
+          <div v-if="property">
             <q-icon
               v-for="i in property.computed_rating"
               :key="i"
@@ -60,12 +64,15 @@
             </q-avatar>
           </q-item-section>
           <q-item-section>
-            <div class="text-bold">
-              {{ property.hostName }}
+            <q-spinner-dots v-if="loading" />
+            <div v-else>
+              <div class="text-bold">
+                {{ property ? property.hostName : "" }}
+              </div>
+              {{ property ? `${property.calculatedHostListingsCount} listing(s)` : "" }}
+              <br>
+              More host info may go here.
             </div>
-            {{ property.calculatedHostListingsCount }} listing(s)
-            <br>
-            More host info may go here.
           </q-item-section>
         </q-item>
       </q-card-section>
@@ -83,7 +90,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section class="col-8">
-          {{ property.roomType }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? property.roomType : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -95,7 +105,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.neighbourhoodGroup }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? property.neighbourhoodGroup : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -107,7 +120,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.neighbourhood }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? property.neighbourhood : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -119,7 +135,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.latitude }}, {{ property.longitude }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? `${property.latitude}, ${property.longitude}` : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -136,7 +155,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          ${{ property.price }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? `$${property.price}` : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -148,7 +170,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.minimumNights }} (${{ property.minimumNights * property.price }})
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? `${property.minimumNights} ($${property.minimumNights * property.price})` : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -165,7 +190,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.numberOfReviews }} ({{ property.reviewsPerMonth }} per month)
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? `${property.numberOfReviews} (${property.reviewsPerMonth} per month)` : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -177,7 +205,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.availability365 }} days per year ({{ 365-property.availability365 }} days booked)
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? `${property.availability365} days per year (${365-property.availability365} days booked)` : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -210,6 +241,7 @@ export default {
   },
   data: () => ({
     property: null,
+    loading: true,
   }),
   computed: {
     host_image_url() {
@@ -237,9 +269,6 @@ export default {
   },
   created() {
     this.fetchProperty();
-
-    // TODO remove fake
-    this.property.computed_rating = 3;
   },
   methods: {
     onHide() {
@@ -247,6 +276,7 @@ export default {
     },
 
     fetchProperty() {
+      this.loading = true;
       axios({
         url: "http://localhost:8282/graphql",
         method: "post",
@@ -274,6 +304,10 @@ export default {
         },
       }).then((result) => {
         this.property = result.data.data.airbnbById;
+        // TODO remove fake
+        this.property.computed_rating = 3;
+      }).finally(() => {
+        this.loading = false;
       });
     },
   },
