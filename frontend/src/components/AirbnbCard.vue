@@ -232,7 +232,7 @@
 
 <script>
 import axios from "axios";
-import { API_KEY } from "../constants/API.js";
+import {API_KEY, BACKEND_URL} from "../constants/API.js";
 
 export default {
   name: "AirbnbCard",
@@ -278,7 +278,7 @@ export default {
     fetchProperty() {
       this.loading = true;
       axios({
-        url: "http://localhost:8282/graphql",
+        url: BACKEND_URL,
         method: "post",
         data: {
           query: `

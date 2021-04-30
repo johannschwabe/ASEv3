@@ -311,7 +311,7 @@
 import axios from "axios";
 import { SLIDER_COLORS } from "../constants/COLORS.js";
 import { RATINGS } from "../constants/RATINGS.js";
-import { API_KEY } from "../constants/API.js";
+import {API_KEY, BACKEND_URL} from "../constants/API.js";
 import { capitalizeWords } from "../data/helpers.js";
 
 export default {
@@ -411,7 +411,7 @@ export default {
     fetchProperty() {
       this.loading = true;
       axios({
-        url: "http://localhost:8282/graphql",
+        url: BACKEND_URL,
         method: "post",
         data: {
           query: `

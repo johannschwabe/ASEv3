@@ -34,6 +34,7 @@
 /* eslint-disable import/no-unresolved */
 import Heatmap from "@/components/map/Heatmap.vue";
 import PropertyCard from "@/components/PropertyCard.vue";
+import {BACKEND_URL} from "@/constants/API.js";
 import axios from "axios";
 import AirbnbCard from "@/components/AirbnbCard.vue";
 import * as OPTIONS from "@/constants/OPTIONS.js";
@@ -128,7 +129,7 @@ export default {
      */
     fetchAirbnbCoordinates() {
       axios({
-        url: "http://localhost:8282/graphql",
+        url: BACKEND_URL,
         method: "post",
         data: {
           query: `
@@ -157,7 +158,7 @@ export default {
      */
     fetchPropertyCoordinates() {
       axios({
-        url: "http://localhost:8282/graphql",
+        url: BACKEND_URL,
         method: "post",
         data: {
           query: `
