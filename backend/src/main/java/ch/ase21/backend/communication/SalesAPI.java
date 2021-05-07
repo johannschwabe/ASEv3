@@ -14,7 +14,7 @@ public class SalesAPI extends GraphqlAPI{
 
   // Sale fields
   private static final String ID = "id";
-  private static final String NEIGHBOURHOOD = "neighborhood";
+  private static final String NEIGHBOURHOOD = "neighbourhood";
   private static final String GROSS_SQUARE_FEET = "grossSquareFeet";
   private static final String SALE_PRICE = "salePrice";
 
@@ -234,7 +234,7 @@ public class SalesAPI extends GraphqlAPI{
     HttpURLConnection connection = setupConnection(API_URL);
     String query =
         "{\n" +
-          "propertiesByNeighborhood(neighbourhood:\"" + neighbourhood + "\") {\n" +
+          "propertiesByNeighbourhood(neighbourhood:\"" + neighbourhood + "\") {\n" +
             PROPERTY_FIELDS +
           "}\n" +
         "}";

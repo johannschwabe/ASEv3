@@ -2,7 +2,6 @@ package ch.ase21.backend.communication;
 
 import ch.ase21.backend.entity.Airbnb;
 import ch.ase21.backend.entity.Coordinates;
-import ch.ase21.backend.entity.Sale;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.*;
