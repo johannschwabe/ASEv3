@@ -12,22 +12,22 @@ class SalesServiceTests {
   /**
    * Get a list of sales with "salePrice" and "grossSquareFeet" for testing.
    * The average price per square feet is 750.
-   * @return List of neighborhood sales.
+   * @return List of neighbourhood sales.
    */
-  private List<Sale> getNeighborhoodSales(){
-    List<Sale> neighborhoodSales = new ArrayList<>();
+  private List<Sale> getNeighbourhoodSales(){
+    List<Sale> neighbourhoodSales = new ArrayList<>();
 
     Sale neighbor1 = new Sale("2");
     neighbor1.setGrossSquareFeet("1000");
     neighbor1.setSalePrice("500000");
-    neighborhoodSales.add(neighbor1);
+    neighbourhoodSales.add(neighbor1);
 
     Sale neighbor2 = new Sale("3");
     neighbor2.setGrossSquareFeet("1000");
     neighbor2.setSalePrice("1000000");
-    neighborhoodSales.add(neighbor2);
+    neighbourhoodSales.add(neighbor2);
 
-    return neighborhoodSales;
+    return neighbourhoodSales;
   }
 
   /**
@@ -37,9 +37,9 @@ class SalesServiceTests {
     Sale sale = new Sale("1");
     sale.setGrossSquareFeet("1000");
 
-    List<Sale> neighborhoodSales = this.getNeighborhoodSales();
+    List<Sale> neighbourhoodSales = this.getNeighbourhoodSales();
 
-    Integer estimatedSalePrice = SalesService.calculateEstimatedSalePrice(sale, neighborhoodSales);
+    Integer estimatedSalePrice = SalesService.calculateEstimatedSalePrice(sale, neighbourhoodSales);
 
     Assertions.assertEquals(750000, estimatedSalePrice);
     Assertions.assertNotEquals(3645, estimatedSalePrice);
@@ -53,9 +53,9 @@ class SalesServiceTests {
     Sale sale = new Sale("1");
     sale.setGrossSquareFeet("1000");
 
-    List<Sale> neighborhoodSales = new ArrayList<>();
+    List<Sale> neighbourhoodSales = new ArrayList<>();
 
-    Integer estimatedSalePrice = SalesService.calculateEstimatedSalePrice(sale, neighborhoodSales);
+    Integer estimatedSalePrice = SalesService.calculateEstimatedSalePrice(sale, neighbourhoodSales);
 
     Assertions.assertNull(estimatedSalePrice);
   }
@@ -68,10 +68,10 @@ class SalesServiceTests {
     Sale sale = new Sale("1");
     sale.setGrossSquareFeet(" - ");
 
-    List<Sale> neighborhoodSales = this.getNeighborhoodSales();
+    List<Sale> neighbourhoodSales = this.getNeighbourhoodSales();
 
     Assertions.assertThrows(NumberFormatException.class,
-        () -> SalesService.calculateEstimatedSalePrice(sale, neighborhoodSales));
+        () -> SalesService.calculateEstimatedSalePrice(sale, neighbourhoodSales));
   }
 
 }

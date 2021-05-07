@@ -1,6 +1,7 @@
 type Query {
     propertyById(id: ID): Property
     allProperties: [Property]
+    propertiesByNeighbourhood(neighbourhood: String): [Property]
 }
 
 type Property {

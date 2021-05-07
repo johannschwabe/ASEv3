@@ -2,14 +2,14 @@ type Query {
     propertyById(id: ID): Property
     propertyByCoordinatesId(id: ID): Property
     allCoordinates: [Coordiantes]
-    propertiesByNeighborhood(neighborhood: String): [Property]
+    propertiesByNeighbourhood(neighbourhood: String): [Property]
 }
 
 type Property {
     id: ID
     number: Int
     borough: Int
-    neighborhood: String
+    neighbourhood: String
     buildingClassCategory: String
     taxClassAtPresent: String
     block: Int

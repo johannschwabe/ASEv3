@@ -48,4 +48,18 @@ public class GraphQLDataFetchers {
       return SalesService.estimatedSalePriceById(propertyId);
     };
   }
+
+  public DataFetcher<Iterable<Sale>> getSalesByNeighbourhoodDataFetcher() {
+    return dataFetchingEnvironment -> {
+      String neighbourhood = dataFetchingEnvironment.getArgument("neighbourhood");
+      return SalesAPI.getAllByNeighbourhood(neighbourhood);
+    };
+  }
+
+  public DataFetcher<Iterable<Airbnb>> getAirbnbsByNeighbourhoodDataFetcher() {
+    return dataFetchingEnvironment -> {
+      String neighbourhood = dataFetchingEnvironment.getArgument("neighbourhood");
+      return AirbnbAPI.getAllByNeighbourhood(neighbourhood);
+    };
+  }
 }
