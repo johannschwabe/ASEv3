@@ -49,8 +49,11 @@ public class GraphQLProvider {
   private RuntimeWiring buildWiring() {
     return RuntimeWiring.newRuntimeWiring()
         .type(newTypeWiring("Query")
-            .dataFetcher("allAirbnbProperties", graphQLDataFetchers.getAllAirbnbPropertiesDataFetcher())
-            .dataFetcher("allSalesProperties", graphQLDataFetchers.getAllSalesPropertiesDataFetcher()))
+            .dataFetcher("allAirbnbCoordinates", graphQLDataFetchers.getAllAirbnbCoordinatesDataFetcher())
+            .dataFetcher("allSalesCoordinates", graphQLDataFetchers.getAllSalesCoordinatesDataFetcher())
+            .dataFetcher("airbnbById", graphQLDataFetchers.getAirbnbByIdDataFetcher())
+            .dataFetcher("saleById", graphQLDataFetchers.getSaleByIdDataFetcher())
+            .dataFetcher("saleByCoordinatesId", graphQLDataFetchers.getSaleByCoordinatesIdDataFetcher()))
         .build();
   }
 }

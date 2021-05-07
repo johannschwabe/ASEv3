@@ -24,13 +24,19 @@
           <div
             class="text-h6"
           >
-            {{ capitalizeWords(property.ADDRESS.toLowerCase()) }}
+            <q-spinner-dots v-if="loading" />
+            <div v-else>
+              {{ property ? capitalizeWords(property.address.toLowerCase()) : "" }}
+            </div>
           </div>
 
           <div
             class="text-h6"
           >
-            ${{ property['SALE PRICE'].toLocaleString() }}
+            <q-spinner-dots v-if="loading" />
+            <div v-else>
+              ${{ property ? property.salePrice.toLocaleString() : "" }}
+            </div>
           </div>
         </div>
       </q-card-section>
@@ -78,9 +84,10 @@
         :style="'position: relative; left: calc('+ price_badge_offset + '% - 40px)'"
       >
         <q-badge
+          v-if="property"
           color="grey-3"
-          :text-color="property['SALE PRICE'] < estimated_price ? 'positive' : 'negative'"
-          :label="'$' + property['SALE PRICE'].toLocaleString()"
+          :text-color="property.salePrice < estimated_price ? 'positive' : 'negative'"
+          :label="'$' + property.salePrice.toLocaleString()"
         />
       </div>
 
@@ -132,7 +139,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section class="col-8">
-          {{ property['YEAR BUILT'] }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? property.yearBuilt : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -144,7 +154,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section class="col-8">
-          {{ property['ZIP CODE'] }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? property.zipCode : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -156,7 +169,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ capitalizeWords(property['BUILDING CLASS CATEGORY'].toLowerCase()) }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? capitalizeWords(property.buildingClassCategory.toLowerCase()) : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -168,7 +184,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ capitalizeWords(property['NEIGHBORHOOD'].toLowerCase()) }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? capitalizeWords(property.neighbourhood.toLowerCase()) : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -180,7 +199,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.lat.toFixed(6) }}, {{ property.lng.toFixed(6) }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? `${property.latitude.toFixed(6)}, ${property.longitude.toFixed(6)}` : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -197,7 +219,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          ${{ property['SALE PRICE'].toLocaleString() }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? `$${property.salePrice.toLocaleString()}` : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -283,31 +308,37 @@
 </template>
 
 <script>
+import axios from "axios";
 import { SLIDER_COLORS } from "../constants/COLORS.js";
 import { RATINGS } from "../constants/RATINGS.js";
-import { API_KEY } from "../constants/API.js";
+import {API_KEY, BACKEND_URL} from "../constants/API.js";
 import { capitalizeWords } from "../data/helpers.js";
 
 export default {
   name: "PropertyCard",
   props: {
-    property: { type: Object, required: true },
+    coordinates: { type: String, required: true },
   },
   data() {
     return {
       estimated_price: 6500000, // TODO get from backend
       rating: 7, // TODO, 1 to 10 expected
+      property: null,
+      loading: true,
     };
   },
   computed: {
     /**
      * Gets the image URL for a street view image of the property
-     * @returns {string}
+     * @returns {string|null}
      */
     listing_image_url() {
-      const lat = this.property.lat.toFixed(6);
-      const lng = this.property.lng.toFixed(6);
-      return `https://maps.googleapis.com/maps/api/streetview?size=500x300&location=${lat},${lng}&fov=120&pitch=15&source=outdoor&key=${API_KEY}`;
+      if (this.property) {
+        const lat = this.property.latitude.toFixed(6);
+        const lng = this.property.longitude.toFixed(6);
+        return `https://maps.googleapis.com/maps/api/streetview?size=500x300&location=${lat},${lng}&fov=120&pitch=15&source=outdoor&key=${API_KEY}`;
+      }
+      return null;
     },
 
     /**
@@ -337,9 +368,12 @@ export default {
      * The position of the slider comparing expected and actual price
      */
     price_slider_position() {
-      const ratio = this.property["SALE PRICE"] / this.estimated_price;
-      // Due to the middle of the slider meaning sales price equals expected, we divide by two
-      return ratio / 2;
+      if (this.property) {
+        const ratio = this.property.salePrice / this.estimated_price;
+        // Due to the middle of the slider meaning sales price equals expected, we divide by two
+        return ratio / 2;
+      }
+      return 0;
     },
 
     /**
@@ -359,12 +393,49 @@ export default {
       return Math.min(Math.max(result, 10), 90);
     },
   },
-
+  watch: {
+    coordinates() {
+      this.fetchProperty();
+    },
+  },
+  created() {
+    this.fetchProperty();
+  },
   methods: {
     capitalizeWords,
 
     onHide() {
       this.$emit("hide");
+    },
+
+    fetchProperty() {
+      this.loading = true;
+      axios({
+        url: BACKEND_URL,
+        method: "post",
+        data: {
+          query: `
+            {
+              saleByCoordinatesId(id: "${this.coordinates}") {
+                id
+                idSale
+                salePrice
+                latitude
+                longitude
+                address
+                yearBuilt
+                zipCode
+                buildingClassCategory
+                neighbourhood
+              }
+            }
+          `,
+        },
+      }).then((result) => {
+        this.property = result.data.data.saleByCoordinatesId;
+      }).finally(() => {
+        this.loading = false;
+      });
     },
   },
 };

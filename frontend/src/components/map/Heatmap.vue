@@ -137,7 +137,7 @@ export default {
 
   methods: {
     /**
-     * Fills the stored map with neighborhood and heatmap layers and adds markers
+     * Fills the stored map with neighbourhood and heatmap layers and adds markers
      */
     fillMap() {
       // Add neighbourhood layer

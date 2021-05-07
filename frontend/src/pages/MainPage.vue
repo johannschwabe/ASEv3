@@ -13,15 +13,15 @@
       />
 
       <!-- Info window if property/airbnb/rating is selected -->
-      <div v-if="selected_property">
+      <div v-if="selected_coordinates">
         <PropertyCard
           v-if="map_type === 'PROPERTY'"
-          :property="selected_property"
+          :coordinates="selected_coordinates"
           @hide="onCardHide"
         />
         <AirbnbCard
           v-else-if="map_type === 'AIRBNB'"
-          :property="selected_property"
+          :coordinates="selected_coordinates"
           @hide="onCardHide"
         />
       </div>
@@ -34,6 +34,7 @@
 /* eslint-disable import/no-unresolved */
 import Heatmap from "@/components/map/Heatmap.vue";
 import PropertyCard from "@/components/PropertyCard.vue";
+import {BACKEND_URL} from "@/constants/API.js";
 import axios from "axios";
 import AirbnbCard from "@/components/AirbnbCard.vue";
 import * as OPTIONS from "@/constants/OPTIONS.js";
@@ -54,10 +55,10 @@ export default {
   },
   computed: {
     /**
-     * The property/airbnb that is selected
+     * The id of the coordinates that is selected
      */
-    selected_property() {
-      return this.$store.getters.selectedProperty;
+    selected_coordinates() {
+      return this.$store.getters.selectedCoordinates;
     },
 
     /**
@@ -92,8 +93,8 @@ export default {
   },
 
   mounted() {
-    this.fetchAirbnbs();
-    this.fetchProperties();
+    this.fetchAirbnbCoordinates();
+    this.fetchPropertyCoordinates();
   },
 
   methods: {
@@ -101,7 +102,7 @@ export default {
      * Upon manually closing card, discard selected property
      */
     onCardHide() {
-      this.$store.commit("setSelectedProperty", { selected_property: null });
+      this.$store.commit("setSelectedCoordinates", { selected_coordinates: null });
     },
 
     /**
@@ -115,46 +116,25 @@ export default {
       }
 
       // If this property was selected already, toggle
-      if (this.selected_property && this.selected_property.id.toString() === marker.id) {
-        this.$store.commit("setSelectedProperty", { selected_property: null });
+      if (this.selected_coordinates && this.selected_coordinates === marker.id) {
+        this.$store.commit("setSelectedCoordinates", { selected_coordinates: null });
       } else {
-        // Get property/airbnb/rating by ID
-        let _property;
-        switch (this.map_type) {
-          case OPTIONS.MAP_TYPES.AIRBNB:
-            _property = this.airbnbs.find((prop) => prop.id.toString() === marker.id);
-            break;
-          case OPTIONS.MAP_TYPES.PROPERTY:
-            // TODO cleanup once we have proper IDs
-            _property = this.properties.find((prop) => `${prop[""]}_${prop.BOROUGH}` === marker.id);
-            break;
-          default:
-            break;
-        }
-
-        // Add coordinates and ID to property (if any)
-        if (_property) {
-          _property.id = marker.id;
-          _property.lat = marker.lat;
-          _property.lng = marker.lng;
-        }
-
         // Commit selection change
-        this.$store.commit("setSelectedProperty", { selected_property: _property });
+        this.$store.commit("setSelectedCoordinates", { selected_coordinates: marker.id });
       }
     },
 
     /**
      * Fetches location data for all Airbnbs
      */
-    fetchAirbnbs() {
+    fetchAirbnbCoordinates() {
       axios({
-        url: "http://localhost:8282/graphql",
+        url: BACKEND_URL,
         method: "post",
         data: {
           query: `
             {
-              allAirbnbProperties {
+              allAirbnbCoordinates {
                 id
                 latitude
                 longitude
@@ -163,7 +143,7 @@ export default {
           `,
         },
       }).then((result) => {
-        result.data.data.allAirbnbProperties.forEach((property) => {
+        result.data.data.allAirbnbCoordinates.forEach((property) => {
           this.airbnbs.push({
             id: property.id,
             lat: property.latitude,
@@ -176,14 +156,14 @@ export default {
     /**
      * Fetches location data for all properties
      */
-    fetchProperties() {
+    fetchPropertyCoordinates() {
       axios({
-        url: "http://localhost:8282/graphql",
+        url: BACKEND_URL,
         method: "post",
         data: {
           query: `
             {
-              allSalesProperties {
+              allSalesCoordinates {
                 id
                 latitude
                 longitude
@@ -192,7 +172,7 @@ export default {
           `,
         },
       }).then((result) => {
-        result.data.data.allSalesProperties.forEach((property) => {
+        result.data.data.allSalesCoordinates.forEach((property) => {
           this.properties.push({
             id: property.id,
             lat: property.latitude,
