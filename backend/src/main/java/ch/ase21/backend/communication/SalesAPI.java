@@ -91,11 +91,26 @@ public class SalesAPI extends GraphqlAPI{
     String saleDate = node.get("saleDate").asText();
     // Coordinates
     JsonNode coordinates = node.get("coordinates");
-    String idSale = coordinates.get(ID_SALE).asText();
-    Float latitude = coordinates.get(LATITUDE).floatValue();
-    Float longitude = coordinates.get(LONGITUDE).floatValue();
-    String returnedStreetName = coordinates.get("returnedStreetName").asText();
-    Integer returnedZipCode = coordinates.get("returnedZipCode").intValue();
+    String idSale;
+    Float latitude;
+    Float longitude;
+    String returnedStreetName;
+    Integer returnedZipCode;
+
+    if(coordinates != null){
+      idSale = coordinates.get(ID_SALE).asText();
+      latitude = coordinates.get(LATITUDE).floatValue();
+      longitude = coordinates.get(LONGITUDE).floatValue();
+      returnedStreetName = coordinates.get("returnedStreetName").asText();
+      returnedZipCode = coordinates.get("returnedZipCode").intValue();
+    }
+    else {
+      idSale = null;
+      latitude = null;
+      longitude = null;
+      returnedStreetName = null;
+      returnedZipCode = null;
+    }
 
     return new Sale(
         propertyId,
