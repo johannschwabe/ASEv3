@@ -8,6 +8,8 @@ import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Locale;
+
 
 @Component
 public class GraphQLDataFetchers {
@@ -49,6 +51,16 @@ public class GraphQLDataFetchers {
       String coordinatesId = property.getNumber().toString() + "_" + property.getBorough().toString();
       return coordinatesRepository
           .findById(coordinatesId)
+          .orElse(null);
+    };
+  }
+
+  public DataFetcher<Iterable<Property>> getPropertiesByNeighborhoodDataFetcher() {
+    return dataFetchingEnvironment -> {
+      String neighborhood = dataFetchingEnvironment.getArgument("neighborhood");
+      String uppercaseNeighborhood = neighborhood.toUpperCase();
+      return propertyRepository
+          .findByNeighborhood(uppercaseNeighborhood)
           .orElse(null);
     };
   }
