@@ -188,7 +188,7 @@ public class SalesAPI extends GraphqlAPI{
     JsonNode node = responseData.get("propertyById");
     String neighborhood = node.get(NEIGHBORHOOD).asText();
     String grossSquareFeet = node.get(GROSS_SQUARE_FEET).asText();
-    Sale sale = new Sale(id);
+    var sale = new Sale(id);
     sale.setNeighbourhood(neighborhood);
     sale.setGrossSquareFeet(grossSquareFeet);
     return sale;
@@ -212,7 +212,7 @@ public class SalesAPI extends GraphqlAPI{
       String id = node.get(ID).asText();
       String grossSquareFeet = node.get(GROSS_SQUARE_FEET).asText();
       String salePrice = node.get(SALE_PRICE).asText();
-      Sale sale = new Sale(id);
+      var sale = new Sale(id);
       sale.setGrossSquareFeet(grossSquareFeet);
       sale.setSalePrice(salePrice);
       sales.add(sale);

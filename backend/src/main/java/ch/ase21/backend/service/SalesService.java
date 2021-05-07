@@ -9,8 +9,10 @@ import java.util.List;
 
 public class SalesService {
 
+  private SalesService() {/* void */}
+
   public static Integer estimatedSalePriceById(String id) throws IOException{
-    Sale sale = SalesAPI.getGrossSquareFeetAndNeighborhoodById(id);
+    var sale = SalesAPI.getGrossSquareFeetAndNeighborhoodById(id);
     List<Sale> properties = SalesAPI.getGrossSquareFeetAndSalePriceByNeighborhood(sale.getNeighbourhood());
     List<Integer> pricesPerSquareFeet = new ArrayList<>();
 
@@ -29,7 +31,7 @@ public class SalesService {
       }
     }
 
-    if(pricesPerSquareFeet.size() == 0){
+    if(pricesPerSquareFeet.isEmpty()){
       return null;
     }
 
