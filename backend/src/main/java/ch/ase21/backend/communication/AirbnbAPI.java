@@ -31,6 +31,12 @@ public class AirbnbAPI extends GraphqlAPI {
 
   private AirbnbAPI() {/* void */}
 
+  /**
+   * Takes a JsonNode representing an airbnb property and returns the property with all fields in the json node.
+   * The JsonNode must contain all fields of an airbnb property.
+   * @param node A JsonNode with all fields of an airbnb property.
+   * @return The airbnb property.
+   */
   private static Airbnb getAirbnbFromNode(JsonNode node){
     String propertyId = node.get("id").asText();
     String name = node.get("name").asText();
@@ -69,6 +75,11 @@ public class AirbnbAPI extends GraphqlAPI {
     );
   }
 
+  /**
+   * Get all coordinates of the airbnb properties as Coordinate objects.
+   * @return List of all coordinates.
+   * @throws IOException Thrown if the communication with the API failed.
+   */
   public static List<Coordinates> getAllCoordinates() throws IOException{
     HttpURLConnection connection = setupConnection("http://airbnbapi:8080/graphql");
     String query =
@@ -92,6 +103,12 @@ public class AirbnbAPI extends GraphqlAPI {
     return properties;
   }
 
+  /**
+   * Get an airbnb property by its ID.
+   * @param id The id of the airbnb property.
+   * @return The Airbnb object.
+   * @throws IOException Thrown if the communication with the API failed.
+   */
   public static Airbnb getById(String id) throws IOException{
     HttpURLConnection connection = setupConnection("http://airbnbapi:8080/graphql");
     String query =

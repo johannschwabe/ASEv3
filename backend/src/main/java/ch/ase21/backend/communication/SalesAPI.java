@@ -59,6 +59,12 @@ public class SalesAPI extends GraphqlAPI{
 
   private SalesAPI() {/* void */}
 
+  /**
+   * Takes a JsonNode representing a sale property and returns the property with all fields in the json node.
+   * The JsonNode must contain all fields of a sale property.
+   * @param node A JsonNode with all fields of a sale property.
+   * @return The sale property.
+   */
   private static Sale getSaleFromNode(JsonNode node){
     String propertyId = node.get(ID).asText();
     Integer number = node.get("number").intValue();
@@ -123,6 +129,11 @@ public class SalesAPI extends GraphqlAPI{
     );
   }
 
+  /**
+   * Get all coordinate objects from the API.
+   * @return List of all coordinates.
+   * @throws IOException Thrown if the communication with the API failed.
+   */
   public static List<Coordinates> getAllCoordinates() throws IOException{
     HttpURLConnection connection = setupConnection(API_URL);
     String query =
@@ -146,6 +157,12 @@ public class SalesAPI extends GraphqlAPI{
     return properties;
   }
 
+  /**
+   * Get a sale from the API by its ID.
+   * @param id The ID of the sale property.
+   * @return The sale property with all fields.
+   * @throws IOException Thrown if the communication with the API failed.
+   */
   public static Sale getById(String id) throws IOException{
     HttpURLConnection connection = setupConnection(API_URL);
     String query =
@@ -160,6 +177,12 @@ public class SalesAPI extends GraphqlAPI{
     return getSaleFromNode(node);
   }
 
+  /**
+   * Get a sale from the API by the coordinates id.
+   * @param id The ID of the Coordinate object.
+   * @return The sale property with all fields.
+   * @throws IOException Thrown if the communication with the API failed.
+   */
   public static Sale getByCoordinatesId(String id) throws IOException{
     HttpURLConnection connection = setupConnection(API_URL);
     String query =
@@ -174,6 +197,13 @@ public class SalesAPI extends GraphqlAPI{
     return getSaleFromNode(node);
   }
 
+  /**
+   * Get a sale property by its ID. The property's only non-null fields are
+   * grossSquareFeet and neighborhood.
+   * @param id The ID of the sale property.
+   * @return The sale property.
+   * @throws IOException Thrown if the communication with the API failed.
+   */
   public static Sale getGrossSquareFeetAndNeighborhoodById(String id) throws IOException{
     HttpURLConnection connection = setupConnection(API_URL);
     String query =
@@ -194,6 +224,13 @@ public class SalesAPI extends GraphqlAPI{
     return sale;
   }
 
+  /**
+   * Get all sale properties in the given neighborhood. The properties only non-null fields are
+   * grossSquareFeet and salePrice.
+   * @param neighborhood The neighborhood name.
+   * @return The List of all sale properties in the neighborhood.
+   * @throws IOException Thrown if the communication with the API failed.
+   */
   public static List<Sale> getGrossSquareFeetAndSalePriceByNeighborhood(String neighborhood) throws IOException{
     HttpURLConnection connection = setupConnection(API_URL);
     String query =
