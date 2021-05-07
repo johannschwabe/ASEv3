@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface PropertyRepository extends CrudRepository<Property, String> {
   Optional<Property> findByNumberAndBorough(Integer number, Integer borough);
+  Iterable<Property> findPropertiesByNeighborhood(String neighborhood);
 }

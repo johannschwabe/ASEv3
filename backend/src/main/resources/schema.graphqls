@@ -4,6 +4,7 @@ type Query {
     saleById(id: ID): Sale
     saleByCoordinatesId(id: ID): Sale
     airbnbById(id: ID): Airbnb
+    estimatedSalePriceById(id: ID): Int
 }
 
 type Coordiantes {

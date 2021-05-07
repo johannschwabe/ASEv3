@@ -10,11 +10,25 @@ import java.util.*;
 
 public class SalesAPI extends GraphqlAPI{
 
-  private static final String propertyFields =
-      "id\n" +
+  private static final String API_URL = "http://salesapi:8080/graphql";
+
+  // Sale fields
+  private static final String ID = "id";
+  private static final String NEIGHBORHOOD = "neighborhood";
+  private static final String GROSS_SQUARE_FEET = "grossSquareFeet";
+  private static final String SALE_PRICE = "salePrice";
+
+  // Coordinates
+  private static final String ID_SALE = "idSale";
+  private static final String LATITUDE = "latitude";
+  private static final String LONGITUDE = "longitude";
+
+  // All fields
+  private static final String PROPERTY_FIELDS =
+      ID + "\n" +
       "number\n" +
       "borough\n" +
-      "neighborhood\n" +
+      NEIGHBORHOOD + "\n" +
       "buildingClassCategory\n" +
       "taxClassAtPresent\n" +
       "block\n" +
@@ -28,16 +42,16 @@ public class SalesAPI extends GraphqlAPI{
       "commercialUnits\n" +
       "totalUnits\n" +
       "landSquareFeet\n" +
-      "grossSquareFeet\n" +
+      GROSS_SQUARE_FEET + "\n" +
       "yearBuilt\n" +
       "taxClassAtTimeOfSale\n" +
       "buildingClassAtTimeOfSale\n" +
-      "salePrice\n" +
+      SALE_PRICE + "\n" +
       "saleDate\n" +
       "coordinates{\n" +
-        "idSale\n" +
-        "latitude\n" +
-        "longitude\n" +
+        ID_SALE + "\n" +
+        LATITUDE + "\n" +
+        LONGITUDE + "\n" +
         "returnedStreetName\n" +
         "returnedZipCode\n" +
       "}\n";
@@ -46,10 +60,10 @@ public class SalesAPI extends GraphqlAPI{
   private SalesAPI() {/* void */}
 
   private static Sale getSaleFromNode(JsonNode node){
-    String propertyId = node.get("id").asText();
+    String propertyId = node.get(ID).asText();
     Integer number = node.get("number").intValue();
     Integer borough = node.get("borough").intValue();
-    String neighbourhood = node.get("neighborhood").asText();
+    String neighbourhood = node.get(NEIGHBORHOOD).asText();
     String buildingClassCategory = node.get("buildingClassCategory").asText();
     String taxClassAtPresent = node.get("taxClassAtPresent").asText();
     Integer block = node.get("block").intValue();
@@ -63,17 +77,17 @@ public class SalesAPI extends GraphqlAPI{
     Integer commercialUnits = node.get("commercialUnits").intValue();
     Integer totalUnits = node.get("totalUnits").intValue();
     String landSquareFeet = node.get("landSquareFeet").asText();
-    String grossSquareFeet = node.get("grossSquareFeet").asText();
+    String grossSquareFeet = node.get(GROSS_SQUARE_FEET).asText();
     Integer yearBuilt = node.get("yearBuilt").intValue();
     Integer taxClassAtTimeOfSale = node.get("taxClassAtTimeOfSale").intValue();
     String buildingClassAtTimeOfSale = node.get("buildingClassAtTimeOfSale").asText();
-    String salePrice = node.get("salePrice").asText();
+    String salePrice = node.get(SALE_PRICE).asText();
     String saleDate = node.get("saleDate").asText();
     // Coordinates
     JsonNode coordinates = node.get("coordinates");
-    String idSale = coordinates.get("idSale").asText();
-    Float latitude = coordinates.get("latitude").floatValue();
-    Float longitude = coordinates.get("longitude").floatValue();
+    String idSale = coordinates.get(ID_SALE).asText();
+    Float latitude = coordinates.get(LATITUDE).floatValue();
+    Float longitude = coordinates.get(LONGITUDE).floatValue();
     String returnedStreetName = coordinates.get("returnedStreetName").asText();
     Integer returnedZipCode = coordinates.get("returnedZipCode").intValue();
 
@@ -110,13 +124,13 @@ public class SalesAPI extends GraphqlAPI{
   }
 
   public static List<Coordinates> getAllCoordinates() throws IOException{
-    HttpURLConnection connection = setupConnection("http://salesapi:8080/graphql");
+    HttpURLConnection connection = setupConnection(API_URL);
     String query =
         "{\n" +
           "allCoordinates {\n" +
-            "idSale\n" +
-            "latitude\n" +
-            "longitude\n" +
+            ID_SALE + "\n" +
+            LATITUDE + "\n" +
+            LONGITUDE + "\n" +
           "}\n" +
         "}";
     insertQuery(connection, query);
@@ -124,20 +138,20 @@ public class SalesAPI extends GraphqlAPI{
     Iterator<JsonNode> nodes = responseData.get("allCoordinates").elements();
     List<Coordinates> properties = new ArrayList<>();
     nodes.forEachRemaining(node -> {
-      String id = node.get("idSale").asText();
-      Float latitude = node.get("latitude").floatValue();
-      Float longitude = node.get("longitude").floatValue();
+      String id = node.get(ID_SALE).asText();
+      Float latitude = node.get(LATITUDE).floatValue();
+      Float longitude = node.get(LONGITUDE).floatValue();
       properties.add(new Coordinates(id, latitude, longitude));
     });
     return properties;
   }
 
   public static Sale getById(String id) throws IOException{
-    HttpURLConnection connection = setupConnection("http://salesapi:8080/graphql");
+    HttpURLConnection connection = setupConnection(API_URL);
     String query =
         "{\n" +
           "propertyById(id: \"" + id + "\") {\n" +
-            propertyFields +
+            PROPERTY_FIELDS +
           "}\n" +
         "}";
     insertQuery(connection, query);
@@ -147,16 +161,62 @@ public class SalesAPI extends GraphqlAPI{
   }
 
   public static Sale getByCoordinatesId(String id) throws IOException{
-    HttpURLConnection connection = setupConnection("http://salesapi:8080/graphql");
+    HttpURLConnection connection = setupConnection(API_URL);
     String query =
         "{\n" +
           "propertyByCoordinatesId(id: \"" + id + "\") {\n" +
-            propertyFields +
+            PROPERTY_FIELDS +
           "}\n" +
         "}";
     insertQuery(connection, query);
     JsonNode responseData = getResponseData(connection);
     JsonNode node = responseData.get("propertyByCoordinatesId");
     return getSaleFromNode(node);
+  }
+
+  public static Sale getGrossSquareFeetAndNeighborhoodById(String id) throws IOException{
+    HttpURLConnection connection = setupConnection(API_URL);
+    String query =
+        "{\n" +
+          "propertyById(id: \"" + id + "\") {\n" +
+            NEIGHBORHOOD + "\n" +
+            GROSS_SQUARE_FEET + "\n" +
+          "}\n" +
+        "}";
+    insertQuery(connection, query);
+    JsonNode responseData = getResponseData(connection);
+    JsonNode node = responseData.get("propertyById");
+    String neighborhood = node.get(NEIGHBORHOOD).asText();
+    String grossSquareFeet = node.get(GROSS_SQUARE_FEET).asText();
+    var sale = new Sale(id);
+    sale.setNeighbourhood(neighborhood);
+    sale.setGrossSquareFeet(grossSquareFeet);
+    return sale;
+  }
+
+  public static List<Sale> getGrossSquareFeetAndSalePriceByNeighborhood(String neighborhood) throws IOException{
+    HttpURLConnection connection = setupConnection(API_URL);
+    String query =
+        "{\n" +
+          "propertiesByNeighborhood(neighborhood:\"" + neighborhood + "\") {\n" +
+            ID + "\n" +
+            GROSS_SQUARE_FEET + "\n" +
+            SALE_PRICE + "\n" +
+          "}\n" +
+        "}";
+    insertQuery(connection, query);
+    JsonNode responseData = getResponseData(connection);
+    Iterator<JsonNode> nodes = responseData.get("propertiesByNeighborhood").elements();
+    List<Sale> sales = new ArrayList<>();
+    nodes.forEachRemaining(node -> {
+      String id = node.get(ID).asText();
+      String grossSquareFeet = node.get(GROSS_SQUARE_FEET).asText();
+      String salePrice = node.get(SALE_PRICE).asText();
+      var sale = new Sale(id);
+      sale.setGrossSquareFeet(grossSquareFeet);
+      sale.setSalePrice(salePrice);
+      sales.add(sale);
+    });
+    return sales;
   }
 }

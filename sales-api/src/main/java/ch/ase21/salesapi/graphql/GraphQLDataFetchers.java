@@ -52,4 +52,13 @@ public class GraphQLDataFetchers {
           .orElse(null);
     };
   }
+
+  public DataFetcher<Iterable<Property>> getPropertiesByNeighborhoodDataFetcher() {
+    return dataFetchingEnvironment -> {
+      String neighborhood = dataFetchingEnvironment.getArgument("neighborhood");
+      String uppercaseNeighborhood = neighborhood.toUpperCase();
+      return propertyRepository
+          .findPropertiesByNeighborhood(uppercaseNeighborhood);
+    };
+  }
 }

@@ -2,6 +2,7 @@ type Query {
     propertyById(id: ID): Property
     propertyByCoordinatesId(id: ID): Property
     allCoordinates: [Coordiantes]
+    propertiesByNeighborhood(neighborhood: String): [Property]
 }
 
 type Property {
