@@ -182,7 +182,7 @@ public class SalesAPI extends GraphqlAPI{
     return sale;
   }
 
-  public static List<Sale> getPropertiesByNeighborhood(String neighborhood) throws IOException{
+  public static List<Sale> getGrossSquareFeetAndSalePriceByNeighborhood(String neighborhood) throws IOException{
     HttpURLConnection connection = setupConnection(API_URL);
     String query =
         "{\n" +

@@ -11,7 +11,7 @@ public class SalesService {
 
   public static Integer estimatedSalePriceById(String id) throws IOException{
     Sale sale = SalesAPI.getGrossSquareFeetAndNeighborhoodById(id);
-    List<Sale> properties = SalesAPI.getPropertiesByNeighborhood(sale.getNeighbourhood());
+    List<Sale> properties = SalesAPI.getGrossSquareFeetAndSalePriceByNeighborhood(sale.getNeighbourhood());
     List<Integer> pricesPerSquareFeet = new ArrayList<>();
 
     for(Sale property: properties){
