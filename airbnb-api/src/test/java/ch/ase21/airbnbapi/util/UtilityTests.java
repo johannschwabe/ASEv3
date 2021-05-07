@@ -3,7 +3,7 @@ package ch.ase21.airbnbapi.util;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class UtilityTests {
+class UtilityTests {
 
   @Test
   void capitalizeSplit() {

@@ -12,8 +12,8 @@ public class Utility {
    */
   public static String capitalizeSplit(String string, String separator) {
     String[] spaceParts = string.split(separator);
-    StringBuilder answer = new StringBuilder();
-    for(int i = 0; i < spaceParts.length; i++){
+    var answer = new StringBuilder();
+    for(var i = 0; i < spaceParts.length; i++){
       if(i > 0){
         answer.append(separator);
       }
