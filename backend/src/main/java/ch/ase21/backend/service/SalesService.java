@@ -20,29 +20,29 @@ public class SalesService {
    * @throws NumberFormatException Thrown if the given property has no valid area.
    */
   public static Integer estimatedSalePriceById(String id) throws IOException, NumberFormatException{
-    var sale = SalesAPI.getGrossSquareFeetAndNeighborhoodById(id);
-    List<Sale> neighborhoodSales = SalesAPI.getGrossSquareFeetAndSalePriceByNeighborhood(sale.getNeighbourhood());
-    return SalesService.calculateEstimatedSalePrice(sale, neighborhoodSales);
+    var sale = SalesAPI.getGrossSquareFeetAndNeighbourhoodById(id);
+    List<Sale> neighbourhoodSales = SalesAPI.getAllByNeighbourhood(sale.getNeighbourhood());
+    return SalesService.calculateEstimatedSalePrice(sale, neighbourhoodSales);
   }
 
   /**
    * Calculate the estimated sale price for the given property of the sales DB
    * and a list of all properties in the same neighbourhood.
    * @param sale The Sale object of the property with "grossSquareFeet" given.
-   * @param neighborhoodSales The sale objects of the properties in the neighborhood with
+   * @param neighbourhoodSales The sale objects of the properties in the neighbourhood with
    *                          "grossSquareFeet" and "salePrice" given.
    * @return The estimated sale price for the given sale property.
    */
   public static Integer
-  calculateEstimatedSalePrice(Sale sale, List<Sale> neighborhoodSales) throws NumberFormatException{
+  calculateEstimatedSalePrice(Sale sale, List<Sale> neighbourhoodSales) throws NumberFormatException{
     List<Integer> pricesPerSquareFeet = new ArrayList<>();
 
-    for(Sale neighborhoodSale: neighborhoodSales){
+    for(Sale neighbourhoodSale: neighbourhoodSales){
       int squareFeet;
       int salePrice;
       try{
-        squareFeet = Integer.parseInt(neighborhoodSale.getGrossSquareFeet());
-        salePrice = Integer.parseInt(neighborhoodSale.getSalePrice());
+        squareFeet = Integer.parseInt(neighbourhoodSale.getGrossSquareFeet());
+        salePrice = Integer.parseInt(neighbourhoodSale.getSalePrice());
       } catch(NumberFormatException e){
         continue;
       }

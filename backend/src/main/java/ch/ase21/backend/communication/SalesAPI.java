@@ -14,7 +14,7 @@ public class SalesAPI extends GraphqlAPI{
 
   // Sale fields
   private static final String ID = "id";
-  private static final String NEIGHBORHOOD = "neighborhood";
+  private static final String NEIGHBOURHOOD = "neighborhood";
   private static final String GROSS_SQUARE_FEET = "grossSquareFeet";
   private static final String SALE_PRICE = "salePrice";
 
@@ -28,7 +28,7 @@ public class SalesAPI extends GraphqlAPI{
       ID + "\n" +
       "number\n" +
       "borough\n" +
-      NEIGHBORHOOD + "\n" +
+      NEIGHBOURHOOD + "\n" +
       "buildingClassCategory\n" +
       "taxClassAtPresent\n" +
       "block\n" +
@@ -69,7 +69,7 @@ public class SalesAPI extends GraphqlAPI{
     String propertyId = node.get(ID).asText();
     Integer number = node.get("number").intValue();
     Integer borough = node.get("borough").intValue();
-    String neighbourhood = node.get(NEIGHBORHOOD).asText();
+    String neighbourhood = node.get(NEIGHBOURHOOD).asText();
     String buildingClassCategory = node.get("buildingClassCategory").asText();
     String taxClassAtPresent = node.get("taxClassAtPresent").asText();
     Integer block = node.get("block").intValue();
@@ -199,61 +199,50 @@ public class SalesAPI extends GraphqlAPI{
 
   /**
    * Get a sale property by its ID. The property's only non-null fields are
-   * grossSquareFeet and neighborhood.
+   * grossSquareFeet and neighbourhood.
    * @param id The ID of the sale property.
    * @return The sale property.
    * @throws IOException Thrown if the communication with the API failed.
    */
-  public static Sale getGrossSquareFeetAndNeighborhoodById(String id) throws IOException{
+  public static Sale getGrossSquareFeetAndNeighbourhoodById(String id) throws IOException{
     HttpURLConnection connection = setupConnection(API_URL);
     String query =
         "{\n" +
           "propertyById(id: \"" + id + "\") {\n" +
-            NEIGHBORHOOD + "\n" +
+            NEIGHBOURHOOD + "\n" +
             GROSS_SQUARE_FEET + "\n" +
           "}\n" +
         "}";
     insertQuery(connection, query);
     JsonNode responseData = getResponseData(connection);
     JsonNode node = responseData.get("propertyById");
-    String neighborhood = node.get(NEIGHBORHOOD).asText();
+    String neighbourhood = node.get(NEIGHBOURHOOD).asText();
     String grossSquareFeet = node.get(GROSS_SQUARE_FEET).asText();
     var sale = new Sale(id);
-    sale.setNeighbourhood(neighborhood);
+    sale.setNeighbourhood(neighbourhood);
     sale.setGrossSquareFeet(grossSquareFeet);
     return sale;
   }
 
   /**
-   * Get all sale properties in the given neighborhood. The properties only non-null fields are
-   * grossSquareFeet and salePrice.
-   * @param neighborhood The neighborhood name.
-   * @return The List of all sale properties in the neighborhood.
+   * Get all sale properties in the given neighbourhood.
+   * @param neighbourhood The neighbourhood name.
+   * @return The List of all sale properties in the neighbourhood.
    * @throws IOException Thrown if the communication with the API failed.
    */
-  public static List<Sale> getGrossSquareFeetAndSalePriceByNeighborhood(String neighborhood) throws IOException{
+  public static List<Sale> getAllByNeighbourhood(String neighbourhood) throws IOException{
     HttpURLConnection connection = setupConnection(API_URL);
     String query =
         "{\n" +
-          "propertiesByNeighborhood(neighborhood:\"" + neighborhood + "\") {\n" +
-            ID + "\n" +
-            GROSS_SQUARE_FEET + "\n" +
-            SALE_PRICE + "\n" +
+          "propertiesByNeighborhood(neighbourhood:\"" + neighbourhood + "\") {\n" +
+            PROPERTY_FIELDS +
           "}\n" +
         "}";
     insertQuery(connection, query);
     JsonNode responseData = getResponseData(connection);
-    Iterator<JsonNode> nodes = responseData.get("propertiesByNeighborhood").elements();
-    List<Sale> sales = new ArrayList<>();
-    nodes.forEachRemaining(node -> {
-      String id = node.get(ID).asText();
-      String grossSquareFeet = node.get(GROSS_SQUARE_FEET).asText();
-      String salePrice = node.get(SALE_PRICE).asText();
-      var sale = new Sale(id);
-      sale.setGrossSquareFeet(grossSquareFeet);
-      sale.setSalePrice(salePrice);
-      sales.add(sale);
-    });
-    return sales;
+    Iterator<JsonNode> nodes = responseData.get("propertiesByNeighbourhood").elements();
+    List<Sale> properties = new ArrayList<>();
+    nodes.forEachRemaining(node -> properties.add(getSaleFromNode(node)));
+    return properties;
   }
 }

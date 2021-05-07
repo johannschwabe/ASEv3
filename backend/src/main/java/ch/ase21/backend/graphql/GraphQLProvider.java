@@ -54,7 +54,9 @@ public class GraphQLProvider {
             .dataFetcher("airbnbById", graphQLDataFetchers.getAirbnbByIdDataFetcher())
             .dataFetcher("saleById", graphQLDataFetchers.getSaleByIdDataFetcher())
             .dataFetcher("saleByCoordinatesId", graphQLDataFetchers.getSaleByCoordinatesIdDataFetcher())
-            .dataFetcher("estimatedSalePriceById", graphQLDataFetchers.getEstimatedSalePriceByIdDataFetcher()))
+            .dataFetcher("estimatedSalePriceById", graphQLDataFetchers.getEstimatedSalePriceByIdDataFetcher())
+            .dataFetcher("salesByNeighbourhood", graphQLDataFetchers.getSalesByNeighbourhoodDataFetcher())
+            .dataFetcher("airbnbsByNeighbourhood", graphQLDataFetchers.getAirbnbsByNeighbourhoodDataFetcher()))
         .build();
   }
 }
