@@ -13,6 +13,7 @@ public class SalesService {
     Sale sale = SalesAPI.getGrossSquareFeetAndNeighborhoodById(id);
     List<Sale> properties = SalesAPI.getPropertiesByNeighborhood(sale.getNeighbourhood());
     List<Integer> pricesPerSquareFeet = new ArrayList<>();
+
     for(Sale property: properties){
       int squareFeet;
       int salePrice;
@@ -22,15 +23,22 @@ public class SalesService {
       } catch(NumberFormatException e){
         continue;
       }
-      if(salePrice > 1000){
+      if(squareFeet > 0 && salePrice > 1000){
         Integer pricePerSquareFeet = salePrice / squareFeet;
         pricesPerSquareFeet.add(pricePerSquareFeet);
       }
     }
+
+    if(pricesPerSquareFeet.size() == 0){
+      return null;
+    }
+
     Integer sum = 0;
-    for(Integer price: pricesPerSquareFeet){
+
+    for(Integer price : pricesPerSquareFeet){
       sum += price;
     }
+
     Integer averagePricePerSquareFeet = sum / pricesPerSquareFeet.size();
     Integer squareFeet = Integer.parseInt(sale.getGrossSquareFeet());
     return squareFeet * averagePricePerSquareFeet;
