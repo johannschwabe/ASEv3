@@ -10,6 +10,8 @@ import java.util.*;
 
 public class SalesAPI extends GraphqlAPI{
 
+  private static final String API_URL = "http://salesapi:8080/graphql";
+
   private static final String propertyFields =
       "id\n" +
       "number\n" +
@@ -110,7 +112,7 @@ public class SalesAPI extends GraphqlAPI{
   }
 
   public static List<Coordinates> getAllCoordinates() throws IOException{
-    HttpURLConnection connection = setupConnection("http://salesapi:8080/graphql");
+    HttpURLConnection connection = setupConnection(API_URL);
     String query =
         "{\n" +
           "allCoordinates {\n" +
@@ -133,7 +135,7 @@ public class SalesAPI extends GraphqlAPI{
   }
 
   public static Sale getById(String id) throws IOException{
-    HttpURLConnection connection = setupConnection("http://salesapi:8080/graphql");
+    HttpURLConnection connection = setupConnection(API_URL);
     String query =
         "{\n" +
           "propertyById(id: \"" + id + "\") {\n" +
@@ -147,7 +149,7 @@ public class SalesAPI extends GraphqlAPI{
   }
 
   public static Sale getByCoordinatesId(String id) throws IOException{
-    HttpURLConnection connection = setupConnection("http://salesapi:8080/graphql");
+    HttpURLConnection connection = setupConnection(API_URL);
     String query =
         "{\n" +
           "propertyByCoordinatesId(id: \"" + id + "\") {\n" +
@@ -158,5 +160,51 @@ public class SalesAPI extends GraphqlAPI{
     JsonNode responseData = getResponseData(connection);
     JsonNode node = responseData.get("propertyByCoordinatesId");
     return getSaleFromNode(node);
+  }
+
+  public static Sale getGrossSquareFeetAndNeighborhoodById(String id) throws IOException{
+    HttpURLConnection connection = setupConnection(API_URL);
+    String query =
+        "{\n" +
+          "propertyById(id: \"" + id + "\") {\n" +
+            "neighborhood\n" +
+            "grossSquareFeet\n" +
+          "}\n" +
+        "}";
+    insertQuery(connection, query);
+    JsonNode responseData = getResponseData(connection);
+    JsonNode node = responseData.get("propertyById");
+    String neighborhood = node.get("neighborhood").asText();
+    String grossSquareFeet = node.get("grossSquareFeet").asText();
+    Sale sale = new Sale(id);
+    sale.setNeighbourhood(neighborhood);
+    sale.setGrossSquareFeet(grossSquareFeet);
+    return sale;
+  }
+
+  public static List<Sale> getPropertiesByNeighborhood(String neighborhood) throws IOException{
+    HttpURLConnection connection = setupConnection(API_URL);
+    String query =
+        "{\n" +
+          "propertiesByNeighborhood(neighborhood:\"" + neighborhood + "\") {\n" +
+            "id\n" +
+            "grossSquareFeet\n" +
+            "salePrice\n" +
+          "}\n" +
+        "}";
+    insertQuery(connection, query);
+    JsonNode responseData = getResponseData(connection);
+    Iterator<JsonNode> nodes = responseData.get("propertiesByNeighborhood").elements();
+    List<Sale> sales = new ArrayList<>();
+    nodes.forEachRemaining(node -> {
+      String id = node.get("id").asText();
+      String grossSquareFeet = node.get("grossSquareFeet").asText();
+      String salePrice = node.get("salePrice").asText();
+      Sale sale = new Sale(id);
+      sale.setGrossSquareFeet(grossSquareFeet);
+      sale.setSalePrice(salePrice);
+      sales.add(sale);
+    });
+    return sales;
   }
 }

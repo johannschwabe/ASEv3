@@ -2,34 +2,36 @@ package ch.ase21.backend.entity;
 
 public class Sale {
   private final String id;
-  private final Integer number;
-  private final Integer borough;
-  private final String neighbourhood;
-  private final String buildingClassCategory;
-  private final String taxClassAtPresent;
-  private final Integer block;
-  private final Integer lot;
-  private final String easement;
-  private final String buildingClassAtPresent;
-  private final String address;
-  private final String apartmentNumber;
-  private final Integer zipCode;
-  private final Integer residentialUnits;
-  private final Integer commercialUnits;
-  private final Integer totalUnits;
-  private final String landSquareFeet;
-  private final String grossSquareFeet;
-  private final Integer yearBuilt;
-  private final Integer taxClassAtTimeOfSale;
-  private final String buildingClassAtTimeOfSale;
-  private final String salePrice;
-  private final String saleDate;
+  private Integer number = null;
+  private Integer borough = null;
+  private String neighbourhood = null;
+  private String buildingClassCategory = null;
+  private String taxClassAtPresent = null;
+  private Integer block = null;
+  private Integer lot = null;
+  private String easement = null;
+  private String buildingClassAtPresent = null;
+  private String address = null;
+  private String apartmentNumber = null;
+  private Integer zipCode = null;
+  private Integer residentialUnits = null;
+  private Integer commercialUnits = null;
+  private Integer totalUnits = null;
+  private String landSquareFeet = null;
+  private String grossSquareFeet = null;
+  private Integer yearBuilt = null;
+  private Integer taxClassAtTimeOfSale = null;
+  private String buildingClassAtTimeOfSale = null;
+  private String salePrice = null;
+  private String saleDate = null;
   // Coordinates
-  private final String idSale;
-  private final Float latitude;
-  private final Float longitude;
-  private final String returnedStreetName;
-  private final Integer returnedZipCode;
+  private String idSale = null;
+  private Float latitude = null;
+  private Float longitude = null;
+  private String returnedStreetName = null;
+  private Integer returnedZipCode = null;
+  
+  public Sale(String id){ this.id = id; }
 
   public Sale(String id,
               Integer number,
@@ -107,6 +109,10 @@ public class Sale {
     return neighbourhood;
   }
 
+  public void setNeighbourhood(String neighbourhood){
+    this.neighbourhood = neighbourhood;
+  }
+
   public String getBuildingClassCategory(){
     return buildingClassCategory;
   }
@@ -163,6 +169,10 @@ public class Sale {
     return grossSquareFeet;
   }
 
+  public void setGrossSquareFeet(String grossSquareFeet){
+    this.grossSquareFeet = grossSquareFeet;
+  }
+
   public Integer getYearBuilt(){
     return yearBuilt;
   }
@@ -177,6 +187,10 @@ public class Sale {
 
   public String getSalePrice(){
     return salePrice;
+  }
+
+  public void setSalePrice(String salePrice){
+    this.salePrice = salePrice;
   }
 
   public String getSaleDate(){

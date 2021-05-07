@@ -60,8 +60,7 @@ public class GraphQLDataFetchers {
       String neighborhood = dataFetchingEnvironment.getArgument("neighborhood");
       String uppercaseNeighborhood = neighborhood.toUpperCase();
       return propertyRepository
-          .findByNeighborhood(uppercaseNeighborhood)
-          .orElse(null);
+          .findPropertiesByNeighborhood(uppercaseNeighborhood);
     };
   }
 }
