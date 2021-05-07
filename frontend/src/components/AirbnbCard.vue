@@ -21,11 +21,15 @@
           class="row justify-between"
           style="padding: 20px"
         >
-          <div class="text-h6">
+          <q-spinner-dots v-if="loading" />
+          <div
+            v-else-if="property"
+            class="text-h6"
+          >
             {{ property.name }}
           </div>
 
-          <div>
+          <div v-if="property">
             <q-icon
               v-for="i in property.computed_rating"
               :key="i"
@@ -60,12 +64,15 @@
             </q-avatar>
           </q-item-section>
           <q-item-section>
-            <div class="text-bold">
-              {{ property.host_name }}
+            <q-spinner-dots v-if="loading" />
+            <div v-else>
+              <div class="text-bold">
+                {{ property ? property.hostName : "" }}
+              </div>
+              {{ property ? `${property.calculatedHostListingsCount} listing(s)` : "" }}
+              <br>
+              More host info may go here.
             </div>
-            {{ property.calculated_host_listings_count }} listing(s)
-            <br>
-            More host info may go here.
           </q-item-section>
         </q-item>
       </q-card-section>
@@ -83,7 +90,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section class="col-8">
-          {{ property.room_type }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? property.roomType : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -95,7 +105,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.neighbourhood_group }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? property.neighbourhoodGroup : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -107,7 +120,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.neighbourhood }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? property.neighbourhood : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -119,7 +135,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.latitude }}, {{ property.longitude }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? `${property.latitude}, ${property.longitude}` : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -136,7 +155,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          ${{ property.price }}
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? `$${property.price}` : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -148,7 +170,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.minimum_nights }} (${{ property.minimum_nights * property.price }})
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? `${property.minimumNights} ($${property.minimumNights * property.price})` : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -165,7 +190,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.number_of_reviews }} ({{ property.reviews_per_month }} per month)
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? `${property.numberOfReviews} (${property.reviewsPerMonth} per month)` : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -177,7 +205,10 @@
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
-          {{ property.availability_365 }} days per year ({{ 365-property.availability_365 }} days booked)
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? `${property.availability365} days per year (${365-property.availability365} days booked)` : "" }}
+          </div>
         </q-card-section>
       </q-card-section>
 
@@ -200,13 +231,18 @@
 </template>
 
 <script>
-import { API_KEY } from "../constants/API.js";
+import axios from "axios";
+import {API_KEY, BACKEND_URL} from "../constants/API.js";
 
 export default {
   name: "AirbnbCard",
   props: {
-    property: { type: Object, required: true },
+    coordinates: { type: String, required: true },
   },
+  data: () => ({
+    property: null,
+    loading: true,
+  }),
   computed: {
     host_image_url() {
       // TODO
@@ -215,26 +251,64 @@ export default {
 
     /**
      * Gets the image URL for a street view image of the property
-     * @returns {string}
+     * @returns {string|null}
      */
     listing_image_url() {
-      const lat = this.property.lat.toFixed(6);
-      const lng = this.property.lng.toFixed(6);
-      return `https://maps.googleapis.com/maps/api/streetview?size=500x300&location=${lat},${lng}&fov=120&pitch=15&source=outdoor&key=${API_KEY}`;
+      if (this.property) {
+        const lat = this.property.latitude.toFixed(6);
+        const lng = this.property.longitude.toFixed(6);
+        return `https://maps.googleapis.com/maps/api/streetview?size=500x300&location=${lat},${lng}&fov=120&pitch=15&source=outdoor&key=${API_KEY}`;
+      }
+      return null;
+    },
+  },
+  watch: {
+    coordinates() {
+      this.fetchProperty();
     },
   },
   created() {
-    // Fill missing data TODO remove once backend gives
-    if (!this.property.reviews_per_month) {
-      this.property.reviews_per_month = 0;
-    }
-
-    // TODO remove fake
-    this.property.computed_rating = 3;
+    this.fetchProperty();
   },
   methods: {
     onHide() {
       this.$emit("hide");
+    },
+
+    fetchProperty() {
+      this.loading = true;
+      axios({
+        url: BACKEND_URL,
+        method: "post",
+        data: {
+          query: `
+            {
+              airbnbById(id: "${this.coordinates}") {
+                id
+                name
+                hostName
+                calculatedHostListingsCount
+                roomType
+                neighbourhoodGroup
+                neighbourhood
+                latitude
+                longitude
+                price
+                minimumNights
+                numberOfReviews
+                reviewsPerMonth
+                availability365
+              }
+            }
+          `,
+        },
+      }).then((result) => {
+        this.property = result.data.data.airbnbById;
+        // TODO remove fake
+        this.property.computed_rating = 3;
+      }).finally(() => {
+        this.loading = false;
+      });
     },
   },
 };

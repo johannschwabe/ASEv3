@@ -11,5 +11,5 @@ export function toggleMarkers({ commit }) {
 // TODO functions
 export function setMapType({ commit }, payload) {
   commit("setMapType", payload);
-  commit("setSelectedProperty", { selected_property: null });
+  commit("setSelectedCoordinates", { selected_coordinates: null });
 }

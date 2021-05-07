@@ -26,6 +26,6 @@ export function heatmapRadius(state) {
   return state.heatmap_radius;
 }
 
-export function selectedProperty(state) {
-  return state.selected_property;
+export function selectedCoordinates(state) {
+  return state.selected_coordinates;
 }
