@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class GraphQLDataFetchers {
 
+  private final String ID = "id";
+  private final String NEIGHBOURHOOD = "neighbourhood";
 
   public DataFetcher<Iterable<Coordinates>> getAllAirbnbCoordinatesDataFetcher() {
     return dataFetchingEnvironment -> AirbnbAPI.getAllCoordinates();
@@ -24,49 +26,49 @@ public class GraphQLDataFetchers {
 
   public DataFetcher<Airbnb> getAirbnbByIdDataFetcher() {
     return dataFetchingEnvironment -> {
-      String propertyId = dataFetchingEnvironment.getArgument("id");
+      String propertyId = dataFetchingEnvironment.getArgument(ID);
       return AirbnbAPI.getById(propertyId);
     };
   }
 
   public DataFetcher<Sale> getSaleByIdDataFetcher() {
     return dataFetchingEnvironment -> {
-      String propertyId = dataFetchingEnvironment.getArgument("id");
+      String propertyId = dataFetchingEnvironment.getArgument(ID);
       return SalesAPI.getById(propertyId);
     };
   }
 
   public DataFetcher<Sale> getSaleByCoordinatesIdDataFetcher() {
     return dataFetchingEnvironment -> {
-      String propertyId = dataFetchingEnvironment.getArgument("id");
+      String propertyId = dataFetchingEnvironment.getArgument(ID);
       return SalesAPI.getByCoordinatesId(propertyId);
     };
   }
 
   public DataFetcher<Integer> getEstimatedSalePriceByIdDataFetcher() {
     return dataFetchingEnvironment -> {
-      String propertyId = dataFetchingEnvironment.getArgument("id");
+      String propertyId = dataFetchingEnvironment.getArgument(ID);
       return SalesService.estimatedSalePriceById(propertyId);
     };
   }
 
   public DataFetcher<Iterable<Sale>> getSalesByNeighbourhoodDataFetcher() {
     return dataFetchingEnvironment -> {
-      String neighbourhood = dataFetchingEnvironment.getArgument("neighbourhood");
+      String neighbourhood = dataFetchingEnvironment.getArgument(NEIGHBOURHOOD);
       return SalesAPI.getAllByNeighbourhood(neighbourhood);
     };
   }
 
   public DataFetcher<Iterable<Airbnb>> getAirbnbsByNeighbourhoodDataFetcher() {
     return dataFetchingEnvironment -> {
-      String neighbourhood = dataFetchingEnvironment.getArgument("neighbourhood");
+      String neighbourhood = dataFetchingEnvironment.getArgument(NEIGHBOURHOOD);
       return AirbnbAPI.getAllByNeighbourhood(neighbourhood);
     };
   }
 
   public DataFetcher<Float> getNeighbourhoodRatingDataFetcher() {
     return dataFetchingEnvironment -> {
-      String neighbourhood = dataFetchingEnvironment.getArgument("neighbourhood");
+      String neighbourhood = dataFetchingEnvironment.getArgument(NEIGHBOURHOOD);
       return NeighbourhoodService.neighbourhoodRating(neighbourhood);
     };
   }
