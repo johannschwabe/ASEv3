@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class GraphQLDataFetchers {
 
-  private final String ID = "id";
-  private final String NEIGHBOURHOOD = "neighbourhood";
+  private static final String ID = "id";
+  private static final String NEIGHBOURHOOD = "neighbourhood";
 
   public DataFetcher<Iterable<Coordinates>> getAllAirbnbCoordinatesDataFetcher() {
     return dataFetchingEnvironment -> AirbnbAPI.getAllCoordinates();
