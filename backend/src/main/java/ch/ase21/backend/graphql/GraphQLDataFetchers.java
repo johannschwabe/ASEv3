@@ -5,6 +5,7 @@ import ch.ase21.backend.communication.SalesAPI;
 import ch.ase21.backend.entity.Airbnb;
 import ch.ase21.backend.entity.Coordinates;
 import ch.ase21.backend.entity.Sale;
+import ch.ase21.backend.service.NeighbourhoodService;
 import ch.ase21.backend.service.SalesService;
 import graphql.schema.DataFetcher;
 import org.springframework.stereotype.Component;
@@ -60,6 +61,13 @@ public class GraphQLDataFetchers {
     return dataFetchingEnvironment -> {
       String neighbourhood = dataFetchingEnvironment.getArgument("neighbourhood");
       return AirbnbAPI.getAllByNeighbourhood(neighbourhood);
+    };
+  }
+
+  public DataFetcher<Float> getNeighbourhoodRatingDataFetcher() {
+    return dataFetchingEnvironment -> {
+      String neighbourhood = dataFetchingEnvironment.getArgument("neighbourhood");
+      return NeighbourhoodService.neighbourhoodRating(neighbourhood);
     };
   }
 }

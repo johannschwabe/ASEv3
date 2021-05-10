@@ -56,7 +56,8 @@ public class GraphQLProvider {
             .dataFetcher("saleByCoordinatesId", graphQLDataFetchers.getSaleByCoordinatesIdDataFetcher())
             .dataFetcher("estimatedSalePriceById", graphQLDataFetchers.getEstimatedSalePriceByIdDataFetcher())
             .dataFetcher("salesByNeighbourhood", graphQLDataFetchers.getSalesByNeighbourhoodDataFetcher())
-            .dataFetcher("airbnbsByNeighbourhood", graphQLDataFetchers.getAirbnbsByNeighbourhoodDataFetcher()))
+            .dataFetcher("airbnbsByNeighbourhood", graphQLDataFetchers.getAirbnbsByNeighbourhoodDataFetcher())
+            .dataFetcher("neighbourhoodRating", graphQLDataFetchers.getNeighbourhoodRatingDataFetcher()))
         .build();
   }
 }
