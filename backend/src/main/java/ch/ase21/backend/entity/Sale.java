@@ -153,12 +153,20 @@ public class Sale {
     return residentialUnits;
   }
 
+  public void setResidentialUnits(Integer residentialUnits){
+    this.residentialUnits = residentialUnits;
+  }
+
   public Integer getCommercialUnits(){
     return commercialUnits;
   }
 
   public Integer getTotalUnits(){
     return totalUnits;
+  }
+
+  public void setTotalUnits(Integer totalUnits){
+    this.totalUnits = totalUnits;
   }
 
   public String getLandSquareFeet(){
