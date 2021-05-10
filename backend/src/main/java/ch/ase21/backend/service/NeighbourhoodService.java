@@ -10,6 +10,8 @@ import java.util.List;
 
 public class NeighbourhoodService {
 
+  private NeighbourhoodService() {/* void */}
+
   /**
    * Calculates a score for a given neighbourhood.
    * Taken into consideration are:
@@ -35,7 +37,7 @@ public class NeighbourhoodService {
   public static Float calculateScore(List<Airbnb> airbnbs, List<Sale> sales) {
     // Revenue per Night
     float revenueSummed = 0;
-    int countAirbnb = 0;
+    var countAirbnb = 0;
 
     for(Airbnb airbnbProperty: airbnbs){
       if(airbnbProperty.getPrice() > 0){
@@ -52,7 +54,7 @@ public class NeighbourhoodService {
 
     // Price per residential unit
     float priceSummed = 0;
-    int countSales = 0;
+    var countSales = 0;
 
     for(Sale saleProperty: sales){
       int salesPrice;

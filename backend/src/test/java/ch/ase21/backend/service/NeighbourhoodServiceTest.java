@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NeighbourhoodServiceTest {
+class NeighbourhoodServiceTest {
 
   /**
    * Calculate the score of a great neighbourhood
