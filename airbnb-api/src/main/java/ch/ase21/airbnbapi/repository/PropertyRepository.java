@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PropertyRepository extends CrudRepository<Property, String> {
+  Iterable<Property> findAllByNeighbourhood(String neighbourhood);
 }

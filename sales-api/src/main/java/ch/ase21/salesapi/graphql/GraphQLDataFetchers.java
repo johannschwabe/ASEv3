@@ -52,4 +52,20 @@ public class GraphQLDataFetchers {
           .orElse(null);
     };
   }
+
+  public DataFetcher<String> getNeighbourhoodDataFetcher() {
+    return dataFetchingEnvironment -> {
+      Property property = dataFetchingEnvironment.getSource();
+      return property.getNeighborhood();
+    };
+  }
+
+  public DataFetcher<Iterable<Property>> getPropertiesByNeighbourhoodDataFetcher() {
+    return dataFetchingEnvironment -> {
+      String neighbourhood = dataFetchingEnvironment.getArgument("neighbourhood");
+      String uppercaseNeighbourhood = neighbourhood.toUpperCase();
+      return propertyRepository
+          .findPropertiesByNeighborhood(uppercaseNeighbourhood);
+    };
+  }
 }

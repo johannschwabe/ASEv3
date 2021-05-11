@@ -10,7 +10,9 @@ import java.util.*;
 
 public class AirbnbAPI extends GraphqlAPI {
 
-  private static final String propertyFields =
+  private static final String API_URL = "http://airbnbapi:8080/graphql";
+
+  private static final String PROPERTY_FIELDS =
       "id\n" +
       "name\n" +
       "hostId\n" +
@@ -31,6 +33,12 @@ public class AirbnbAPI extends GraphqlAPI {
 
   private AirbnbAPI() {/* void */}
 
+  /**
+   * Takes a JsonNode representing an airbnb property and returns the property with all fields in the json node.
+   * The JsonNode must contain all fields of an airbnb property.
+   * @param node A JsonNode with all fields of an airbnb property.
+   * @return The airbnb property.
+   */
   private static Airbnb getAirbnbFromNode(JsonNode node){
     String propertyId = node.get("id").asText();
     String name = node.get("name").asText();
@@ -69,8 +77,13 @@ public class AirbnbAPI extends GraphqlAPI {
     );
   }
 
+  /**
+   * Get all coordinates of the airbnb properties as Coordinate objects.
+   * @return List of all coordinates.
+   * @throws IOException Thrown if the communication with the API failed.
+   */
   public static List<Coordinates> getAllCoordinates() throws IOException{
-    HttpURLConnection connection = setupConnection("http://airbnbapi:8080/graphql");
+    HttpURLConnection connection = setupConnection(API_URL);
     String query =
         "{\n" +
           "allProperties {\n" +
@@ -92,17 +105,45 @@ public class AirbnbAPI extends GraphqlAPI {
     return properties;
   }
 
+  /**
+   * Get an airbnb property by its ID.
+   * @param id The id of the airbnb property.
+   * @return The Airbnb object.
+   * @throws IOException Thrown if the communication with the API failed.
+   */
   public static Airbnb getById(String id) throws IOException{
-    HttpURLConnection connection = setupConnection("http://airbnbapi:8080/graphql");
+    HttpURLConnection connection = setupConnection(API_URL);
     String query =
         "{\n" +
           "propertyById(id: \"" + id + "\") {\n" +
-            propertyFields +
+            PROPERTY_FIELDS +
           "}\n" +
         "}";
     insertQuery(connection, query);
     JsonNode responseData = getResponseData(connection);
     JsonNode node = responseData.get("propertyById");
     return getAirbnbFromNode(node);
+  }
+
+  /**
+   * Get all airbnb properties in the given neighbourhood.
+   * @param neighbourhood The neighbourhood name.
+   * @return The List of all airbnb properties in the neighbourhood.
+   * @throws IOException Thrown if the communication with the API failed.
+   */
+  public static List<Airbnb> getAllByNeighbourhood(String neighbourhood) throws IOException{
+    HttpURLConnection connection = setupConnection(API_URL);
+    String query =
+        "{\n" +
+          "propertiesByNeighbourhood(neighbourhood:\"" + neighbourhood + "\") {\n" +
+            PROPERTY_FIELDS +
+          "}\n" +
+        "}";
+    insertQuery(connection, query);
+    JsonNode responseData = getResponseData(connection);
+    Iterator<JsonNode> nodes = responseData.get("propertiesByNeighbourhood").elements();
+    List<Airbnb> properties = new ArrayList<>();
+    nodes.forEachRemaining(node -> properties.add(getAirbnbFromNode(node)));
+    return properties;
   }
 }

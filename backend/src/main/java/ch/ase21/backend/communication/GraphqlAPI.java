@@ -16,6 +16,12 @@ public abstract class GraphqlAPI {
 
   protected GraphqlAPI() {/* void */}
 
+  /**
+   * Setup and return the connection to the given URL.
+   * @param urlString The URL of the connection.
+   * @return The setup connection.
+   * @throws IOException The connection failed.
+   */
   protected static HttpURLConnection setupConnection(String urlString) throws IOException{
     var url = new URL(urlString);
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -26,6 +32,12 @@ public abstract class GraphqlAPI {
     return connection;
   }
 
+  /**
+   * Inserts the query into the body of the given connection.
+   * @param connection The connection to insert the query.
+   * @param queryString The query to insert.
+   * @throws IOException The connection failed.
+   */
   protected static void insertQuery(HttpURLConnection connection, String queryString) throws IOException{
     Map<String, String> requestBody = new HashMap<>();
     requestBody.put("query", queryString);
@@ -38,6 +50,12 @@ public abstract class GraphqlAPI {
     outputStream.close();
   }
 
+  /**
+   * Connect the given connection and return the data in the response as a JsonNode.
+   * @param connection The connection to connect.
+   * @return JsonNode containing the response data.
+   * @throws IOException The connection failed.
+   */
   protected static JsonNode getResponseData(HttpURLConnection connection) throws IOException{
     connection.connect();
     var in = new BufferedReader(new InputStreamReader(connection.getInputStream()));

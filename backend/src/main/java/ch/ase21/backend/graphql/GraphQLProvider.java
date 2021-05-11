@@ -53,7 +53,11 @@ public class GraphQLProvider {
             .dataFetcher("allSalesCoordinates", graphQLDataFetchers.getAllSalesCoordinatesDataFetcher())
             .dataFetcher("airbnbById", graphQLDataFetchers.getAirbnbByIdDataFetcher())
             .dataFetcher("saleById", graphQLDataFetchers.getSaleByIdDataFetcher())
-            .dataFetcher("saleByCoordinatesId", graphQLDataFetchers.getSaleByCoordinatesIdDataFetcher()))
+            .dataFetcher("saleByCoordinatesId", graphQLDataFetchers.getSaleByCoordinatesIdDataFetcher())
+            .dataFetcher("estimatedSalePriceById", graphQLDataFetchers.getEstimatedSalePriceByIdDataFetcher())
+            .dataFetcher("salesByNeighbourhood", graphQLDataFetchers.getSalesByNeighbourhoodDataFetcher())
+            .dataFetcher("airbnbsByNeighbourhood", graphQLDataFetchers.getAirbnbsByNeighbourhoodDataFetcher())
+            .dataFetcher("neighbourhoodRating", graphQLDataFetchers.getNeighbourhoodRatingDataFetcher()))
         .build();
   }
 }

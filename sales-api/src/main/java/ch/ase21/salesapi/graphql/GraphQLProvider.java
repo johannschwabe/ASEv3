@@ -50,9 +50,11 @@ public class GraphQLProvider {
         .type(newTypeWiring("Query")
             .dataFetcher("propertyById", graphQLDataFetchers.getPropertyByIdDataFetcher())
             .dataFetcher("propertyByCoordinatesId", graphQLDataFetchers.getPropertyByCoordinatesIdDataFetcher())
-            .dataFetcher("allCoordinates", graphQLDataFetchers.getAllCoordinatesDataFetcher()))
+            .dataFetcher("allCoordinates", graphQLDataFetchers.getAllCoordinatesDataFetcher())
+            .dataFetcher("propertiesByNeighbourhood", graphQLDataFetchers.getPropertiesByNeighbourhoodDataFetcher()))
         .type(newTypeWiring("Property")
-            .dataFetcher("coordinates", graphQLDataFetchers.getCoordinatesDataFetcher()))
+            .dataFetcher("coordinates", graphQLDataFetchers.getCoordinatesDataFetcher())
+            .dataFetcher("neighbourhood", graphQLDataFetchers.getNeighbourhoodDataFetcher()))
         .build();
   }
 }

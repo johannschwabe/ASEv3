@@ -2,21 +2,23 @@ package ch.ase21.backend.entity;
 
 public class Airbnb {
   private final String id;
-  private final String name;
-  private final Integer hostId;
-  private final String hostName;
-  private final String neighbourhoodGroup;
-  private final String neighbourhood;
-  private final Float latitude;
-  private final Float longitude;
-  private final String roomType;
-  private final Integer price;
-  private final Integer minimumNights;
-  private final Integer numberOfReviews;
-  private final String lastReview;
-  private final Integer reviewsPerMonth;
-  private final Integer calculatedHostListingsCount;
-  private final Integer availability365;
+  private String name = null;
+  private Integer hostId = null;
+  private String hostName = null;
+  private String neighbourhoodGroup = null;
+  private String neighbourhood = null;
+  private Float latitude = null;
+  private Float longitude = null;
+  private String roomType = null;
+  private Integer price = null;
+  private Integer minimumNights = null;
+  private Integer numberOfReviews = null;
+  private String lastReview = null;
+  private Integer reviewsPerMonth = null;
+  private Integer calculatedHostListingsCount = null;
+  private Integer availability365 = null;
+
+  public Airbnb(String id){ this.id = id; }
 
   public Airbnb(String id,
                 String name,
@@ -81,7 +83,7 @@ public class Airbnb {
     return latitude;
   }
 
-  public Float getIntegeritude(){
+  public Float getLongitude(){
     return longitude;
   }
 
@@ -91,6 +93,10 @@ public class Airbnb {
 
   public Integer getPrice(){
     return price;
+  }
+
+  public void setPrice(Integer price){
+    this.price = price;
   }
 
   public Integer getMinimumNights(){
