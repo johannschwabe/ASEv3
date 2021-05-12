@@ -20,7 +20,7 @@ public class AirbnbService {
     var countAirbnb = 0;
 
     for(Airbnb airbnbProperty: airbnbs){
-      if(airbnbProperty.getPrice() > 0 && (!fullApartment || airbnbProperty.getRoomType().equals("Entire home/apt"))){
+      if(airbnbProperty.getPrice() > 0 && (!fullApartment || airbnbProperty.getRoomType().equals(Airbnb.APARTMENT_ROOM_TYPE))){
         revenueSummed += airbnbProperty.getPrice();
         countAirbnb++;
       }
