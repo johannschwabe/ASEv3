@@ -11,15 +11,16 @@ public class AirbnbService {
   /**
    * Average the revenue per night of the given airbnb properties.
    * @param airbnbs A list of airbnb properties.
+   * @param fullApartment Whether only full apartments are calculated in.
    * @return The average price.
    */
   public static Integer
-  averageRevenuePerNight(List<Airbnb> airbnbs, Boolean fullAparment){
+  averageRevenuePerNight(List<Airbnb> airbnbs, Boolean fullApartment){
     Integer revenueSummed = 0;
     var countAirbnb = 0;
 
     for(Airbnb airbnbProperty: airbnbs){
-      if(airbnbProperty.getPrice() > 0 && (!fullAparment || airbnbProperty.getRoomType().equals("Entire home/apt"))){
+      if(airbnbProperty.getPrice() > 0 && (!fullApartment || airbnbProperty.getRoomType().equals("Entire home/apt"))){
         revenueSummed += airbnbProperty.getPrice();
         countAirbnb++;
       }
