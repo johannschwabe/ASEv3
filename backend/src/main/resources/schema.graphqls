@@ -11,11 +11,10 @@ type Query {
     calculateBreakEven(id: ID,
         price: Int,
         nights: Int,
-        rate: Float,
-        maintenance:
-        Float,
-        mortgage: Float,
-        ratio: Float): Float
+        occupancyRate: Float,
+        maintenance: Float,
+        mortgageRate: Float,
+        mortgageRatio: Float): Float
 }
 
 type Coordiantes {

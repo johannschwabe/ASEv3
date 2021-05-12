@@ -85,14 +85,14 @@ public class SalesService {
    * @throws IOException Communication with the API failed.
    * @throws RuntimeException Invalid sale property or revenue could not be calculated.
    */
-  public static Float
+  public static Double
   breakEven(String id,
             Integer revenuePerNight,
             Integer nightsPerYear,
-            Float bookingRate,
-            Float monthlyMaintenance,
-            Float mortgageRate,
-            Float mortgageRatio) throws IOException, RuntimeException
+            Double bookingRate,
+            Double monthlyMaintenance,
+            Double mortgageRate,
+            Double mortgageRatio) throws IOException, RuntimeException
   {
     var sale = SalesAPI.getById(id);
 
@@ -123,14 +123,14 @@ public class SalesService {
    * @return The expected number of years to break even or null if calculation is not possible
    * @throws RuntimeException Invalid sale property or missing revenue per night.
    */
-  public static Float
+  public static Double
   calculateBreakEven(Sale sale,
                      Integer revenuePerNight,
                      Integer nightsPerYear,
-                     Float bookingRate,
-                     Float monthlyMaintenance,
-                     Float mortgageRate,
-                     Float mortgageRatio) throws RuntimeException
+                     Double bookingRate,
+                     Double monthlyMaintenance,
+                     Double mortgageRate,
+                     Double mortgageRatio) throws RuntimeException
   {
     if(revenuePerNight == null){
       throw new RuntimeException("Missing price.");
@@ -143,34 +143,34 @@ public class SalesService {
 
     if(bookingRate == null){
       // 80% of the available nights booked
-      bookingRate = 0.8f;
+      bookingRate = 0.8;
     }
 
     if(monthlyMaintenance == null){
       // 2.50$ per square foot per month:
       // https://www.cottagesgardens.com/the-ins-and-outs-of-maintenance-costs-in-new-york-city/
-      monthlyMaintenance = 2.5f;
+      monthlyMaintenance = 2.5;
     }
 
     if(mortgageRate == null){
       // 3% mortgage rate: https://www.usbank.com/home-loans/mortgage/mortgage-rates/new-york.html
-      mortgageRate = 0.03f;
+      mortgageRate = 0.03;
     }
 
     if(mortgageRatio == null){
       // 75% of the sale price
-      mortgageRatio = 0.75f;
+      mortgageRatio = 0.75;
     }
 
     try{
       int salesPrice = Integer.parseInt(sale.getSalePrice()) / sale.getTotalUnits();
 
-      float yearlyRevenue = revenuePerNight * nightsPerYear * bookingRate;
+      double yearlyRevenue = revenuePerNight * nightsPerYear * bookingRate;
 
       int squareFeet = Integer.parseInt(sale.getGrossSquareFeet()) / sale.getTotalUnits();
-      float yearlyMaintenance = squareFeet * monthlyMaintenance * 12;
+      double yearlyMaintenance = squareFeet * monthlyMaintenance * 12;
 
-      float mortgageCost = salesPrice * mortgageRate * mortgageRatio;
+      double mortgageCost = salesPrice * mortgageRate * mortgageRatio;
 
       return salesPrice / (yearlyRevenue - yearlyMaintenance - mortgageCost);
 

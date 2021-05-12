@@ -73,17 +73,23 @@ public class GraphQLDataFetchers {
     };
   }
 
-  public DataFetcher<Float> calculateBreakEvenDataFetcher() {
+  public DataFetcher<Double> calculateBreakEvenDataFetcher() {
     return dataFetchingEnvironment -> {
       String id = dataFetchingEnvironment.getArgument(ID);
       Integer price = dataFetchingEnvironment.getArgument("price");
       Integer nights = dataFetchingEnvironment.getArgument("nights");
-      Float rate = dataFetchingEnvironment.getArgument("rate");
-      Float maintenance = dataFetchingEnvironment.getArgument("maintenance");
-      Float mortgage = dataFetchingEnvironment.getArgument("mortgage");
-      Float ratio = dataFetchingEnvironment.getArgument("ratio");
+      Double occupancyRate = dataFetchingEnvironment.getArgument("occupancyRate");
+      Double maintenance = dataFetchingEnvironment.getArgument("maintenance");
+      Double mortgageRate = dataFetchingEnvironment.getArgument("mortgageRate");
+      Double mortgageRatio = dataFetchingEnvironment.getArgument("mortgageRatio");
 
-      return SalesService.breakEven(id, price, nights, rate, maintenance, mortgage, ratio);
+      return SalesService.breakEven(id,
+          price,
+          nights,
+          occupancyRate,
+          maintenance,
+          mortgageRate,
+          mortgageRatio);
     };
   }
 }
