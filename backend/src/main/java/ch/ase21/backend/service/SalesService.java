@@ -129,7 +129,7 @@ public class SalesService {
                      Double bookingRate,
                      Double monthlyMaintenance,
                      Double mortgageRate,
-                     Double mortgageRatio) throws RuntimeException
+                     Double mortgageRatio) throws IllegalArgumentException
   {
     if(revenuePerNight == null){
       throw new IllegalArgumentException("Missing price.");
