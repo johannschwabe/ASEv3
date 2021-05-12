@@ -11,7 +11,6 @@ import java.util.*;
 public class SalesAPI extends GraphqlAPI{
 
   private static final String API_URL = "http://salesapi:8080/graphql";
-//  private static final String API_URL = "http://localhost:8484/graphql";
 
   // Sale fields
   private static final String ID = "id";

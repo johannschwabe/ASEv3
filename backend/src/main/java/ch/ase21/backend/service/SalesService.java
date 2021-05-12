@@ -83,7 +83,7 @@ public class SalesService {
    * @param mortgageRatio The ratio of the sale price covered by a mortgage. Default to 0.75 (75%) if null.
    * @return The expected number of years to break even or null if calculation is not possible
    * @throws IOException Communication with the API failed.
-   * @throws RuntimeException Invalid sale property or revenue could not be calculated.
+   * @throws IllegalArgumentException Invalid sale property or revenue could not be calculated.
    */
   public static Double
   breakEven(String id,
@@ -92,7 +92,7 @@ public class SalesService {
             Double bookingRate,
             Double monthlyMaintenance,
             Double mortgageRate,
-            Double mortgageRatio) throws IOException, RuntimeException
+            Double mortgageRatio) throws IOException, IllegalArgumentException
   {
     var sale = SalesAPI.getById(id);
 
@@ -110,7 +110,6 @@ public class SalesService {
         mortgageRatio);
   }
 
-
   /**
    * Calculate the number of years it takes to break even by leasing the given sale property on airbnb.
    * @param sale The property to lease.
@@ -121,7 +120,7 @@ public class SalesService {
    * @param monthlyMaintenance The monthly maintenance cost per square feet. Defaults to 2.50$ if null.
    * @param mortgageRate The mortgage rate for the full sale price. Defaults to 0.03 (3%) if null.
    * @return The expected number of years to break even or null if calculation is not possible
-   * @throws RuntimeException Invalid sale property or missing revenue per night.
+   * @throws IllegalArgumentException Invalid sale property or missing revenue per night.
    */
   public static Double
   calculateBreakEven(Sale sale,
@@ -133,7 +132,7 @@ public class SalesService {
                      Double mortgageRatio) throws RuntimeException
   {
     if(revenuePerNight == null){
-      throw new RuntimeException("Missing price.");
+      throw new IllegalArgumentException("Missing price.");
     }
 
     if(nightsPerYear == null){
@@ -175,7 +174,7 @@ public class SalesService {
       return salesPrice / (yearlyRevenue - yearlyMaintenance - mortgageCost);
 
     } catch(NumberFormatException | ArithmeticException e){
-      throw new RuntimeException("Invalid sale property.");
+      throw new IllegalArgumentException("Invalid sale property.");
     }
   }
 }

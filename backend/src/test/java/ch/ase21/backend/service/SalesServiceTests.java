@@ -147,7 +147,7 @@ class SalesServiceTests {
     sale.setSalePrice("1000000");
     sale.setGrossSquareFeet("1000");
 
-    Assertions.assertThrows(RuntimeException.class,
+    Assertions.assertThrows(IllegalArgumentException.class,
         () -> SalesService.calculateBreakEven(sale,
             null,
             null,
@@ -178,7 +178,7 @@ class SalesServiceTests {
 
     int revenue = 200;
 
-    Assertions.assertThrows(RuntimeException.class,
+    Assertions.assertThrows(IllegalArgumentException.class,
         () -> SalesService.calculateBreakEven(sale,
             revenue,
             null,
@@ -209,7 +209,7 @@ class SalesServiceTests {
 
     int revenue = 200;
 
-    Assertions.assertThrows(RuntimeException.class,
+    Assertions.assertThrows(IllegalArgumentException.class,
         () -> SalesService.calculateBreakEven(sale,
             revenue,
             null,
@@ -241,7 +241,7 @@ class SalesServiceTests {
 
     int revenue = 200;
 
-    Assertions.assertThrows(RuntimeException.class,
+    Assertions.assertThrows(IllegalArgumentException.class,
         () -> SalesService.calculateBreakEven(sale,
             revenue,
             null,
