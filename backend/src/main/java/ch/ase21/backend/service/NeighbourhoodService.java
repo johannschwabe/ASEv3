@@ -21,7 +21,8 @@ public class NeighbourhoodService {
    * @return A quality score for the neighbourhood.
    * @throws IOException Communication to the API failed.
    */
-  public static Float neighbourhoodRating(String neighbourhood) throws IOException{
+  public static Float
+  neighbourhoodRating(String neighbourhood) throws IOException{
     List<Airbnb> airbnbs = AirbnbAPI.getAllByNeighbourhood(neighbourhood);
     List<Sale> sales = SalesAPI.getAllByNeighbourhood(neighbourhood);
     return NeighbourhoodService.calculateScore(airbnbs, sales);
@@ -34,23 +35,13 @@ public class NeighbourhoodService {
    * @param sales The list of all sale properties in the neighbourhood.
    * @return The score for the neighbourhood or null.
    */
-  public static Float calculateScore(List<Airbnb> airbnbs, List<Sale> sales) {
+  public static Float
+  calculateScore(List<Airbnb> airbnbs, List<Sale> sales) {
     // Revenue per Night
-    float revenueSummed = 0;
-    var countAirbnb = 0;
-
-    for(Airbnb airbnbProperty: airbnbs){
-      if(airbnbProperty.getPrice() > 0){
-        revenueSummed += airbnbProperty.getPrice();
-        countAirbnb++;
-      }
-    }
-
-    if(countAirbnb == 0){
+    Integer averageRevenuePerNight = AirbnbService.averageRevenuePerNight(airbnbs, true);
+    if(averageRevenuePerNight == null){
       return null;
     }
-
-    float averageRevenuePerNight = revenueSummed / countAirbnb;
 
     // Price per residential unit
     float priceSummed = 0;

@@ -74,4 +74,191 @@ class SalesServiceTests {
         () -> SalesService.calculateEstimatedSalePrice(sale, neighbourhoodSales));
   }
 
+  /**
+   * Calculate the break even with all default values
+   */
+  @Test void calculateBreakEvenMinimal(){
+    Sale sale = new Sale("1");
+    sale.setTotalUnits(1);
+    sale.setSalePrice("1000000");
+    sale.setGrossSquareFeet("1000");
+
+    int revenue = 200;
+    int nights = 365;
+    double occupancyRate = 0.8;
+    double maintenance = 2.5;
+    double mortgageRate = 0.03;
+    double mortgageRatio = 0.75;
+
+    Double breakEven = SalesService.calculateBreakEven(sale,
+        revenue,
+        null,
+        null,
+        null,
+        null,
+        null);
+
+    Double expectedRevenue = revenue * nights * occupancyRate;
+    Double expectedMaintenance = 1000 * maintenance * 12;
+    Double expectedMortgage = 1000000 * mortgageRate * mortgageRatio;
+    Double expectedBreakEven = 1000000 / (expectedRevenue - expectedMaintenance - expectedMortgage);
+
+    Assertions.assertEquals(expectedBreakEven, breakEven);
+  }
+
+  /**
+   * Calculate the break even with all values
+   */
+  @Test void calculateBreakEvenFull(){
+    Sale sale = new Sale("1");
+    sale.setTotalUnits(1);
+    sale.setSalePrice("1000000");
+    sale.setGrossSquareFeet("1000");
+
+    int revenue = 200;
+    int nights = 300;
+    double occupancyRate = 0.9;
+    double maintenance = 2.0;
+    double mortgageRate = 0.025;
+    double mortgageRatio = 0.9;
+
+    Double breakEven = SalesService.calculateBreakEven(sale,
+        revenue,
+        nights,
+        occupancyRate,
+        maintenance,
+        mortgageRate,
+        mortgageRatio);
+
+    Double expectedRevenue = revenue * nights * occupancyRate;
+    Double expectedMaintenance = 1000 * maintenance * 12;
+    Double expectedMortgage = 1000000 * mortgageRate * mortgageRatio;
+    Double expectedBreakEven = 1000000 / (expectedRevenue - expectedMaintenance - expectedMortgage);
+
+    Assertions.assertEquals(expectedBreakEven, breakEven);
+  }
+
+  /**
+   * Calculate the break even with missing price.
+   */
+  @Test void calculateBreakEvenMissingPrice(){
+    Sale sale = new Sale("1");
+    sale.setTotalUnits(1);
+    sale.setSalePrice("1000000");
+    sale.setGrossSquareFeet("1000");
+
+    Assertions.assertThrows(IllegalArgumentException.class,
+        () -> SalesService.calculateBreakEven(sale,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null));
+    try{
+      SalesService.calculateBreakEven(sale,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null);
+    } catch(RuntimeException e){
+      Assertions.assertEquals("Missing price.", e.getMessage());
+    }
+  }
+
+  /**
+   * Calculate the break even with missing gross square feet.
+   */
+  @Test void calculateBreakEvenInvalidSale1(){
+    Sale sale = new Sale("1");
+    sale.setTotalUnits(1);
+    sale.setSalePrice("1000000");
+
+    int revenue = 200;
+
+    Assertions.assertThrows(IllegalArgumentException.class,
+        () -> SalesService.calculateBreakEven(sale,
+            revenue,
+            null,
+            null,
+            null,
+            null,
+            null));
+    try{
+      SalesService.calculateBreakEven(sale,
+          revenue,
+          null,
+          null,
+          null,
+          null,
+          null);
+    } catch(RuntimeException e){
+      Assertions.assertEquals("Invalid sale property.", e.getMessage());
+    }
+  }
+
+  /**
+   * Calculate the break even with missing sale price.
+   */
+  @Test void calculateBreakEvenInvalidSale2(){
+    Sale sale = new Sale("1");
+    sale.setTotalUnits(1);
+    sale.setGrossSquareFeet("1000");
+
+    int revenue = 200;
+
+    Assertions.assertThrows(IllegalArgumentException.class,
+        () -> SalesService.calculateBreakEven(sale,
+            revenue,
+            null,
+            null,
+            null,
+            null,
+            null));
+    try{
+      SalesService.calculateBreakEven(sale,
+          revenue,
+          null,
+          null,
+          null,
+          null,
+          null);
+    } catch(RuntimeException e){
+      Assertions.assertEquals("Invalid sale property.", e.getMessage());
+    }
+  }
+
+  /**
+   * Calculate the break even with 0 total units.
+   */
+  @Test void calculateBreakEvenInvalidSale3(){
+    Sale sale = new Sale("1");
+    sale.setTotalUnits(0);
+    sale.setSalePrice("1000000");
+    sale.setGrossSquareFeet("1000");
+
+    int revenue = 200;
+
+    Assertions.assertThrows(IllegalArgumentException.class,
+        () -> SalesService.calculateBreakEven(sale,
+            revenue,
+            null,
+            null,
+            null,
+            null,
+            null));
+    try{
+      SalesService.calculateBreakEven(sale,
+          revenue,
+          null,
+          null,
+          null,
+          null,
+          null);
+    } catch(RuntimeException e){
+      Assertions.assertEquals("Invalid sale property.", e.getMessage());
+    }
+  }
 }

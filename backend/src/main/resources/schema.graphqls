@@ -8,6 +8,13 @@ type Query {
     salesByNeighbourhood(neighbourhood: String): [Sale]
     airbnbsByNeighbourhood(neighbourhood: String): [Airbnb]
     neighbourhoodRating(neighbourhood: String): Float
+    calculateBreakEven(id: ID,
+        price: Int,
+        nights: Int,
+        occupancyRate: Float,
+        maintenance: Float,
+        mortgageRate: Float,
+        mortgageRatio: Float): Float
 }
 
 type Coordiantes {
