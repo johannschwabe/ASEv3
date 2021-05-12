@@ -81,7 +81,9 @@ public class GraphQLDataFetchers {
       Float rate = dataFetchingEnvironment.getArgument("rate");
       Float maintenance = dataFetchingEnvironment.getArgument("maintenance");
       Float mortgage = dataFetchingEnvironment.getArgument("mortgage");
-      return SalesService.breakEven(id, price, nights, rate, maintenance, mortgage);
+      Float ratio = dataFetchingEnvironment.getArgument("ratio");
+
+      return SalesService.breakEven(id, price, nights, rate, maintenance, mortgage, ratio);
     };
   }
 }

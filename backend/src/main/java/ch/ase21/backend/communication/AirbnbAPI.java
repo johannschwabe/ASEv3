@@ -11,6 +11,7 @@ import java.util.*;
 public class AirbnbAPI extends GraphqlAPI {
 
   private static final String API_URL = "http://airbnbapi:8080/graphql";
+//  private static final String API_URL = "http://localhost:8383/graphql";
 
   private static final String PROPERTY_FIELDS =
       "id\n" +

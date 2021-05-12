@@ -79,10 +79,11 @@ public class SalesService {
    *                      to 365 (whole year) if null.
    * @param bookingRate The rate to which the apartment will bo booked. Defaults to 0.8 (80%) if null.
    * @param monthlyMaintenance The monthly maintenance cost per square feet. Defaults to 2.50$ if null.
-   * @param mortgageRate The mortgage rate for the full sale price. Defaults to 0.03 (3%) if null.
+   * @param mortgageRate The mortgage rate for the sale price. Defaults to 0.03 (3%) if null.
+   * @param mortgageRatio The ratio of the sale price covered by a mortgage. Default to 0.75 (75%) if null.
    * @return The expected number of years to break even or null if calculation is not possible
    * @throws IOException Communication with the API failed.
-   * @throws NumberFormatException Invalid sale price or gross square feet of the sale property.
+   * @throws RuntimeException Invalid sale property or revenue could not be calculated.
    */
   public static Float
   breakEven(String id,
@@ -90,16 +91,23 @@ public class SalesService {
             Integer nightsPerYear,
             Float bookingRate,
             Float monthlyMaintenance,
-            Float mortgageRate) throws IOException, NumberFormatException
+            Float mortgageRate,
+            Float mortgageRatio) throws IOException, RuntimeException
   {
     var sale = SalesAPI.getById(id);
 
     if(revenuePerNight == null){
       List<Airbnb> airbnbs = AirbnbAPI.getAllByNeighbourhood(sale.getNeighbourhood());
-      revenuePerNight = AirbnbService.averageRevenuePerNight(airbnbs);
+      revenuePerNight = AirbnbService.averageRevenuePerNight(airbnbs, true);
     }
 
-    return calculateBreakEven(sale, revenuePerNight, nightsPerYear, bookingRate, monthlyMaintenance, mortgageRate);
+    return calculateBreakEven(sale,
+        revenuePerNight,
+        nightsPerYear,
+        bookingRate,
+        monthlyMaintenance,
+        mortgageRate,
+        mortgageRatio);
   }
 
 
@@ -113,7 +121,7 @@ public class SalesService {
    * @param monthlyMaintenance The monthly maintenance cost per square feet. Defaults to 2.50$ if null.
    * @param mortgageRate The mortgage rate for the full sale price. Defaults to 0.03 (3%) if null.
    * @return The expected number of years to break even or null if calculation is not possible
-   * @throws NumberFormatException Invalid sale price or gross square feet of the sale property.
+   * @throws RuntimeException Invalid sale property or missing revenue per night.
    */
   public static Float
   calculateBreakEven(Sale sale,
@@ -121,10 +129,11 @@ public class SalesService {
                      Integer nightsPerYear,
                      Float bookingRate,
                      Float monthlyMaintenance,
-                     Float mortgageRate) throws NumberFormatException
+                     Float mortgageRate,
+                     Float mortgageRatio) throws RuntimeException
   {
-    if(revenuePerNight == null || sale.getResidentialUnits() == 0){
-      return null;
+    if(revenuePerNight == null){
+      throw new RuntimeException("Missing price.");
     }
 
     if(nightsPerYear == null){
@@ -148,15 +157,25 @@ public class SalesService {
       mortgageRate = 0.03f;
     }
 
-    int salesPrice = Integer.parseInt(sale.getSalePrice()) / sale.getTotalUnits();
+    if(mortgageRatio == null){
+      // 75% of the sale price
+      mortgageRatio = 0.75f;
+    }
 
-    float yearlyRevenue = revenuePerNight * nightsPerYear * bookingRate;
+    try{
+      int salesPrice = Integer.parseInt(sale.getSalePrice()) / sale.getTotalUnits();
 
-    Integer squareFeet = Integer.parseInt(sale.getGrossSquareFeet()) / sale.getTotalUnits();
-    float yearlyMaintenance = squareFeet * monthlyMaintenance * 12;
+      float yearlyRevenue = revenuePerNight * nightsPerYear * bookingRate;
 
-    float mortgageCost = salesPrice * mortgageRate;
+      int squareFeet = Integer.parseInt(sale.getGrossSquareFeet()) / sale.getTotalUnits();
+      float yearlyMaintenance = squareFeet * monthlyMaintenance * 12;
 
-    return salesPrice / (yearlyRevenue - yearlyMaintenance - mortgageCost);
+      float mortgageCost = salesPrice * mortgageRate * mortgageRatio;
+
+      return salesPrice / (yearlyRevenue - yearlyMaintenance - mortgageCost);
+
+    } catch(NumberFormatException | ArithmeticException e){
+      throw new RuntimeException("Invalid sale property.");
+    }
   }
 }

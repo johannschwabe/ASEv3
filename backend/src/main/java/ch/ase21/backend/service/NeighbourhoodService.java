@@ -38,7 +38,7 @@ public class NeighbourhoodService {
   public static Float
   calculateScore(List<Airbnb> airbnbs, List<Sale> sales) {
     // Revenue per Night
-    Integer averageRevenuePerNight = AirbnbService.averageRevenuePerNight(airbnbs);
+    Integer averageRevenuePerNight = AirbnbService.averageRevenuePerNight(airbnbs, true);
     if(averageRevenuePerNight == null){
       return null;
     }
