@@ -72,4 +72,24 @@ public class GraphQLDataFetchers {
       return NeighbourhoodService.neighbourhoodRating(neighbourhood);
     };
   }
+
+  public DataFetcher<Double> calculateBreakEvenDataFetcher() {
+    return dataFetchingEnvironment -> {
+      String id = dataFetchingEnvironment.getArgument(ID);
+      Integer price = dataFetchingEnvironment.getArgument("price");
+      Integer nights = dataFetchingEnvironment.getArgument("nights");
+      Double occupancyRate = dataFetchingEnvironment.getArgument("occupancyRate");
+      Double maintenance = dataFetchingEnvironment.getArgument("maintenance");
+      Double mortgageRate = dataFetchingEnvironment.getArgument("mortgageRate");
+      Double mortgageRatio = dataFetchingEnvironment.getArgument("mortgageRatio");
+
+      return SalesService.breakEven(id,
+          price,
+          nights,
+          occupancyRate,
+          maintenance,
+          mortgageRate,
+          mortgageRatio);
+    };
+  }
 }

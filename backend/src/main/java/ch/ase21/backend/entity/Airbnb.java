@@ -18,6 +18,9 @@ public class Airbnb {
   private Integer calculatedHostListingsCount = null;
   private Integer availability365 = null;
 
+  public static final String APARTMENT_ROOM_TYPE = "Entire home/apt";
+  public static final String PRIVATE_ROOM_TYPE = "Private room";
+
   public Airbnb(String id){ this.id = id; }
 
   public Airbnb(String id,
@@ -89,6 +92,10 @@ public class Airbnb {
 
   public String getRoomType(){
     return roomType;
+  }
+
+  public void setRoomType(String roomType){
+    this.roomType = roomType;
   }
 
   public Integer getPrice(){

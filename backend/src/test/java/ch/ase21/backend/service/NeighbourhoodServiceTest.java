@@ -23,6 +23,7 @@ class NeighbourhoodServiceTest {
 
     Airbnb airbnb = new Airbnb("1");
     airbnb.setPrice(200);
+    airbnb.setRoomType(Airbnb.APARTMENT_ROOM_TYPE);
     List<Airbnb> airbnbs = new ArrayList<>();
     airbnbs.add(airbnb);
 
@@ -45,6 +46,7 @@ class NeighbourhoodServiceTest {
 
     Airbnb airbnb = new Airbnb("1");
     airbnb.setPrice(200);
+    airbnb.setRoomType(Airbnb.APARTMENT_ROOM_TYPE);
     List<Airbnb> airbnbs = new ArrayList<>();
     airbnbs.add(airbnb);
 
@@ -67,6 +69,7 @@ class NeighbourhoodServiceTest {
 
     Airbnb airbnb = new Airbnb("1");
     airbnb.setPrice(200);
+    airbnb.setRoomType(Airbnb.APARTMENT_ROOM_TYPE);
     List<Airbnb> airbnbs = new ArrayList<>();
     airbnbs.add(airbnb);
 
@@ -85,6 +88,7 @@ class NeighbourhoodServiceTest {
 
     Airbnb airbnb = new Airbnb("1");
     airbnb.setPrice(200);
+    airbnb.setRoomType(Airbnb.APARTMENT_ROOM_TYPE);
     List<Airbnb> airbnbs = new ArrayList<>();
     airbnbs.add(airbnb);
 
