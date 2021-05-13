@@ -3,9 +3,15 @@ package ch.ase21.backend.service;
 import ch.ase21.backend.entity.Sale;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 class SalesServiceTests {
 
@@ -170,13 +176,15 @@ class SalesServiceTests {
   }
 
   /**
-   * Calculate the break even with zero gross square feet.
+   * Calculate the break even with zero values in sale.
    */
-  @Test void calculateBreakEvenInvalidSale1(){
+  @ParameterizedTest
+  @MethodSource("parametersForBreakEvenInvalidSale")
+  void calculateBreakEvenInvalidSale(Integer units, Integer price, Integer area){
     Sale sale = new Sale("1");
-    sale.setTotalUnits(1);
-    sale.setSalePrice(1000000);
-    sale.setGrossSquareFeet(0);
+    sale.setTotalUnits(units);
+    sale.setSalePrice(price);
+    sale.setGrossSquareFeet(area);
 
     int revenue = 200;
 
@@ -201,67 +209,11 @@ class SalesServiceTests {
     }
   }
 
-  /**
-   * Calculate the break even with zero sale price.
-   */
-  @Test void calculateBreakEvenInvalidSale2(){
-    Sale sale = new Sale("1");
-    sale.setTotalUnits(1);
-    sale.setSalePrice(0);
-    sale.setGrossSquareFeet(1000);
-
-    int revenue = 200;
-
-    Assertions.assertThrows(IllegalArgumentException.class,
-        () -> SalesService.calculateBreakEven(sale,
-            revenue,
-            null,
-            null,
-            null,
-            null,
-            null));
-    try{
-      SalesService.calculateBreakEven(sale,
-          revenue,
-          null,
-          null,
-          null,
-          null,
-          null);
-    } catch(RuntimeException e){
-      Assertions.assertEquals("Invalid sale property.", e.getMessage());
-    }
-  }
-
-  /**
-   * Calculate the break even with 0 total units.
-   */
-  @Test void calculateBreakEvenInvalidSale3(){
-    Sale sale = new Sale("1");
-    sale.setTotalUnits(0);
-    sale.setSalePrice(1000000);
-    sale.setGrossSquareFeet(1000);
-
-    int revenue = 200;
-
-    Assertions.assertThrows(IllegalArgumentException.class,
-        () -> SalesService.calculateBreakEven(sale,
-            revenue,
-            null,
-            null,
-            null,
-            null,
-            null));
-    try{
-      SalesService.calculateBreakEven(sale,
-          revenue,
-          null,
-          null,
-          null,
-          null,
-          null);
-    } catch(RuntimeException e){
-      Assertions.assertEquals("Invalid sale property.", e.getMessage());
-    }
+  private static Stream<Arguments> parametersForBreakEvenInvalidSale(){
+    return Stream.of(
+        Arguments.of(1, 1000000, 0),
+        Arguments.of(1, 0, 1000),
+        Arguments.of(0, 1000000, 1000)
+    );
   }
 }
