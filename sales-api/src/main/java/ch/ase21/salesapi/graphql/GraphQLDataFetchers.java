@@ -72,11 +72,11 @@ public class GraphQLDataFetchers {
   public DataFetcher<Integer> getLandSquareFeetDataFetcher() {
     return dataFetchingEnvironment -> {
       Property property = dataFetchingEnvironment.getSource();
-      Integer landSquareFeet;
+      int landSquareFeet;
       try{ 
         landSquareFeet = Integer.parseInt(property.getLandSquareFeet());
       } catch(NumberFormatException e){
-        landSquareFeet = null;
+        landSquareFeet = 0;
       }
       return landSquareFeet;
     };
@@ -85,11 +85,11 @@ public class GraphQLDataFetchers {
   public DataFetcher<Integer> getGrossSquareFeetDataFetcher() {
     return dataFetchingEnvironment -> {
       Property property = dataFetchingEnvironment.getSource();
-      Integer grossSquareFeet;
+      int grossSquareFeet;
       try{
         grossSquareFeet = Integer.parseInt(property.getGrossSquareFeet());
       } catch(NumberFormatException e){
-        grossSquareFeet = null;
+        grossSquareFeet = 0;
       }
       return grossSquareFeet;
     };
@@ -98,11 +98,11 @@ public class GraphQLDataFetchers {
   public DataFetcher<Integer> getSalePriceDataFetcher() {
     return dataFetchingEnvironment -> {
       Property property = dataFetchingEnvironment.getSource();
-      Integer salePrice;
+      int salePrice;
       try{
         salePrice = Integer.parseInt(property.getSalePrice());
       } catch(NumberFormatException e){
-        salePrice = null;
+        salePrice = 0;
       }
       return salePrice;
     };
