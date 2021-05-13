@@ -18,13 +18,13 @@ class SalesServiceTests {
     List<Sale> neighbourhoodSales = new ArrayList<>();
 
     Sale neighbor1 = new Sale("2");
-    neighbor1.setGrossSquareFeet("1000");
-    neighbor1.setSalePrice("500000");
+    neighbor1.setGrossSquareFeet(1000);
+    neighbor1.setSalePrice(500000);
     neighbourhoodSales.add(neighbor1);
 
     Sale neighbor2 = new Sale("3");
-    neighbor2.setGrossSquareFeet("1000");
-    neighbor2.setSalePrice("1000000");
+    neighbor2.setGrossSquareFeet(1000);
+    neighbor2.setSalePrice(1000000);
     neighbourhoodSales.add(neighbor2);
 
     return neighbourhoodSales;
@@ -35,7 +35,7 @@ class SalesServiceTests {
    */
   @Test void calculateEstimatedSalePrice(){
     Sale sale = new Sale("1");
-    sale.setGrossSquareFeet("1000");
+    sale.setGrossSquareFeet(1000);
 
     List<Sale> neighbourhoodSales = this.getNeighbourhoodSales();
 
@@ -51,7 +51,7 @@ class SalesServiceTests {
    */
   @Test void calculateEstimatedSalePriceNoNeighbors(){
     Sale sale = new Sale("1");
-    sale.setGrossSquareFeet("1000");
+    sale.setGrossSquareFeet(1000);
 
     List<Sale> neighbourhoodSales = new ArrayList<>();
 
@@ -62,16 +62,17 @@ class SalesServiceTests {
 
   /**
    * Calculate the estimated sale price of a property without a valid area.
-   * It is expected to throw a NumberFormatException.
+   * It is expected to return null.
    */
   @Test void calculateEstimatedSalePriceNoArea(){
     Sale sale = new Sale("1");
-    sale.setGrossSquareFeet(" - ");
+    sale.setGrossSquareFeet(null);
 
     List<Sale> neighbourhoodSales = this.getNeighbourhoodSales();
 
-    Assertions.assertThrows(NumberFormatException.class,
-        () -> SalesService.calculateEstimatedSalePrice(sale, neighbourhoodSales));
+    Integer estimatedSalePrice = SalesService.calculateEstimatedSalePrice(sale, neighbourhoodSales);
+
+    Assertions.assertNull(estimatedSalePrice);
   }
 
   /**
@@ -80,8 +81,8 @@ class SalesServiceTests {
   @Test void calculateBreakEvenMinimal(){
     Sale sale = new Sale("1");
     sale.setTotalUnits(1);
-    sale.setSalePrice("1000000");
-    sale.setGrossSquareFeet("1000");
+    sale.setSalePrice(1000000);
+    sale.setGrossSquareFeet(1000);
 
     int revenue = 200;
     int nights = 365;
@@ -112,8 +113,8 @@ class SalesServiceTests {
   @Test void calculateBreakEvenFull(){
     Sale sale = new Sale("1");
     sale.setTotalUnits(1);
-    sale.setSalePrice("1000000");
-    sale.setGrossSquareFeet("1000");
+    sale.setSalePrice(1000000);
+    sale.setGrossSquareFeet(1000);
 
     int revenue = 200;
     int nights = 300;
@@ -144,8 +145,8 @@ class SalesServiceTests {
   @Test void calculateBreakEvenMissingPrice(){
     Sale sale = new Sale("1");
     sale.setTotalUnits(1);
-    sale.setSalePrice("1000000");
-    sale.setGrossSquareFeet("1000");
+    sale.setSalePrice(1000000);
+    sale.setGrossSquareFeet(1000);
 
     Assertions.assertThrows(IllegalArgumentException.class,
         () -> SalesService.calculateBreakEven(sale,
@@ -174,7 +175,7 @@ class SalesServiceTests {
   @Test void calculateBreakEvenInvalidSale1(){
     Sale sale = new Sale("1");
     sale.setTotalUnits(1);
-    sale.setSalePrice("1000000");
+    sale.setSalePrice(1000000);
 
     int revenue = 200;
 
@@ -205,7 +206,7 @@ class SalesServiceTests {
   @Test void calculateBreakEvenInvalidSale2(){
     Sale sale = new Sale("1");
     sale.setTotalUnits(1);
-    sale.setGrossSquareFeet("1000");
+    sale.setGrossSquareFeet(1000);
 
     int revenue = 200;
 
@@ -236,8 +237,8 @@ class SalesServiceTests {
   @Test void calculateBreakEvenInvalidSale3(){
     Sale sale = new Sale("1");
     sale.setTotalUnits(0);
-    sale.setSalePrice("1000000");
-    sale.setGrossSquareFeet("1000");
+    sale.setSalePrice(1000000);
+    sale.setGrossSquareFeet(1000);
 
     int revenue = 200;
 

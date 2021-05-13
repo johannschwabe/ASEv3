@@ -48,16 +48,14 @@ public class NeighbourhoodService {
     var countSales = 0;
 
     for(Sale saleProperty: sales){
-      int salesPrice;
+      Integer salePrice = saleProperty.getSalePrice();
 
-      try {
-        salesPrice = Integer.parseInt(saleProperty.getSalePrice());
-      } catch(NumberFormatException e){
-        continue;
-      }
-
-      if(salesPrice > 1000 && saleProperty.getResidentialUnits() > 0 && saleProperty.getTotalUnits() > 0){
-        priceSummed += salesPrice / (float) saleProperty.getTotalUnits();
+      if(salePrice != null &&
+          salePrice > 1000 &&
+          saleProperty.getResidentialUnits() > 0 &&
+          saleProperty.getTotalUnits() > 0)
+      {
+        priceSummed += salePrice / (float) saleProperty.getTotalUnits();
         countSales++;
       }
     }

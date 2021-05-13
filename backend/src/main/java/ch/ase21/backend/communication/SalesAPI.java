@@ -82,12 +82,12 @@ public class SalesAPI extends GraphqlAPI{
     Integer residentialUnits = node.get("residentialUnits").intValue();
     Integer commercialUnits = node.get("commercialUnits").intValue();
     Integer totalUnits = node.get("totalUnits").intValue();
-    String landSquareFeet = node.get("landSquareFeet").asText();
-    String grossSquareFeet = node.get(GROSS_SQUARE_FEET).asText();
+    Integer landSquareFeet = node.get("landSquareFeet").intValue();
+    Integer grossSquareFeet = node.get(GROSS_SQUARE_FEET).intValue();
     Integer yearBuilt = node.get("yearBuilt").intValue();
     Integer taxClassAtTimeOfSale = node.get("taxClassAtTimeOfSale").intValue();
     String buildingClassAtTimeOfSale = node.get("buildingClassAtTimeOfSale").asText();
-    String salePrice = node.get(SALE_PRICE).asText();
+    Integer salePrice = node.get(SALE_PRICE).intValue();
     String saleDate = node.get("saleDate").asText();
     // Coordinates
     JsonNode coordinates = node.get("coordinates");
@@ -232,7 +232,7 @@ public class SalesAPI extends GraphqlAPI{
     JsonNode responseData = getResponseData(connection);
     JsonNode node = responseData.get("propertyById");
     String neighbourhood = node.get(NEIGHBOURHOOD).asText();
-    String grossSquareFeet = node.get(GROSS_SQUARE_FEET).asText();
+    Integer grossSquareFeet = node.get(GROSS_SQUARE_FEET).intValue();
     var sale = new Sale(id);
     sale.setNeighbourhood(neighbourhood);
     sale.setGrossSquareFeet(grossSquareFeet);

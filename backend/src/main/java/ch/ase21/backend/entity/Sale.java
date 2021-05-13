@@ -17,12 +17,12 @@ public class Sale {
   private Integer residentialUnits = null;
   private Integer commercialUnits = null;
   private Integer totalUnits = null;
-  private String landSquareFeet = null;
-  private String grossSquareFeet = null;
+  private Integer landSquareFeet = null;
+  private Integer grossSquareFeet = null;
   private Integer yearBuilt = null;
   private Integer taxClassAtTimeOfSale = null;
   private String buildingClassAtTimeOfSale = null;
-  private String salePrice = null;
+  private Integer salePrice = null;
   private String saleDate = null;
   // Coordinates
   private String idSale = null;
@@ -49,12 +49,12 @@ public class Sale {
               Integer residentialUnits,
               Integer commercialUnits,
               Integer totalUnits,
-              String landSquareFeet,
-              String grossSquareFeet,
+              Integer landSquareFeet,
+              Integer grossSquareFeet,
               Integer yearBuilt,
               Integer taxClassAtTimeOfSale,
               String buildingClassAtTimeOfSale,
-              String salePrice,
+              Integer salePrice,
               String saleDate,
               String idSale,
               Float latitude,
@@ -169,15 +169,15 @@ public class Sale {
     this.totalUnits = totalUnits;
   }
 
-  public String getLandSquareFeet(){
+  public Integer getLandSquareFeet(){
     return landSquareFeet;
   }
 
-  public String getGrossSquareFeet(){
+  public Integer getGrossSquareFeet(){
     return grossSquareFeet;
   }
 
-  public void setGrossSquareFeet(String grossSquareFeet){
+  public void setGrossSquareFeet(Integer grossSquareFeet){
     this.grossSquareFeet = grossSquareFeet;
   }
 
@@ -193,11 +193,11 @@ public class Sale {
     return buildingClassAtTimeOfSale;
   }
 
-  public String getSalePrice(){
+  public Integer getSalePrice(){
     return salePrice;
   }
 
-  public void setSalePrice(String salePrice){
+  public void setSalePrice(Integer salePrice){
     this.salePrice = salePrice;
   }
 

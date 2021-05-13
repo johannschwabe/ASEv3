@@ -41,15 +41,10 @@ public class SalesService {
     List<Integer> pricesPerSquareFeet = new ArrayList<>();
 
     for(Sale neighbourhoodSale: neighbourhoodSales){
-      int squareFeet;
-      int salePrice;
-      try{
-        squareFeet = Integer.parseInt(neighbourhoodSale.getGrossSquareFeet());
-        salePrice = Integer.parseInt(neighbourhoodSale.getSalePrice());
-      } catch(NumberFormatException e){
-        continue;
-      }
-      if(squareFeet > 0 && salePrice > 1000){
+      Integer squareFeet = neighbourhoodSale.getGrossSquareFeet();
+      Integer salePrice = neighbourhoodSale.getSalePrice();
+
+      if(squareFeet != null && salePrice != null && squareFeet > 0 && salePrice > 1000){
         Integer pricePerSquareFeet = salePrice / squareFeet;
         pricesPerSquareFeet.add(pricePerSquareFeet);
       }
@@ -66,7 +61,12 @@ public class SalesService {
     }
 
     Integer averagePricePerSquareFeet = sum / pricesPerSquareFeet.size();
-    Integer squareFeet = Integer.parseInt(sale.getGrossSquareFeet());
+    Integer squareFeet = sale.getGrossSquareFeet();
+
+    if(squareFeet == null){
+      return null;
+    }
+
     return squareFeet * averagePricePerSquareFeet;
   }
 
@@ -135,6 +135,10 @@ public class SalesService {
       throw new IllegalArgumentException("Missing price.");
     }
 
+    if(sale.getSalePrice() == null || sale.getGrossSquareFeet() == null || sale.getTotalUnits() == 0){
+      throw new IllegalArgumentException("Invalid sale property.");
+    }
+
     if(nightsPerYear == null){
       // Available all year
       nightsPerYear = 365;
@@ -161,20 +165,15 @@ public class SalesService {
       mortgageRatio = 0.75;
     }
 
-    try{
-      int salesPrice = Integer.parseInt(sale.getSalePrice()) / sale.getTotalUnits();
+    int salesPrice = sale.getSalePrice() / sale.getTotalUnits();
 
-      double yearlyRevenue = revenuePerNight * nightsPerYear * bookingRate;
+    double yearlyRevenue = revenuePerNight * nightsPerYear * bookingRate;
 
-      int squareFeet = Integer.parseInt(sale.getGrossSquareFeet()) / sale.getTotalUnits();
-      double yearlyMaintenance = squareFeet * monthlyMaintenance * 12;
+    int squareFeet = sale.getGrossSquareFeet() / sale.getTotalUnits();
+    double yearlyMaintenance = squareFeet * monthlyMaintenance * 12;
 
-      double mortgageCost = salesPrice * mortgageRate * mortgageRatio;
+    double mortgageCost = salesPrice * mortgageRate * mortgageRatio;
 
-      return salesPrice / (yearlyRevenue - yearlyMaintenance - mortgageCost);
-
-    } catch(NumberFormatException | ArithmeticException e){
-      throw new IllegalArgumentException("Invalid sale property.");
-    }
+    return salesPrice / (yearlyRevenue - yearlyMaintenance - mortgageCost);
   }
 }
