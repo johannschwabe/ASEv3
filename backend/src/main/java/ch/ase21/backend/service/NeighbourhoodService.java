@@ -50,10 +50,7 @@ public class NeighbourhoodService {
     for(Sale saleProperty: sales){
       Integer salePrice = saleProperty.getSalePrice();
 
-      if(salePrice > 1000 &&
-          saleProperty.getResidentialUnits() > 0 &&
-          saleProperty.getTotalUnits() > 0)
-      {
+      if(salePrice > 1000 && saleProperty.getResidentialUnits() > 0 && saleProperty.getTotalUnits() > 0){
         priceSummed += salePrice / (float) saleProperty.getTotalUnits();
         countSales++;
       }
@@ -68,7 +65,7 @@ public class NeighbourhoodService {
     // Score
     float breakEven =  averagePricePerApartment / (averageRevenuePerNight * 365);
     float score = 7 / breakEven; // Score of 1.0 if break even is in 7 years or less
-    if(score > 1) {
+    if(score > 1){
       return 1.0f;
     }
     return score;
