@@ -170,12 +170,13 @@ class SalesServiceTests {
   }
 
   /**
-   * Calculate the break even with missing gross square feet.
+   * Calculate the break even with zero gross square feet.
    */
   @Test void calculateBreakEvenInvalidSale1(){
     Sale sale = new Sale("1");
     sale.setTotalUnits(1);
     sale.setSalePrice(1000000);
+    sale.setGrossSquareFeet(0);
 
     int revenue = 200;
 
@@ -201,11 +202,12 @@ class SalesServiceTests {
   }
 
   /**
-   * Calculate the break even with missing sale price.
+   * Calculate the break even with zero sale price.
    */
   @Test void calculateBreakEvenInvalidSale2(){
     Sale sale = new Sale("1");
     sale.setTotalUnits(1);
+    sale.setSalePrice(0);
     sale.setGrossSquareFeet(1000);
 
     int revenue = 200;

@@ -135,7 +135,7 @@ public class SalesService {
       throw new IllegalArgumentException("Missing price.");
     }
 
-    if(sale.getSalePrice() == null || sale.getGrossSquareFeet() == null || sale.getTotalUnits() == 0){
+    if(sale.getSalePrice() == 0 || sale.getGrossSquareFeet() == 0 || sale.getTotalUnits() == 0){
       throw new IllegalArgumentException("Invalid sale property.");
     }
 
