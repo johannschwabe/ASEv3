@@ -48,16 +48,10 @@ public class NeighbourhoodService {
     var countSales = 0;
 
     for(Sale saleProperty: sales){
-      int salesPrice;
+      Integer salePrice = saleProperty.getSalePrice();
 
-      try {
-        salesPrice = Integer.parseInt(saleProperty.getSalePrice());
-      } catch(NumberFormatException e){
-        continue;
-      }
-
-      if(salesPrice > 1000 && saleProperty.getResidentialUnits() > 0 && saleProperty.getTotalUnits() > 0){
-        priceSummed += salesPrice / (float) saleProperty.getTotalUnits();
+      if(salePrice > 1000 && saleProperty.getResidentialUnits() > 0 && saleProperty.getTotalUnits() > 0){
+        priceSummed += salePrice / (float) saleProperty.getTotalUnits();
         countSales++;
       }
     }
@@ -71,7 +65,7 @@ public class NeighbourhoodService {
     // Score
     float breakEven =  averagePricePerApartment / (averageRevenuePerNight * 365);
     float score = 7 / breakEven; // Score of 1.0 if break even is in 7 years or less
-    if(score > 1) {
+    if(score > 1){
       return 1.0f;
     }
     return score;

@@ -20,7 +20,7 @@ public class Coordinates {
     return latitude;
   }
 
-  public Float getIntegeritude(){
+  public Float getLongitude(){
     return longitude;
   }
 
