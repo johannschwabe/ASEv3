@@ -66,7 +66,7 @@ class SalesServiceTests {
    */
   @Test void calculateEstimatedSalePriceNoArea(){
     Sale sale = new Sale("1");
-    sale.setGrossSquareFeet(null);
+    sale.setGrossSquareFeet(0);
 
     List<Sale> neighbourhoodSales = this.getNeighbourhoodSales();
 

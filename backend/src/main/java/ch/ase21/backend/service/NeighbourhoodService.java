@@ -50,8 +50,7 @@ public class NeighbourhoodService {
     for(Sale saleProperty: sales){
       Integer salePrice = saleProperty.getSalePrice();
 
-      if(salePrice != null &&
-          salePrice > 1000 &&
+      if(salePrice > 1000 &&
           saleProperty.getResidentialUnits() > 0 &&
           saleProperty.getTotalUnits() > 0)
       {

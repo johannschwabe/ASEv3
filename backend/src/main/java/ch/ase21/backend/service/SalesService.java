@@ -44,7 +44,7 @@ public class SalesService {
       Integer squareFeet = neighbourhoodSale.getGrossSquareFeet();
       Integer salePrice = neighbourhoodSale.getSalePrice();
 
-      if(squareFeet != null && salePrice != null && squareFeet > 0 && salePrice > 1000){
+      if(squareFeet > 0 && salePrice > 1000){
         Integer pricePerSquareFeet = salePrice / squareFeet;
         pricesPerSquareFeet.add(pricePerSquareFeet);
       }
@@ -63,7 +63,7 @@ public class SalesService {
     Integer averagePricePerSquareFeet = sum / pricesPerSquareFeet.size();
     Integer squareFeet = sale.getGrossSquareFeet();
 
-    if(squareFeet == null){
+    if(squareFeet == 0){
       return null;
     }
 
