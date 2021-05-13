@@ -86,16 +86,16 @@
         <q-badge
           v-if="property"
           color="grey-3"
-          :text-color="property.salePrice < estimated_price ? 'positive' : 'negative'"
-          :label="'$' + property.salePrice.toLocaleString()"
+          :text-color="loading ? 'black' : property.salePrice < estimated_price ? 'positive' : 'negative'"
+          :label="loading ? '...' : '$' + property.salePrice.toLocaleString()"
         />
       </div>
 
       <q-linear-progress
         rounded
         size="20px"
-        :value="price_slider_position"
-        :color="price_slider_color"
+        :value="loading? .5 : price_slider_position"
+        :color="loading? 'transparent' :price_slider_color"
         class="q-mt-sm"
         style="margin: 10px; width: calc(100% - 20px)"
       />
@@ -112,7 +112,7 @@
         <q-badge
           color="grey-3"
           text-color="grey-9"
-          :label="'$' + estimated_price.toLocaleString()"
+          :label="loading ? '...' : '$' + estimated_price.toLocaleString()"
         />
       </div>
 
@@ -321,7 +321,7 @@ export default {
   },
   data() {
     return {
-      estimated_price: 6500000, // TODO get from backend
+      estimated_price: 1, // Must be set to 1 initially to not break calculations
       rating: 7, // TODO, 1 to 10 expected
       property: null,
       loading: true,
@@ -389,6 +389,7 @@ export default {
      * Offset of the actual price badge in %
      */
     price_badge_offset() {
+      if (this.loading) { return 0; }
       const result = Math.round(this.price_slider_position * 100);
       return Math.min(Math.max(result, 10), 90);
     },
@@ -399,7 +400,10 @@ export default {
     },
   },
   created() {
-    this.fetchProperty();
+    this.fetchProperty().then(() => {
+      this.fetchEstimatedPrice(this.property.id);
+    });
+    // TODO fetch rating
   },
   methods: {
     capitalizeWords,
@@ -408,9 +412,12 @@ export default {
       this.$emit("hide");
     },
 
-    fetchProperty() {
+    /**
+     * Fetches the property's data
+     */
+    async fetchProperty() {
       this.loading = true;
-      axios({
+      const result = await axios({
         url: BACKEND_URL,
         method: "post",
         data: {
@@ -431,8 +438,29 @@ export default {
             }
           `,
         },
+      });
+
+      this.property = result.data.data.saleByCoordinatesId;
+    },
+
+    /**
+     * Fetches the property's estimated price
+     * @param {string} id - the property's ID
+     */
+    fetchEstimatedPrice(id) {
+      this.loading = true;
+      axios({
+        url: BACKEND_URL,
+        method: "post",
+        data: {
+          query: `
+            {
+              estimatedSalePriceById(id: "${id}")
+            }
+          `,
+        },
       }).then((result) => {
-        this.property = result.data.data.saleByCoordinatesId;
+        this.estimated_price = result.data.data.estimatedSalePriceById;
       }).finally(() => {
         this.loading = false;
       });
