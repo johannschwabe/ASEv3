@@ -22,12 +22,12 @@ type Property {
     residentialUnits: Int
     commercialUnits: Int
     totalUnits: Int
-    landSquareFeet: String
-    grossSquareFeet: String
+    landSquareFeet: Int
+    grossSquareFeet: Int
     yearBuilt: Int
     taxClassAtTimeOfSale: Int
     buildingClassAtTimeOfSale: String
-    salePrice: String
+    salePrice: Int
     saleDate: String
     coordinates: Coordiantes
 }

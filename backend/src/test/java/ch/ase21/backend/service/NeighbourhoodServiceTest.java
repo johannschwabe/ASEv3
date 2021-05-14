@@ -15,7 +15,7 @@ class NeighbourhoodServiceTest {
    */
   @Test void calculateGreatRating(){
     Sale sale = new Sale("1");
-    sale.setSalePrice("100000");
+    sale.setSalePrice(100000);
     sale.setTotalUnits(1);
     sale.setResidentialUnits(1);
     List<Sale> sales = new ArrayList<>();
@@ -38,7 +38,7 @@ class NeighbourhoodServiceTest {
    */
   @Test void calculateBadRating(){
     Sale sale = new Sale("1");
-    sale.setSalePrice("10000000");
+    sale.setSalePrice(10000000);
     sale.setTotalUnits(1);
     sale.setResidentialUnits(1);
     List<Sale> sales = new ArrayList<>();
@@ -61,7 +61,7 @@ class NeighbourhoodServiceTest {
    */
   @Test void calculateAverageRating(){
     Sale sale = new Sale("1");
-    sale.setSalePrice("1000000");
+    sale.setSalePrice(1000000);
     sale.setTotalUnits(1);
     sale.setResidentialUnits(1);
     List<Sale> sales = new ArrayList<>();
@@ -103,7 +103,7 @@ class NeighbourhoodServiceTest {
    */
   @Test void calculateScoreMissingAirbnbs(){
     Sale sale = new Sale("1");
-    sale.setSalePrice("1000000");
+    sale.setSalePrice(1000000);
     sale.setTotalUnits(1);
     sale.setResidentialUnits(1);
     List<Sale> sales = new ArrayList<>();

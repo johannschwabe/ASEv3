@@ -68,4 +68,43 @@ public class GraphQLDataFetchers {
           .findPropertiesByNeighborhood(uppercaseNeighbourhood);
     };
   }
+  
+  public DataFetcher<Integer> getLandSquareFeetDataFetcher() {
+    return dataFetchingEnvironment -> {
+      Property property = dataFetchingEnvironment.getSource();
+      int landSquareFeet;
+      try{ 
+        landSquareFeet = Integer.parseInt(property.getLandSquareFeet());
+      } catch(NumberFormatException e){
+        landSquareFeet = 0;
+      }
+      return landSquareFeet;
+    };
+  }
+
+  public DataFetcher<Integer> getGrossSquareFeetDataFetcher() {
+    return dataFetchingEnvironment -> {
+      Property property = dataFetchingEnvironment.getSource();
+      int grossSquareFeet;
+      try{
+        grossSquareFeet = Integer.parseInt(property.getGrossSquareFeet());
+      } catch(NumberFormatException e){
+        grossSquareFeet = 0;
+      }
+      return grossSquareFeet;
+    };
+  }
+
+  public DataFetcher<Integer> getSalePriceDataFetcher() {
+    return dataFetchingEnvironment -> {
+      Property property = dataFetchingEnvironment.getSource();
+      int salePrice;
+      try{
+        salePrice = Integer.parseInt(property.getSalePrice());
+      } catch(NumberFormatException e){
+        salePrice = 0;
+      }
+      return salePrice;
+    };
+  }
 }
