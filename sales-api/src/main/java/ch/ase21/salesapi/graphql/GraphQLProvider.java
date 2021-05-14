@@ -54,7 +54,10 @@ public class GraphQLProvider {
             .dataFetcher("propertiesByNeighbourhood", graphQLDataFetchers.getPropertiesByNeighbourhoodDataFetcher()))
         .type(newTypeWiring("Property")
             .dataFetcher("coordinates", graphQLDataFetchers.getCoordinatesDataFetcher())
-            .dataFetcher("neighbourhood", graphQLDataFetchers.getNeighbourhoodDataFetcher()))
+            .dataFetcher("neighbourhood", graphQLDataFetchers.getNeighbourhoodDataFetcher())
+            .dataFetcher("landSquareFeet", graphQLDataFetchers.getLandSquareFeetDataFetcher())
+            .dataFetcher("grossSquareFeet", graphQLDataFetchers.getGrossSquareFeetDataFetcher())
+            .dataFetcher("salePrice", graphQLDataFetchers.getSalePriceDataFetcher()))
         .build();
   }
 }
