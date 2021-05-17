@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SalesService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend</a> &gt; <a href="index.source.html" class="el_package">ch.ase21.backend.service</a> &gt; <span class="el_source">SalesService.java</span></div><h1>SalesService.java</h1><pre class="source lang-java linenums">package ch.ase21.backend.service;
+
+import ch.ase21.backend.communication.AirbnbAPI;
+import ch.ase21.backend.communication.SalesAPI;
+import ch.ase21.backend.entity.Airbnb;
+import ch.ase21.backend.entity.Sale;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class SalesService {
+
+  private SalesService() {/* void */}
+
+  /**
+   * Return the estimated sale price for a property of the sales DB.
+   * Returns null if there are no valid neighbors.
+   * @param id The ID of the property.
+   * @return The estimated sale price for the property.
+   * @throws IOException Thrown if the communication with the sales API failed.
+   * @throws NumberFormatException Thrown if the given property has no valid area.
+   */
+  public static Integer
+  estimatedSalePriceById(String id) throws IOException, NumberFormatException{
+<span class="nc" id="L26">    var sale = SalesAPI.getGrossSquareFeetAndNeighbourhoodById(id);</span>
+<span class="nc" id="L27">    List&lt;Sale&gt; neighbourhoodSales = SalesAPI.getAllByNeighbourhood(sale.getNeighbourhood());</span>
+<span class="nc" id="L28">    return SalesService.calculateEstimatedSalePrice(sale, neighbourhoodSales);</span>
+  }
+
+  /**
+   * Calculate the estimated sale price for the given property of the sales DB
+   * and a list of all properties in the same neighbourhood.
+   * @param sale The Sale object of the property with &quot;grossSquareFeet&quot; given.
+   * @param neighbourhoodSales The sale objects of the properties in the neighbourhood with
+   *                          &quot;grossSquareFeet&quot; and &quot;salePrice&quot; given.
+   * @return The estimated sale price for the given sale property.
+   */
+  public static Integer
+  calculateEstimatedSalePrice(Sale sale, List&lt;Sale&gt; neighbourhoodSales) throws NumberFormatException{
+<span class="fc" id="L41">    List&lt;Integer&gt; pricesPerSquareFeet = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L43" title="All 2 branches covered.">    for(Sale neighbourhoodSale: neighbourhoodSales){</span>
+<span class="fc" id="L44">      Integer squareFeet = neighbourhoodSale.getGrossSquareFeet();</span>
+<span class="fc" id="L45">      Integer salePrice = neighbourhoodSale.getSalePrice();</span>
+
+<span class="pc bpc" id="L47" title="2 of 4 branches missed.">      if(squareFeet &gt; 0 &amp;&amp; salePrice &gt; 1000){</span>
+<span class="fc" id="L48">        Integer pricePerSquareFeet = salePrice / squareFeet;</span>
+<span class="fc" id="L49">        pricesPerSquareFeet.add(pricePerSquareFeet);</span>
+      }
+<span class="fc" id="L51">    }</span>
+
+<span class="fc bfc" id="L53" title="All 2 branches covered.">    if(pricesPerSquareFeet.isEmpty()){</span>
+<span class="fc" id="L54">      return null;</span>
+    }
+
+<span class="fc" id="L57">    Integer sum = 0;</span>
+
+<span class="fc bfc" id="L59" title="All 2 branches covered.">    for(Integer price : pricesPerSquareFeet){</span>
+<span class="fc" id="L60">      sum += price;</span>
+<span class="fc" id="L61">    }</span>
+
+<span class="fc" id="L63">    Integer averagePricePerSquareFeet = sum / pricesPerSquareFeet.size();</span>
+<span class="fc" id="L64">    Integer squareFeet = sale.getGrossSquareFeet();</span>
+
+<span class="fc bfc" id="L66" title="All 2 branches covered.">    if(squareFeet == 0){</span>
+<span class="fc" id="L67">      return null;</span>
+    }
+
+<span class="fc" id="L70">    return squareFeet * averagePricePerSquareFeet;</span>
+  }
+
+  /**
+   * Calculate the number of years it takes to break even by leasing the given sale property on airbnb.
+   * @param id The id of the property to lease.
+   * @param revenuePerNight The revenue generated per night (price of the airbnb). Defaults to the
+   *                        average price in the neighbourhood if null.
+   * @param nightsPerYear The number of nights per year this apartment is available for renting. Defaults
+   *                      to 365 (whole year) if null.
+   * @param bookingRate The rate to which the apartment will bo booked. Defaults to 0.8 (80%) if null.
+   * @param monthlyMaintenance The monthly maintenance cost per square feet. Defaults to 2.50$ if null.
+   * @param mortgageRate The mortgage rate for the sale price. Defaults to 0.03 (3%) if null.
+   * @param mortgageRatio The ratio of the sale price covered by a mortgage. Default to 0.75 (75%) if null.
+   * @return The expected number of years to break even or null if calculation is not possible
+   * @throws IOException Communication with the API failed.
+   * @throws IllegalArgumentException Invalid sale property or revenue could not be calculated.
+   */
+  public static Double
+  breakEven(String id,
+            Integer revenuePerNight,
+            Integer nightsPerYear,
+            Double bookingRate,
+            Double monthlyMaintenance,
+            Double mortgageRate,
+            Double mortgageRatio) throws IOException, IllegalArgumentException
+  {
+<span class="nc" id="L97">    var sale = SalesAPI.getById(id);</span>
+
+<span class="nc bnc" id="L99" title="All 2 branches missed.">    if(revenuePerNight == null){</span>
+<span class="nc" id="L100">      List&lt;Airbnb&gt; airbnbs = AirbnbAPI.getAllByNeighbourhood(sale.getNeighbourhood());</span>
+<span class="nc" id="L101">      revenuePerNight = AirbnbService.averageRevenuePerNight(airbnbs, true);</span>
+    }
+
+<span class="nc" id="L104">    return calculateBreakEven(sale,</span>
+        revenuePerNight,
+        nightsPerYear,
+        bookingRate,
+        monthlyMaintenance,
+        mortgageRate,
+        mortgageRatio);
+  }
+
+  /**
+   * Calculate the number of years it takes to break even by leasing the given sale property on airbnb.
+   * @param sale The property to lease.
+   * @param revenuePerNight The revenue generated per night (price of the airbnb). Must not be null.
+   * @param nightsPerYear The number of nights per year this apartment is available for renting. Defaults
+   *                      to 365 (whole year) if null.
+   * @param bookingRate The rate to which the apartment will bo booked. Defaults to 0.8 (80%) if null.
+   * @param monthlyMaintenance The monthly maintenance cost per square feet. Defaults to 2.50$ if null.
+   * @param mortgageRate The mortgage rate for the full sale price. Defaults to 0.03 (3%) if null.
+   * @return The expected number of years to break even or null if calculation is not possible
+   * @throws IllegalArgumentException Invalid sale property or missing revenue per night.
+   */
+  public static Double
+  calculateBreakEven(Sale sale,
+                     Integer revenuePerNight,
+                     Integer nightsPerYear,
+                     Double bookingRate,
+                     Double monthlyMaintenance,
+                     Double mortgageRate,
+                     Double mortgageRatio) throws IllegalArgumentException
+  {
+<span class="fc bfc" id="L134" title="All 2 branches covered.">    if(revenuePerNight == null){</span>
+<span class="fc" id="L135">      throw new IllegalArgumentException(&quot;Missing price.&quot;);</span>
+    }
+
+<span class="fc bfc" id="L138" title="All 6 branches covered.">    if(sale.getSalePrice() == 0 || sale.getGrossSquareFeet() == 0 || sale.getTotalUnits() == 0){</span>
+<span class="fc" id="L139">      throw new IllegalArgumentException(&quot;Invalid sale property.&quot;);</span>
+    }
+
+<span class="fc bfc" id="L142" title="All 2 branches covered.">    if(nightsPerYear == null){</span>
+      // Available all year
+<span class="fc" id="L144">      nightsPerYear = 365;</span>
+    }
+
+<span class="fc bfc" id="L147" title="All 2 branches covered.">    if(bookingRate == null){</span>
+      // 80% of the available nights booked
+<span class="fc" id="L149">      bookingRate = 0.8;</span>
+    }
+
+<span class="fc bfc" id="L152" title="All 2 branches covered.">    if(monthlyMaintenance == null){</span>
+      // 2.50$ per square foot per month:
+      // https://www.cottagesgardens.com/the-ins-and-outs-of-maintenance-costs-in-new-york-city/
+<span class="fc" id="L155">      monthlyMaintenance = 2.5;</span>
+    }
+
+<span class="fc bfc" id="L158" title="All 2 branches covered.">    if(mortgageRate == null){</span>
+      // 3% mortgage rate: https://www.usbank.com/home-loans/mortgage/mortgage-rates/new-york.html
+<span class="fc" id="L160">      mortgageRate = 0.03;</span>
+    }
+
+<span class="fc bfc" id="L163" title="All 2 branches covered.">    if(mortgageRatio == null){</span>
+      // 75% of the sale price
+<span class="fc" id="L165">      mortgageRatio = 0.75;</span>
+    }
+
+<span class="fc" id="L168">    int salesPrice = sale.getSalePrice() / sale.getTotalUnits();</span>
+
+<span class="fc" id="L170">    double yearlyRevenue = revenuePerNight * nightsPerYear * bookingRate;</span>
+
+<span class="fc" id="L172">    int squareFeet = sale.getGrossSquareFeet() / sale.getTotalUnits();</span>
+<span class="fc" id="L173">    double yearlyMaintenance = squareFeet * monthlyMaintenance * 12;</span>
+
+<span class="fc" id="L175">    double mortgageCost = salesPrice * mortgageRate * mortgageRatio;</span>
+
+<span class="fc" id="L177">    return salesPrice / (yearlyRevenue - yearlyMaintenance - mortgageCost);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

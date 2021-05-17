@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NeighbourhoodService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend</a> &gt; <a href="index.source.html" class="el_package">ch.ase21.backend.service</a> &gt; <span class="el_source">NeighbourhoodService.java</span></div><h1>NeighbourhoodService.java</h1><pre class="source lang-java linenums">package ch.ase21.backend.service;
+
+import ch.ase21.backend.communication.AirbnbAPI;
+import ch.ase21.backend.communication.SalesAPI;
+import ch.ase21.backend.entity.Airbnb;
+import ch.ase21.backend.entity.Sale;
+
+import java.io.IOException;
+import java.util.List;
+
+public class NeighbourhoodService {
+
+  private NeighbourhoodService() {/* void */}
+
+  /**
+   * Calculates a score for a given neighbourhood.
+   * Taken into consideration are:
+   * the average Revenue of Airbnb properties in the neighbourhood and
+   * the average sale price of Properties in the neighbourhood
+   * @param neighbourhood The neighbourhood to be evaluated.
+   * @return A quality score for the neighbourhood.
+   * @throws IOException Communication to the API failed.
+   */
+  public static Float
+  neighbourhoodRating(String neighbourhood) throws IOException{
+<span class="nc" id="L26">    List&lt;Airbnb&gt; airbnbs = AirbnbAPI.getAllByNeighbourhood(neighbourhood);</span>
+<span class="nc" id="L27">    List&lt;Sale&gt; sales = SalesAPI.getAllByNeighbourhood(neighbourhood);</span>
+<span class="nc" id="L28">    return NeighbourhoodService.calculateScore(airbnbs, sales);</span>
+  }
+
+  /**
+   * Calculates a score for the neighbourhood of the given airbnbs and sale
+   * properties.
+   * @param airbnbs The list of all airbnbs in the neighbourhood.
+   * @param sales The list of all sale properties in the neighbourhood.
+   * @return The score for the neighbourhood or null.
+   */
+  public static Float
+  calculateScore(List&lt;Airbnb&gt; airbnbs, List&lt;Sale&gt; sales) {
+    // Revenue per Night
+<span class="fc" id="L41">    Integer averageRevenuePerNight = AirbnbService.averageRevenuePerNight(airbnbs, true);</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">    if(averageRevenuePerNight == null){</span>
+<span class="fc" id="L43">      return null;</span>
+    }
+
+    // Price per residential unit
+<span class="fc" id="L47">    float priceSummed = 0;</span>
+<span class="fc" id="L48">    var countSales = 0;</span>
+
+<span class="fc bfc" id="L50" title="All 2 branches covered.">    for(Sale saleProperty: sales){</span>
+<span class="fc" id="L51">      Integer salePrice = saleProperty.getSalePrice();</span>
+
+<span class="pc bpc" id="L53" title="3 of 6 branches missed.">      if(salePrice &gt; 1000 &amp;&amp; saleProperty.getResidentialUnits() &gt; 0 &amp;&amp; saleProperty.getTotalUnits() &gt; 0){</span>
+<span class="fc" id="L54">        priceSummed += salePrice / (float) saleProperty.getTotalUnits();</span>
+<span class="fc" id="L55">        countSales++;</span>
+      }
+<span class="fc" id="L57">    }</span>
+
+<span class="fc bfc" id="L59" title="All 2 branches covered.">    if(countSales == 0){</span>
+<span class="fc" id="L60">      return null;</span>
+    }
+
+<span class="fc" id="L63">    float averagePricePerApartment = priceSummed / countSales;</span>
+
+    // Score
+<span class="fc" id="L66">    float breakEven =  averagePricePerApartment / (averageRevenuePerNight * 365);</span>
+<span class="fc" id="L67">    float score = 7 / breakEven; // Score of 1.0 if break even is in 7 years or less</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">    if(score &gt; 1){</span>
+<span class="fc" id="L69">      return 1.0f;</span>
+    }
+<span class="fc" id="L71">    return score;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
