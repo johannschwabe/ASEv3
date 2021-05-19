@@ -107,4 +107,11 @@ public class GraphQLDataFetchers {
       return SaleService.propertyScore(id);
     };
   }
+
+  public DataFetcher<Integer> getRevenueByNeighbourhoodDataFetcher() {
+    return dataFetchingEnvironment -> {
+      String neighbourhood = dataFetchingEnvironment.getArgument(NEIGHBOURHOOD);
+      return NeighbourhoodService.averageRevenue(neighbourhood);
+    };
+  }
 }
