@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SalesService {
+public class SaleService {
 
-  private SalesService() {/* void */}
+  private SaleService() {/* void */}
 
   /**
    * Return the estimated sale price for a property of the sales DB.
@@ -25,7 +25,7 @@ public class SalesService {
   estimatedSalePriceById(String id) throws IOException, NumberFormatException{
     var sale = SalesAPI.getGrossSquareFeetAndNeighbourhoodById(id);
     List<Sale> neighbourhoodSales = SalesAPI.getAllByNeighbourhood(sale.getNeighbourhood());
-    return SalesService.calculateEstimatedSalePrice(sale, neighbourhoodSales);
+    return SaleService.calculateEstimatedSalePrice(sale, neighbourhoodSales);
   }
 
   /**
@@ -81,7 +81,7 @@ public class SalesService {
    * @param monthlyMaintenance The monthly maintenance cost per square feet. Defaults to 2.50$ if null.
    * @param mortgageRate The mortgage rate for the sale price. Defaults to 0.03 (3%) if null.
    * @param mortgageRatio The ratio of the sale price covered by a mortgage. Default to 0.75 (75%) if null.
-   * @return The expected number of years to break even or null if calculation is not possible
+   * @return The expected number of years to break even
    * @throws IOException Communication with the API failed.
    * @throws IllegalArgumentException Invalid sale property or revenue could not be calculated.
    */
@@ -175,5 +175,87 @@ public class SalesService {
     double mortgageCost = salesPrice * mortgageRate * mortgageRatio;
 
     return salesPrice / (yearlyRevenue - yearlyMaintenance - mortgageCost);
+  }
+
+  /**
+   * Function overload to calculate break-even with only revenue given.
+   * @param sale The Sale sproperty to calculate for.
+   * @param revenuePerNight The expected revenue per night.
+   * @return he expected number of years to break even
+   */
+  public static Double
+  calculateBreakEven(Sale sale, Integer revenuePerNight){
+    return calculateBreakEven(sale,
+        revenuePerNight,
+        null,
+        null,
+        null,
+        null,
+        null);
+  }
+
+  /**
+   * Compute a score for a sale property.
+   * The score is a combination of the neighbourhood score, the estimated sale price and the
+   * calculated break even point.
+   * @param id The ID of the scored sale property
+   * @return The score between 0 and 10
+   * @throws IOException Communication to the API failed.
+   * @throws IllegalArgumentException Sale property cannot be scored.
+   */
+  public static Double
+  propertyScore(String id) throws IOException, IllegalArgumentException{
+    var sale = SalesAPI.getById(id);
+    String neighbourhood = sale.getNeighbourhood();
+
+    List<Airbnb> airbnbs = AirbnbAPI.getAllByNeighbourhood(neighbourhood);
+    List<Sale> sales = SalesAPI.getAllByNeighbourhood(neighbourhood);
+
+    return calculatePropertyScore(sale, sales, airbnbs);
+  }
+
+  /**
+   * Compute a score for a sale property.
+   * The score is a combination of the neighbourhood score, the estimated sale price and the
+   * calculated break even point.
+   * @param sale The sale to be scored.
+   * @param neighbourhoodSales The sale properties in the neighbourhood.
+   * @param neighbourhoodAirbnbs The airbnb properties in the neighbourhood.
+   * @return The score between 0 and 10
+   */
+  public static Double
+  calculatePropertyScore(Sale sale, List<Sale> neighbourhoodSales, List<Airbnb> neighbourhoodAirbnbs){
+    // Break Even Score
+    Integer revenuePerNight = AirbnbService.averageRevenuePerNight(neighbourhoodAirbnbs, true);
+    Double breakEven = calculateBreakEven(sale, revenuePerNight);
+    double breakEvenScore = 20 / breakEven;
+
+    // Neighbourhood Score
+    Double neighbourhoodScore = NeighbourhoodService.calculateScore(neighbourhoodAirbnbs, neighbourhoodSales);
+
+    if(neighbourhoodScore == null){
+      neighbourhoodScore = 0.5;
+    }
+
+    // Sale Price Score
+    Integer estimatedSalePrice = SaleService.calculateEstimatedSalePrice(sale, neighbourhoodSales);
+    Integer salePrice = sale.getSalePrice();
+    double salePriceScore;
+
+    if(estimatedSalePrice == null || salePrice == 0){
+      salePriceScore = 1.0;
+    } else {
+      salePriceScore = (double) estimatedSalePrice / (double) salePrice;
+    }
+
+    // Calculate Score
+    double score = neighbourhoodScore * breakEvenScore * salePriceScore;
+    if(score > 1.0){
+      score = 10.0;
+    } else {
+      score = Math.round(score * 100.0) / 10.0;
+    }
+
+    return score;
   }
 }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-class SalesServiceTests {
+class SaleServiceTests {
 
   /**
    * Get a list of sales with "salePrice" and "grossSquareFeet" for testing.
@@ -43,7 +43,7 @@ class SalesServiceTests {
 
     List<Sale> neighbourhoodSales = this.getNeighbourhoodSales();
 
-    Integer estimatedSalePrice = SalesService.calculateEstimatedSalePrice(sale, neighbourhoodSales);
+    Integer estimatedSalePrice = SaleService.calculateEstimatedSalePrice(sale, neighbourhoodSales);
 
     Assertions.assertEquals(750000, estimatedSalePrice);
     Assertions.assertNotEquals(3645, estimatedSalePrice);
@@ -59,7 +59,7 @@ class SalesServiceTests {
 
     List<Sale> neighbourhoodSales = new ArrayList<>();
 
-    Integer estimatedSalePrice = SalesService.calculateEstimatedSalePrice(sale, neighbourhoodSales);
+    Integer estimatedSalePrice = SaleService.calculateEstimatedSalePrice(sale, neighbourhoodSales);
 
     Assertions.assertNull(estimatedSalePrice);
   }
@@ -74,7 +74,7 @@ class SalesServiceTests {
 
     List<Sale> neighbourhoodSales = this.getNeighbourhoodSales();
 
-    Integer estimatedSalePrice = SalesService.calculateEstimatedSalePrice(sale, neighbourhoodSales);
+    Integer estimatedSalePrice = SaleService.calculateEstimatedSalePrice(sale, neighbourhoodSales);
 
     Assertions.assertNull(estimatedSalePrice);
   }
@@ -95,7 +95,7 @@ class SalesServiceTests {
     double mortgageRate = 0.03;
     double mortgageRatio = 0.75;
 
-    Double breakEven = SalesService.calculateBreakEven(sale,
+    Double breakEven = SaleService.calculateBreakEven(sale,
         revenue,
         null,
         null,
@@ -127,7 +127,7 @@ class SalesServiceTests {
     double mortgageRate = 0.025;
     double mortgageRatio = 0.9;
 
-    Double breakEven = SalesService.calculateBreakEven(sale,
+    Double breakEven = SaleService.calculateBreakEven(sale,
         revenue,
         nights,
         occupancyRate,
@@ -153,7 +153,7 @@ class SalesServiceTests {
     sale.setGrossSquareFeet(1000);
 
     Assertions.assertThrows(IllegalArgumentException.class,
-        () -> SalesService.calculateBreakEven(sale,
+        () -> SaleService.calculateBreakEven(sale,
             null,
             null,
             null,
@@ -161,7 +161,7 @@ class SalesServiceTests {
             null,
             null));
     try{
-      SalesService.calculateBreakEven(sale,
+      SaleService.calculateBreakEven(sale,
           null,
           null,
           null,
@@ -187,7 +187,7 @@ class SalesServiceTests {
     int revenue = 200;
 
     Assertions.assertThrows(IllegalArgumentException.class,
-        () -> SalesService.calculateBreakEven(sale,
+        () -> SaleService.calculateBreakEven(sale,
             revenue,
             null,
             null,
@@ -195,7 +195,7 @@ class SalesServiceTests {
             null,
             null));
     try{
-      SalesService.calculateBreakEven(sale,
+      SaleService.calculateBreakEven(sale,
           revenue,
           null,
           null,

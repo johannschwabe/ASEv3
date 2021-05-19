@@ -52,6 +52,7 @@ type Sale {
     longitude: Float
     returnedStreetName: String
     returnedZipCode: Int
+    score: Float
 }
 
 type Airbnb {
