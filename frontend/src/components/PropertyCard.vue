@@ -12,7 +12,7 @@
     </div>
     <q-scroll-area style="height: 100%">
       <!-- Card header: Address & price -->
-      <q-card-section class="bg-primary text-white no-padding">
+      <q-card-section class="bg-secondary text-white no-padding">
         <img
           :src="listing_image_url"
           alt="listing image"
