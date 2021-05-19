@@ -92,7 +92,7 @@ class SaleServiceTests {
     int revenue = 200;
     int nights = 365;
     double occupancyRate = 0.8;
-    double maintenance = 2.5;
+    double maintenance = 2.0;
     double mortgageRate = 0.03;
     double mortgageRatio = 0.75;
 
@@ -223,13 +223,13 @@ class SaleServiceTests {
     Sale sale = new Sale("id");
     sale.setTotalUnits(1);
     sale.setSalePrice(1000000);
-    sale.setGrossSquareFeet(1000);
+    sale.setGrossSquareFeet(500);
 
     List<Sale> sales = new ArrayList<>();
     sales.add(sale);
 
     Airbnb airbnb = new Airbnb("id");
-    airbnb.setPrice(300);
+    airbnb.setPrice(250);
     airbnb.setRoomType(Airbnb.APARTMENT_ROOM_TYPE);
 
     List<Airbnb> airbnbs = new ArrayList<>();
@@ -248,13 +248,13 @@ class SaleServiceTests {
     Sale sale = new Sale("id");
     sale.setTotalUnits(1);
     sale.setSalePrice(500000);
-    sale.setGrossSquareFeet(1000);
+    sale.setGrossSquareFeet(500);
 
     List<Sale> sales = new ArrayList<>();
     sales.add(sale);
 
     Airbnb airbnb = new Airbnb("id");
-    airbnb.setPrice(300);
+    airbnb.setPrice(250);
     airbnb.setRoomType(Airbnb.APARTMENT_ROOM_TYPE);
 
     List<Airbnb> airbnbs = new ArrayList<>();
@@ -272,7 +272,7 @@ class SaleServiceTests {
     Sale sale = new Sale("id");
     sale.setTotalUnits(1);
     sale.setSalePrice(1000000);
-    sale.setGrossSquareFeet(1000);
+    sale.setGrossSquareFeet(500);
 
     List<Sale> sales = new ArrayList<>();
     sales.add(sale);
