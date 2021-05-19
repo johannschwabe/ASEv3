@@ -2,7 +2,7 @@ import * as OPTIONS from "../constants/OPTIONS.js";
 
 export default {
   mapsApi: null,
-  show_markers: true,
+  show_markers: false,
   show_heatmap: true,
   show_neighbourhoods: true,
   drawer_open: false,

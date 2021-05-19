@@ -434,6 +434,7 @@ export default {
                 zipCode
                 buildingClassCategory
                 neighbourhood
+
               }
             }
           `,
