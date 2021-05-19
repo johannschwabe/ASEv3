@@ -248,7 +248,7 @@
           <strong>At 100%</strong>
         </q-card-section>
         <q-separator vertical />
-        <q-card-section v-if="break_even_100">
+        <q-card-section v-if="break_even_100 !== null">
           {{ Math.round((break_even_100 + Number.EPSILON) * 100) / 100 }} years
         </q-card-section>
         <q-card-section v-else>
@@ -263,7 +263,7 @@
           <strong>At 80%</strong>
         </q-card-section>
         <q-separator vertical />
-        <q-card-section v-if="break_even_80">
+        <q-card-section v-if="break_even_80 !== null">
           {{ Math.round((break_even_80 + Number.EPSILON) * 100) / 100 }} years
         </q-card-section>
         <q-card-section v-else>
@@ -278,7 +278,7 @@
           <strong>At 60%</strong>
         </q-card-section>
         <q-separator vertical />
-        <q-card-section v-if="break_even_60">
+        <q-card-section v-if="break_even_60 !== null">
           {{ Math.round((break_even_60 + Number.EPSILON) * 100) / 100 }} years
         </q-card-section>
         <q-card-section v-else>
