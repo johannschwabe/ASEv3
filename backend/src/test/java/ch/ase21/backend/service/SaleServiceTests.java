@@ -1,5 +1,6 @@
 package ch.ase21.backend.service;
 
+import ch.ase21.backend.entity.Airbnb;
 import ch.ase21.backend.entity.Sale;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -213,5 +214,78 @@ class SaleServiceTests {
         Arguments.of(1, 0, 1000),
         Arguments.of(0, 1000000, 1000)
     );
+  }
+
+  /**
+   * Calculate the property score for an average property
+   */
+  @Test void calculateAveragePropertyScore(){
+    Sale sale = new Sale("id");
+    sale.setTotalUnits(1);
+    sale.setSalePrice(1000000);
+    sale.setGrossSquareFeet(1000);
+
+    List<Sale> sales = new ArrayList<>();
+    sales.add(sale);
+
+    Airbnb airbnb = new Airbnb("id");
+    airbnb.setPrice(300);
+    airbnb.setRoomType(Airbnb.APARTMENT_ROOM_TYPE);
+
+    List<Airbnb> airbnbs = new ArrayList<>();
+    airbnbs.add(airbnb);
+
+    double score = SaleService.calculatePropertyScore(sale, sales, airbnbs);
+
+    Assertions.assertTrue(score > 4.0);
+    Assertions.assertTrue(score < 6.0);
+  }
+
+  /**
+   * Calculate the property score for a great property
+   */
+  @Test void calculateGreatPropertyScore(){
+    Sale sale = new Sale("id");
+    sale.setTotalUnits(1);
+    sale.setSalePrice(500000);
+    sale.setGrossSquareFeet(1000);
+
+    List<Sale> sales = new ArrayList<>();
+    sales.add(sale);
+
+    Airbnb airbnb = new Airbnb("id");
+    airbnb.setPrice(300);
+    airbnb.setRoomType(Airbnb.APARTMENT_ROOM_TYPE);
+
+    List<Airbnb> airbnbs = new ArrayList<>();
+    airbnbs.add(airbnb);
+
+    double score = SaleService.calculatePropertyScore(sale, sales, airbnbs);
+
+    Assertions.assertEquals(10.0, score);
+  }
+
+  /**
+   * Calculate the property score for a bad property
+   */
+  @Test void calculateBadPropertyScore(){
+    Sale sale = new Sale("id");
+    sale.setTotalUnits(1);
+    sale.setSalePrice(1000000);
+    sale.setGrossSquareFeet(1000);
+
+    List<Sale> sales = new ArrayList<>();
+    sales.add(sale);
+
+    Airbnb airbnb = new Airbnb("id");
+    airbnb.setPrice(150);
+    airbnb.setRoomType(Airbnb.APARTMENT_ROOM_TYPE);
+
+    List<Airbnb> airbnbs = new ArrayList<>();
+    airbnbs.add(airbnb);
+
+    double score = SaleService.calculatePropertyScore(sale, sales, airbnbs);
+
+    Assertions.assertTrue(score < 1.0);
   }
 }

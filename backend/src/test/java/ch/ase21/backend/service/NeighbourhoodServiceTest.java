@@ -17,7 +17,6 @@ class NeighbourhoodServiceTest {
     Sale sale = new Sale("1");
     sale.setSalePrice(100000);
     sale.setTotalUnits(1);
-    sale.setResidentialUnits(1);
     List<Sale> sales = new ArrayList<>();
     sales.add(sale);
 
@@ -40,7 +39,6 @@ class NeighbourhoodServiceTest {
     Sale sale = new Sale("1");
     sale.setSalePrice(10000000);
     sale.setTotalUnits(1);
-    sale.setResidentialUnits(1);
     List<Sale> sales = new ArrayList<>();
     sales.add(sale);
 
@@ -63,7 +61,6 @@ class NeighbourhoodServiceTest {
     Sale sale = new Sale("1");
     sale.setSalePrice(1000000);
     sale.setTotalUnits(1);
-    sale.setResidentialUnits(1);
     List<Sale> sales = new ArrayList<>();
     sales.add(sale);
 
@@ -105,7 +102,6 @@ class NeighbourhoodServiceTest {
     Sale sale = new Sale("1");
     sale.setSalePrice(1000000);
     sale.setTotalUnits(1);
-    sale.setResidentialUnits(1);
     List<Sale> sales = new ArrayList<>();
     sales.add(sale);
 
