@@ -294,7 +294,7 @@
       >
         The break-even rating considers the following:
         <br>
-        - Est. maintenance cost of 2% per sq.ft. per month
+        - Est. maintenance cost of $2 per sq.ft. per month
         <br>
         - The stated capacity at the estimated price per night
         <br>
