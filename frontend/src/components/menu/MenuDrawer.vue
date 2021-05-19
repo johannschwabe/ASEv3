@@ -159,13 +159,30 @@
 
         <q-separator />
 
-        <!--        &lt;!&ndash; TODO remove altogether? &ndash;&gt;-->
-        <!--        <q-item-label header>-->
-        <!--          Filters-->
-        <!--        </q-item-label>-->
+        <q-item-label header>
+          About
+        </q-item-label>
 
-        <!--        <AirbnbFilters v-if="map_type === 'AIRBNB'" />-->
+        <q-item
+          class="column"
+          style="text-align: justify"
+        >
+          <p>
+            This is a tool for analysing properties for sale with the goal of renting them out using Airbnb, as well as analysing existing Airbnbs.
+          </p>
+          <br>
+          <p style="text-align: center; font-size: smaller">
+            Made for the Advanced Software Engineering course 2021 at UZH.
+          </p>
+        </q-item>
       </q-list>
+
+      <p
+        class="fixed-bottom full-width"
+        style="font-size: x-small; text-align: center"
+      >
+        © 2021 Johann Schwabe, Thomas Mannhart & David Wyss
+      </p>
     </q-scroll-area>
   </q-drawer>
 </template>
