@@ -30,7 +30,7 @@ class NeighbourhoodServiceTest {
     Double score = NeighbourhoodService.calculateScore(airbnbs, sales);
 
     Assertions.assertNotNull(score);
-    Assertions.assertEquals(1, score);
+    Assertions.assertEquals(1.0, score);
   }
 
   /**
@@ -53,7 +53,7 @@ class NeighbourhoodServiceTest {
     Double score = NeighbourhoodService.calculateScore(airbnbs, sales);
 
     Assertions.assertNotNull(score);
-    Assertions.assertTrue(score < 0.1);
+    Assertions.assertEquals(0.1, score);
   }
 
   /**

@@ -15,6 +15,7 @@ type Query {
         maintenance: Float,
         mortgageRate: Float,
         mortgageRatio: Float): Float
+    calculatePropertyScore(id: ID): Float
 }
 
 type Coordiantes {

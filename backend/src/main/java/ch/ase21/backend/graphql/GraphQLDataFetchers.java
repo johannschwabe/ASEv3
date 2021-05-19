@@ -102,8 +102,9 @@ public class GraphQLDataFetchers {
 
   public DataFetcher<Double> getSalePropertyScoreDataFetcher() {
     return dataFetchingEnvironment -> {
-      Sale sale = dataFetchingEnvironment.getContext();
-      return SaleService.propertyScore(sale.getId());
+      Sale sale = dataFetchingEnvironment.getSource();
+      String id = sale.getId();
+      return SaleService.propertyScore(id);
     };
   }
 }
