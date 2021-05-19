@@ -231,8 +231,11 @@
           <strong>Est. Price per Night</strong>
         </q-card-section>
         <q-separator vertical />
-        <q-card-section>
-          $123 TODO
+        <q-card-section v-if="price_per_night !== null">
+          ${{ Math.round(price_per_night) }}
+        </q-card-section>
+        <q-card-section v-else>
+          <q-spinner-dots v-if="loading" />
         </q-card-section>
       </q-card-section>
 
@@ -325,6 +328,7 @@ export default {
       break_even_100: null,
       break_even_80: null,
       break_even_60: null,
+      price_per_night: null,
     };
   },
   computed: {
@@ -395,11 +399,13 @@ export default {
     },
   },
   watch: {
+    // Upon property change, re-fetch all values
     coordinates() {
       this.fetchProperty().then(() => {
         this.fetchEstimatedPrice(this.property.id);
         this.fetchBreakEven(this.property.id);
         this.fetchRating(this.property.id);
+        this.fetchPricePerNight();
       });
     },
   },
@@ -408,6 +414,7 @@ export default {
       this.fetchEstimatedPrice(this.property.id);
       this.fetchBreakEven(this.property.id);
       this.fetchRating(this.property.id);
+      this.fetchPricePerNight();
     });
   },
   methods: {
@@ -490,7 +497,6 @@ export default {
         },
       }).then((result) => {
         this.break_even_100 = result.data.data.calculateBreakEven;
-        console.log("BE100:", this.break_even_100, result.data.data);
       });
 
       // At 80%
@@ -506,7 +512,6 @@ export default {
         },
       }).then((result) => {
         this.break_even_80 = result.data.data.calculateBreakEven;
-        console.log("BE80:", this.break_even_80);
       });
 
       // At 60%
@@ -522,7 +527,6 @@ export default {
         },
       }).then((result) => {
         this.break_even_60 = result.data.data.calculateBreakEven;
-        console.log("BE60:", this.break_even_60);
       });
     },
 
@@ -552,6 +556,26 @@ export default {
           // Invalid rating
           this.rating = 11;
         }
+      });
+    },
+
+    /**
+     * Fetches the property's computed rating
+     */
+    fetchPricePerNight() {
+      axios({
+        url: BACKEND_URL,
+        method: "post",
+        data: {
+          query: `
+            {
+              estimatedPriceByNeighbourhood(neighbourhood: "${this.property.neighbourhood}")
+            }
+          `,
+        },
+      }).then((result) => {
+        console.log("PPN:", result.data.data);
+        this.price_per_night = result.data.data.estimatedPriceByNeighbourhood;
       });
     },
   },
