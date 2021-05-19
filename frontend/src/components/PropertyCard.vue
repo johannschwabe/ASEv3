@@ -70,7 +70,7 @@
 
       <div
         class="text-h5 text-grey-8"
-        style="text-align: center; margin-bottom: 10px;"
+        style="text-align: center; margin: 10px 0"
       >
         {{ rating_object.name }}
       </div>
@@ -255,7 +255,7 @@
           <strong>At 100%</strong>
         </q-card-section>
         <q-separator vertical />
-        <q-card-section v-if="break_even_100 !== null && break_even_100 !== undefined">
+        <q-card-section v-if="has_break_even">
           {{ getBreakEvenString(break_even_100) }}
         </q-card-section>
         <q-card-section v-else>
@@ -270,7 +270,7 @@
           <strong>At 80%</strong>
         </q-card-section>
         <q-separator vertical />
-        <q-card-section v-if="break_even_80 !== null && break_even_80 !== undefined">
+        <q-card-section v-if="has_break_even">
           {{ getBreakEvenString(break_even_80) }}
         </q-card-section>
         <q-card-section v-else>
@@ -285,7 +285,7 @@
           <strong>At 60%</strong>
         </q-card-section>
         <q-separator vertical />
-        <q-card-section v-if="break_even_60 !== null && break_even_60 !== undefined">
+        <q-card-section v-if="has_break_even">
           {{ getBreakEvenString(break_even_60) }}
         </q-card-section>
         <q-card-section v-else>
@@ -332,6 +332,7 @@ export default {
       rating: 0,
       property: null,
       loading: true,
+      has_break_even: false, // Whether a break-even duration is available/loaded
       break_even_100: null,
       break_even_80: null,
       break_even_60: null,
@@ -408,6 +409,7 @@ export default {
   watch: {
     // Upon property change, re-fetch all values
     coordinates() {
+      this.rating = 0; // Reset rating so the previous property's rating isn't shown
       this.fetchProperty().then(() => {
         this.fetchEstimatedPrice(this.property.id);
         this.fetchBreakEven(this.property.id);
@@ -438,7 +440,7 @@ export default {
     getBreakEvenString(value) {
       if (value >= 200) { return "-"; }
 
-      return `${Math.round((value + Number.EPSILON) * 100) / 100}years`;
+      return `${Math.round((value + Number.EPSILON) * 100) / 100} years`;
     },
 
     /**
@@ -513,7 +515,10 @@ export default {
           `,
         },
       }).then((result) => {
-        this.break_even_100 = result.data.data.calculateBreakEven;
+        if (result.data.data.calculateBreakEven) {
+          this.has_break_even = true;
+          this.break_even_100 = result.data.data.calculateBreakEven;
+        }
       });
 
       // At 80%
@@ -528,7 +533,9 @@ export default {
           `,
         },
       }).then((result) => {
-        this.break_even_80 = result.data.data.calculateBreakEven;
+        if (result.data.data.calculateBreakEven) {
+          this.break_even_80 = result.data.data.calculateBreakEven;
+        }
       });
 
       // At 60%
@@ -543,7 +550,9 @@ export default {
           `,
         },
       }).then((result) => {
-        this.break_even_60 = result.data.data.calculateBreakEven;
+        if (result.data.data.calculateBreakEven) {
+          this.break_even_60 = result.data.data.calculateBreakEven;
+        }
       });
     },
 
