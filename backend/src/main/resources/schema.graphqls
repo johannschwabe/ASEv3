@@ -16,6 +16,7 @@ type Query {
         mortgageRate: Float,
         mortgageRatio: Float): Float
     calculatePropertyScore(id: ID): Float
+    estimatedPriceByNeighbourhood(neighbourhood: String): Int
 }
 
 type Coordiantes {
