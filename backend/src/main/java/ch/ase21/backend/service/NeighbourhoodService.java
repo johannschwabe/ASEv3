@@ -21,7 +21,7 @@ public class NeighbourhoodService {
    * @return A quality score for the neighbourhood.
    * @throws IOException Communication to the API failed.
    */
-  public static Float
+  public static Double
   neighbourhoodRating(String neighbourhood) throws IOException{
     List<Airbnb> airbnbs = AirbnbAPI.getAllByNeighbourhood(neighbourhood);
     List<Sale> sales = SalesAPI.getAllByNeighbourhood(neighbourhood);
@@ -33,9 +33,9 @@ public class NeighbourhoodService {
    * properties.
    * @param airbnbs The list of all airbnbs in the neighbourhood.
    * @param sales The list of all sale properties in the neighbourhood.
-   * @return The score for the neighbourhood or null.
+   * @return The score for the neighbourhood between 0 and 1 or null.
    */
-  public static Float
+  public static Double
   calculateScore(List<Airbnb> airbnbs, List<Sale> sales) {
     // Revenue per Night
     Integer averageRevenuePerNight = AirbnbService.averageRevenuePerNight(airbnbs, true);
@@ -44,14 +44,14 @@ public class NeighbourhoodService {
     }
 
     // Price per residential unit
-    float priceSummed = 0;
+    double priceSummed = 0;
     var countSales = 0;
 
     for(Sale saleProperty: sales){
       Integer salePrice = saleProperty.getSalePrice();
 
-      if(salePrice > 1000 && saleProperty.getResidentialUnits() > 0 && saleProperty.getTotalUnits() > 0){
-        priceSummed += salePrice / (float) saleProperty.getTotalUnits();
+      if(salePrice > 1000 && saleProperty.getTotalUnits() > 0){
+        priceSummed += salePrice / (double) saleProperty.getTotalUnits();
         countSales++;
       }
     }
@@ -60,13 +60,15 @@ public class NeighbourhoodService {
       return null;
     }
 
-    float averagePricePerApartment = priceSummed / countSales;
+    double averagePricePerApartment = priceSummed / countSales;
 
     // Score
-    float breakEven =  averagePricePerApartment / (averageRevenuePerNight * 365);
-    float score = 7 / breakEven; // Score of 1.0 if break even is in 7 years or less
-    if(score > 1){
-      return 1.0f;
+    double breakEven =  averagePricePerApartment / (averageRevenuePerNight * 365);
+    double score = 7 / breakEven; // Score of 1.0 if break even is in 7 years or less
+    if(score > 1.0){
+      score = 1.0;
+    } else {
+      score = Math.round(score * 10.0) / 10.0;
     }
     return score;
   }
