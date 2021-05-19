@@ -190,7 +190,7 @@ public class SaleService {
    * @return he expected number of years to break even
    */
   public static Double
-  calculateBreakEven(Sale sale, Integer revenuePerNight){
+  calculateBreakEven(Sale sale, Integer revenuePerNight) throws IllegalArgumentException{
     return calculateBreakEven(sale,
         revenuePerNight,
         null,
@@ -232,9 +232,15 @@ public class SaleService {
   public static Double
   calculatePropertyScore(Sale sale, List<Sale> neighbourhoodSales, List<Airbnb> neighbourhoodAirbnbs){
     // Break Even Score
-    Integer revenuePerNight = AirbnbService.averageRevenuePerNight(neighbourhoodAirbnbs, true);
-    Double breakEven = calculateBreakEven(sale, revenuePerNight);
-    double breakEvenScore = 20 / breakEven;
+    double breakEvenScore;
+    try{
+      Integer revenuePerNight = AirbnbService.averageRevenuePerNight(neighbourhoodAirbnbs, true);
+      Double breakEven = calculateBreakEven(sale, revenuePerNight);
+      breakEvenScore = 20 / breakEven;
+    }
+    catch(IllegalArgumentException e){
+      breakEvenScore = 1.0;
+    }
 
     // Neighbourhood Score
     Double neighbourhoodScore = NeighbourhoodService.calculateScore(neighbourhoodAirbnbs, neighbourhoodSales);

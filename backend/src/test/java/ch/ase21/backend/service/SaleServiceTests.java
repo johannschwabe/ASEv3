@@ -288,4 +288,28 @@ class SaleServiceTests {
 
     Assertions.assertTrue(score < 1.0);
   }
+
+  /**
+   * Calculate the property score for a property with missing values
+   */
+  @Test void calculateMissingValuesPropertyScore(){
+    Sale sale = new Sale("id");
+    sale.setTotalUnits(0);
+    sale.setSalePrice(0);
+    sale.setGrossSquareFeet(0);
+
+    List<Sale> sales = new ArrayList<>();
+    sales.add(sale);
+
+    Airbnb airbnb = new Airbnb("id");
+    airbnb.setPrice(0);
+    airbnb.setRoomType(Airbnb.PRIVATE_ROOM_TYPE);
+
+    List<Airbnb> airbnbs = new ArrayList<>();
+    airbnbs.add(airbnb);
+
+    double score = SaleService.calculatePropertyScore(sale, sales, airbnbs);
+
+    Assertions.assertEquals(5.0, score);
+  }
 }
