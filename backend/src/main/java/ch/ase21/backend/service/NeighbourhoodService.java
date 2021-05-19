@@ -13,6 +13,18 @@ public class NeighbourhoodService {
   private NeighbourhoodService() {/* void */}
 
   /**
+   * Return the average revenue of the given neighbourhood.
+   * @param neighbourhood The name of the neighbourhood.
+   * @return The average revenue.
+   * @throws IOException Communication to the API failed.
+   */
+  public static Integer
+  averageRevenue(String neighbourhood) throws IOException{
+    List<Airbnb> airbnbs = AirbnbAPI.getAllByNeighbourhood(neighbourhood);
+    return AirbnbService.averageRevenuePerNight(airbnbs, true);
+  }
+
+  /**
    * Calculates a score for a given neighbourhood.
    * Taken into consideration are:
    * the average Revenue of Airbnb properties in the neighbourhood and
