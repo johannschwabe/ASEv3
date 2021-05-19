@@ -108,14 +108,6 @@
         </q-item>
         <q-btn-group flat>
           <q-btn
-            :color="map_type === 'RATING' ? 'primary' : null"
-            :text-color="map_type === 'RATING' ? 'white' : 'black'"
-            label="Ratings"
-            icon="star"
-            no-caps
-            @click="setMapType('RATING')"
-          />
-          <q-btn
             :color="map_type === 'AIRBNB' ? 'primary' : null"
             :text-color="map_type === 'AIRBNB' ? 'white' : 'black'"
             label="Airbnbs"
