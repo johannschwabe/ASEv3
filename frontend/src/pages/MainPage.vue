@@ -110,10 +110,6 @@ export default {
      * @param {Object} marker - the marker that was clicked, having id, lat and lng
      */
     async onMarkerClick(marker) {
-      // Briefly switch between selected properties
-      this.$store.commit("setSelectedCoordinates", { selected_coordinates: null });
-      await new Promise((resolve) => setTimeout(resolve, 10));
-
       // Close drawer if open
       if (this.$store.getters.drawerOpen) {
         this.$store.commit("toggleDrawer");

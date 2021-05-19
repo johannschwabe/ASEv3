@@ -121,7 +121,7 @@
         caption
         style="padding: 10px"
       >
-        Ratings are generated from aggregate data of past sales of comparable properties, as well as prices and occupancy rates of nearby Airbnbs.
+        Ratings are generated from aggregate data of past sales of comparable properties, as well as prices of nearby Airbnbs.
       </q-item-label>
 
       <!-- Info title -->
@@ -294,11 +294,11 @@
       >
         The break-even rating considers the following:
         <br>
-        - Est. maintenance cost of 2%
+        - Est. maintenance cost of 2% per sq.ft. per month
         <br>
         - The stated capacity at the estimated price per night
         <br>
-        - Mortgage costs of 2.5% at 80% mortgage ratio
+        - Mortgage costs of 3% at 75% of sale price as mortgage
       </q-item-label>
     </q-scroll-area>
   </q-card>
@@ -396,7 +396,11 @@ export default {
   },
   watch: {
     coordinates() {
-      this.fetchProperty();
+      this.fetchProperty().then(() => {
+        this.fetchEstimatedPrice(this.property.id);
+        this.fetchBreakEven(this.property.id);
+        this.fetchRating(this.property.id);
+      });
     },
   },
   created() {
