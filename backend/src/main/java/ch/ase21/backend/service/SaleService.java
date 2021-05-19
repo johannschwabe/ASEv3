@@ -174,7 +174,13 @@ public class SaleService {
 
     double mortgageCost = salesPrice * mortgageRate * mortgageRatio;
 
-    return salesPrice / (yearlyRevenue - yearlyMaintenance - mortgageCost);
+    double breakEven = salesPrice / (yearlyRevenue - yearlyMaintenance - mortgageCost);
+
+    if(breakEven < 0.0 || breakEven > 200.0) {
+      breakEven = 200.0;
+    }
+
+    return breakEven;
   }
 
   /**
