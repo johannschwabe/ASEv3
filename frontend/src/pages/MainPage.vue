@@ -109,7 +109,7 @@ export default {
      * Upon clicking a marker, mark it as selected
      * @param {Object} marker - the marker that was clicked, having id, lat and lng
      */
-    onMarkerClick(marker) {
+    async onMarkerClick(marker) {
       // Close drawer if open
       if (this.$store.getters.drawerOpen) {
         this.$store.commit("toggleDrawer");
