@@ -150,9 +150,9 @@ public class SaleService {
     }
 
     if(monthlyMaintenance == null){
-      // 2.50$ per square foot per month:
+      // 2.00$ per square foot per month:
       // https://www.cottagesgardens.com/the-ins-and-outs-of-maintenance-costs-in-new-york-city/
-      monthlyMaintenance = 2.5;
+      monthlyMaintenance = 2.0;
     }
 
     if(mortgageRate == null){
@@ -165,16 +165,17 @@ public class SaleService {
       mortgageRatio = 0.75;
     }
 
-    int salesPrice = sale.getSalePrice() / sale.getTotalUnits();
+    int salePrice = sale.getSalePrice();
 
-    double yearlyRevenue = revenuePerNight * nightsPerYear * bookingRate;
+    int totalRevenue = revenuePerNight * sale.getTotalUnits();
+    double yearlyRevenue = totalRevenue * nightsPerYear * bookingRate;
 
-    int squareFeet = sale.getGrossSquareFeet() / sale.getTotalUnits();
+    int squareFeet = sale.getGrossSquareFeet();
     double yearlyMaintenance = squareFeet * monthlyMaintenance * 12;
 
-    double mortgageCost = salesPrice * mortgageRate * mortgageRatio;
+    double mortgageCost = salePrice * mortgageRate * mortgageRatio;
 
-    double breakEven = salesPrice / (yearlyRevenue - yearlyMaintenance - mortgageCost);
+    double breakEven = salePrice / (yearlyRevenue - yearlyMaintenance - mortgageCost);
 
     if(breakEven < 0.0 || breakEven > 200.0) {
       breakEven = 200.0;
@@ -190,7 +191,7 @@ public class SaleService {
    * @return he expected number of years to break even
    */
   public static Double
-  calculateBreakEven(Sale sale, Integer revenuePerNight){
+  calculateBreakEven(Sale sale, Integer revenuePerNight) throws IllegalArgumentException{
     return calculateBreakEven(sale,
         revenuePerNight,
         null,
@@ -232,9 +233,15 @@ public class SaleService {
   public static Double
   calculatePropertyScore(Sale sale, List<Sale> neighbourhoodSales, List<Airbnb> neighbourhoodAirbnbs){
     // Break Even Score
-    Integer revenuePerNight = AirbnbService.averageRevenuePerNight(neighbourhoodAirbnbs, true);
-    Double breakEven = calculateBreakEven(sale, revenuePerNight);
-    double breakEvenScore = 20 / breakEven;
+    double breakEvenScore;
+    try{
+      Integer revenuePerNight = AirbnbService.averageRevenuePerNight(neighbourhoodAirbnbs, true);
+      Double breakEven = calculateBreakEven(sale, revenuePerNight);
+      breakEvenScore = 20.0 / breakEven;
+    }
+    catch(IllegalArgumentException e){
+      breakEvenScore = 1.0;
+    }
 
     // Neighbourhood Score
     Double neighbourhoodScore = NeighbourhoodService.calculateScore(neighbourhoodAirbnbs, neighbourhoodSales);
