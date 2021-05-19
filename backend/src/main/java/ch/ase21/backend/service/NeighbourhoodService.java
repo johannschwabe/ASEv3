@@ -45,7 +45,7 @@ public class NeighbourhoodService {
 
     // Price per residential unit
     double priceSummed = 0;
-    int countSales = 0;
+    var countSales = 0;
 
     for(Sale saleProperty: sales){
       Integer salePrice = saleProperty.getSalePrice();
