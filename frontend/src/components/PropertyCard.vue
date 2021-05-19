@@ -6,6 +6,7 @@
     <div style="position: absolute; top: 0; right: 0; z-index: 1">
       <q-btn
         flat
+        color="white"
         icon="mdi-close"
         @click="onHide"
       />
@@ -119,8 +120,11 @@
 
       <q-item-label
         caption
-        style="padding: 10px"
+        style="padding: 10px; text-align: justify"
       >
+        The price rating above compares the actual sales price to the estimated market price.
+        <br>
+        <br>
         Ratings are generated from aggregate data of past sales of comparable properties, as well as prices of nearby Airbnbs.
       </q-item-label>
 
@@ -251,8 +255,8 @@
           <strong>At 100%</strong>
         </q-card-section>
         <q-separator vertical />
-        <q-card-section v-if="break_even_100 !== null">
-          {{ Math.round((break_even_100 + Number.EPSILON) * 100) / 100 }} years
+        <q-card-section v-if="break_even_100 !== null && break_even_100 !== undefined">
+          {{ getBreakEvenString(break_even_100) }}
         </q-card-section>
         <q-card-section v-else>
           <q-spinner-dots v-if="loading" />
@@ -266,8 +270,8 @@
           <strong>At 80%</strong>
         </q-card-section>
         <q-separator vertical />
-        <q-card-section v-if="break_even_80 !== null">
-          {{ Math.round((break_even_80 + Number.EPSILON) * 100) / 100 }} years
+        <q-card-section v-if="break_even_80 !== null && break_even_80 !== undefined">
+          {{ getBreakEvenString(break_even_80) }}
         </q-card-section>
         <q-card-section v-else>
           <q-spinner-dots v-if="loading" />
@@ -281,8 +285,8 @@
           <strong>At 60%</strong>
         </q-card-section>
         <q-separator vertical />
-        <q-card-section v-if="break_even_60 !== null">
-          {{ Math.round((break_even_60 + Number.EPSILON) * 100) / 100 }} years
+        <q-card-section v-if="break_even_60 !== null && break_even_60 !== undefined">
+          {{ getBreakEvenString(break_even_60) }}
         </q-card-section>
         <q-card-section v-else>
           <q-spinner-dots v-if="loading" />
@@ -295,13 +299,16 @@
         caption
         style="padding: 10px"
       >
-        The break-even rating considers the following:
+        The break-even duration considers the following:
         <br>
         - Est. maintenance cost of $2 per sq.ft. per month
         <br>
-        - The stated capacity at the estimated price per night
+        - The stated occupancy rate at the estimated price per night
         <br>
         - Mortgage costs of 3% at 75% of sale price as mortgage
+        <br>
+        <br>
+        If no break-even duration is given, break-even is not achievable at that occupancy rate.
       </q-item-label>
     </q-scroll-area>
   </q-card>
@@ -422,6 +429,16 @@ export default {
 
     onHide() {
       this.$emit("hide");
+    },
+
+    /**
+     * Determines the break-even string to show for a given duration
+     * @param {Number} value - the break-even duration in years
+     */
+    getBreakEvenString(value) {
+      if (value >= 200) { return "-"; }
+
+      return `${Math.round((value + Number.EPSILON) * 100) / 100}years`;
     },
 
     /**

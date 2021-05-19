@@ -32,6 +32,7 @@
             top
           >
             <q-toggle
+              color="secondary"
               :value="show_markers"
               @input="toggleMarkers"
             />
@@ -61,6 +62,7 @@
             top
           >
             <q-toggle
+              color="secondary"
               :value="show_heatmap"
               @input="toggleHeatmap"
             />
@@ -90,6 +92,7 @@
             top
           >
             <q-toggle
+              color="secondary"
               :value="show_neighbourhoods"
               @input="toggleNeighbourhoods"
             />
@@ -113,7 +116,7 @@
         >
           <q-btn
             style="width: 50%"
-            :color="map_type === 'AIRBNB' ? 'primary' : null"
+            :color="map_type === 'AIRBNB' ? 'secondary' : null"
             :text-color="map_type === 'AIRBNB' ? 'white' : 'black'"
             label="Airbnbs"
             icon="hotel"
@@ -122,7 +125,7 @@
           />
           <q-btn
             style="width: 50%"
-            :color="map_type === 'PROPERTY' ? 'primary' : null"
+            :color="map_type === 'PROPERTY' ? 'secondary' : null"
             :text-color="map_type === 'PROPERTY' ? 'white' : 'black'"
             label="Properties"
             icon="home"
@@ -150,6 +153,7 @@
         </q-item>
         <div style="padding: 0 15px">
           <q-slider
+            color="secondary"
             :value="heatmap_radius"
             :min="1"
             :max="200"
@@ -172,7 +176,7 @@
           </p>
           <br>
           <p style="text-align: center; font-size: smaller">
-            Made for the Advanced Software Engineering course 2021 at UZH.
+            Made for the Advanced Software Engineering course 2021 at the University of Zurich
           </p>
         </q-item>
       </q-list>
