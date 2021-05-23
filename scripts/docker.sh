@@ -1,11 +1,11 @@
 cd sales-api
 ./gradlew build
-cd..
+cd ..
 cd airbnb-api
 ./gradlew build
-cd..
+cd ..
 cd backend
 ./gradlew build
-cd..
+cd ..
 docker-compose build
 docker-compose up
