@@ -1,6 +1,5 @@
 package ch.ase21.backend;
 
-import ch.ase21.backend.startup.Scores;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
