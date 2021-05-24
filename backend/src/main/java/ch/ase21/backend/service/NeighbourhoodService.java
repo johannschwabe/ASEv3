@@ -78,9 +78,9 @@ public class NeighbourhoodService {
     double breakEven =  averagePricePerApartment / (averageRevenuePerNight * 365);
     double score = 7 / breakEven; // Score of 1.0 if break even is in 7 years or less
     if(score > 1.0){
-      score = 1.0;
+      score = 10.0;
     } else {
-      score = Math.round(score * 10.0) / 10.0;
+      score = Math.round(score * 100.0) / 10.0;
     }
     return score;
   }
