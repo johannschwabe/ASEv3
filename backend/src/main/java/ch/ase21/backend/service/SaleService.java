@@ -248,6 +248,8 @@ public class SaleService {
 
     if(neighbourhoodScore == null){
       neighbourhoodScore = 0.5;
+    } else {
+      neighbourhoodScore = neighbourhoodScore / 10.0;
     }
 
     // Sale Price Score
