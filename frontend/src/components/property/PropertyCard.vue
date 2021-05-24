@@ -315,6 +315,7 @@
       <q-separator />
 
       <break-even-calculator
+        v-if="property && price_per_night"
         :id="property.id"
         :price="price_per_night"
       />
@@ -328,7 +329,7 @@ import BreakEvenCalculator from "./BreakEvenCalculator.vue";
 import { SLIDER_COLORS } from "../../constants/COLORS.js";
 import { RATINGS } from "../../constants/RATINGS.js";
 import {API_KEY, BACKEND_URL} from "../../constants/API.js";
-import { capitalizeWords } from "../../data/helpers.js";
+import { capitalizeWords, getBreakEvenString } from "../../data/helpers.js";
 
 export default {
   name: "PropertyCard",
@@ -437,6 +438,7 @@ export default {
     });
   },
   methods: {
+    getBreakEvenString,
     capitalizeWords,
 
     onHide() {

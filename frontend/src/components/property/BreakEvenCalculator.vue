@@ -94,12 +94,13 @@
 <script>
 import axios from "axios";
 import {BACKEND_URL} from "../../constants/API.js";
+import { getBreakEvenString } from "../../data/helpers.js";
 
 export default {
   name: "BreakEvenCalculator",
   props: {
     id: { type: String, required: true },
-    price: { type: Number, default: 200 },
+    price: { type: Number, required: true },
   },
   data() {
     return {
@@ -114,6 +115,8 @@ export default {
     };
   },
   methods: {
+    getBreakEvenString,
+
     /**
      * Fetches the property's break-even within the calculator, using all parameters
      * @param {string} id - the property's ID
