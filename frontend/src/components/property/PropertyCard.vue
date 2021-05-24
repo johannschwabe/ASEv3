@@ -77,11 +77,12 @@
           <strong>At 100%</strong>
         </q-card-section>
         <q-separator vertical />
-        <q-card-section v-if="has_break_even">
-          {{ getBreakEvenString(break_even_100) }}
+
+        <q-card-section v-if="loading">
+          <q-spinner-dots />
         </q-card-section>
         <q-card-section v-else>
-          <q-spinner-dots v-if="loading" />
+          {{ getBreakEvenString(break_even_100) }}
         </q-card-section>
       </q-card-section>
 
@@ -92,11 +93,12 @@
           <strong>At 80%</strong>
         </q-card-section>
         <q-separator vertical />
-        <q-card-section v-if="has_break_even">
-          {{ getBreakEvenString(break_even_80) }}
+
+        <q-card-section v-if="loading">
+          <q-spinner-dots />
         </q-card-section>
         <q-card-section v-else>
-          <q-spinner-dots v-if="loading" />
+          {{ getBreakEvenString(break_even_80) }}
         </q-card-section>
       </q-card-section>
 
@@ -107,11 +109,12 @@
           <strong>At 60%</strong>
         </q-card-section>
         <q-separator vertical />
-        <q-card-section v-if="has_break_even">
-          {{ getBreakEvenString(break_even_60) }}
+
+        <q-card-section v-if="loading">
+          <q-spinner-dots />
         </q-card-section>
         <q-card-section v-else>
-          <q-spinner-dots v-if="loading" />
+          {{ getBreakEvenString(break_even_60) }}
         </q-card-section>
       </q-card-section>
 
@@ -130,7 +133,7 @@
         - Mortgage costs of 3% at 75% of sale price as mortgage
         <br>
         <br>
-        If no break-even duration is given, break-even is not achievable at that occupancy rate.
+        If no break-even duration is given, break-even is not achievable at that occupancy rate, or data is missing.
       </q-item-label>
 
       <!-- Info title -->
@@ -240,11 +243,12 @@
           <strong>Est. Price per Night</strong>
         </q-card-section>
         <q-separator vertical />
-        <q-card-section v-if="price_per_night !== null">
-          ${{ Math.round(price_per_night) }}
+
+        <q-card-section v-if="loading">
+          <q-spinner-dots />
         </q-card-section>
         <q-card-section v-else>
-          <q-spinner-dots v-if="loading" />
+          {{ price_per_night !== null ? "$" + Math.round(price_per_night) : "N/A" }}
         </q-card-section>
       </q-card-section>
 
@@ -286,7 +290,6 @@ export default {
       neighbourhood_rating: 0,
       property: null,
       loading: true,
-      has_break_even: false, // Whether a break-even duration is available/loaded
       break_even_100: null,
       break_even_80: null,
       break_even_60: null,
@@ -410,7 +413,6 @@ export default {
         },
       }).then((result) => {
         if (result.data.data.calculateBreakEven) {
-          this.has_break_even = true;
           this.break_even_100 = result.data.data.calculateBreakEven;
         }
       });
@@ -497,7 +499,6 @@ export default {
         // Get rating and apply to 1-10 range
         if (result.data.data.neighbourhoodRating > 0) {
           this.neighbourhood_rating = Math.max(1, Math.round(result.data.data.neighbourhoodRating));
-          console.log("RATING:", this.neighbourhood_rating, result.data.data.neighbourhoodRating);
         } else {
           // Invalid rating
           this.neighbourhood_rating = 11;
@@ -529,7 +530,7 @@ export default {
 
 <style scoped>
   .propertyCard{
-    height: calc(100% - 90px);
+    height: calc(100% - 40px);
     width: 500px;
     position: absolute;
     top: 0;

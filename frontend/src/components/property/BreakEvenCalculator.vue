@@ -151,7 +151,6 @@ export default {
           `,
         },
       }).then((result) => {
-        console.log("GOT:", result.data.data);
         if (result.data.data.calculateBreakEven) {
           this.break_even.output = result.data.data.calculateBreakEven;
         }
