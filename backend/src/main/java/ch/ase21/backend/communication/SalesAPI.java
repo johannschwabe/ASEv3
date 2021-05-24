@@ -278,10 +278,10 @@ public class SalesAPI extends GraphqlAPI {
     HttpURLConnection connection = setupConnection(API_URL);
     String query =
         "{\n" +
-            "allProperties {\n" +
+          "allProperties {\n" +
             PROPERTY_FIELDS_NO_COORDS +
-            "}\n" +
-            "}";
+          "}\n" +
+        "}";
     insertQuery(connection, query);
     JsonNode responseData = getResponseData(connection);
     Iterator<JsonNode> nodes = responseData.get("allProperties").elements();
