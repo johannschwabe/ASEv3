@@ -33,7 +33,7 @@
 
 /* eslint-disable import/no-unresolved */
 import Heatmap from "@/components/map/Heatmap.vue";
-import PropertyCard from "@/components/PropertyCard.vue";
+import PropertyCard from "@/components/property/PropertyCard.vue";
 import {BACKEND_URL} from "@/constants/API.js";
 import axios from "axios";
 import AirbnbCard from "@/components/AirbnbCard.vue";

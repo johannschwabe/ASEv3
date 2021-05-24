@@ -42,7 +42,7 @@
         </div>
       </q-card-section>
 
-      <!-- Rating title -->
+      <!-- Overall rating -->
       <q-card-section class="bg-grey-3">
         <div class="text-bold">
           Overall Rating
@@ -77,7 +77,7 @@
 
       <q-separator />
 
-      <div style="margin: 10px 10px 40px 10px">
+      <div style="margin: 10px 10px 20px 10px">
         <strong>Price rating</strong>
       </div>
 
@@ -126,6 +126,75 @@
         <br>
         <br>
         Ratings are generated from aggregate data of past sales of comparable properties, as well as prices of nearby Airbnbs.
+      </q-item-label>
+
+      <q-separator />
+
+      <!-- Break Even -->
+      <div style="margin: 10px">
+        <strong>Break-even</strong>
+      </div>
+      <q-separator />
+
+      <q-card-section horizontal>
+        <q-card-section class="col-3">
+          <strong>At 100%</strong>
+        </q-card-section>
+        <q-separator vertical />
+        <q-card-section v-if="has_break_even">
+          {{ getBreakEvenString(break_even_100) }}
+        </q-card-section>
+        <q-card-section v-else>
+          <q-spinner-dots v-if="loading" />
+        </q-card-section>
+      </q-card-section>
+
+      <q-separator />
+
+      <q-card-section horizontal>
+        <q-card-section class="col-3">
+          <strong>At 80%</strong>
+        </q-card-section>
+        <q-separator vertical />
+        <q-card-section v-if="has_break_even">
+          {{ getBreakEvenString(break_even_80) }}
+        </q-card-section>
+        <q-card-section v-else>
+          <q-spinner-dots v-if="loading" />
+        </q-card-section>
+      </q-card-section>
+
+      <q-separator />
+
+      <q-card-section horizontal>
+        <q-card-section class="col-3">
+          <strong>At 60%</strong>
+        </q-card-section>
+        <q-separator vertical />
+        <q-card-section v-if="has_break_even">
+          {{ getBreakEvenString(break_even_60) }}
+        </q-card-section>
+        <q-card-section v-else>
+          <q-spinner-dots v-if="loading" />
+        </q-card-section>
+      </q-card-section>
+
+      <q-separator />
+
+      <q-item-label
+        caption
+        style="padding: 10px"
+      >
+        The break-even duration considers the following:
+        <br>
+        - Est. maintenance cost of $2 per sq.ft. per month
+        <br>
+        - The stated occupancy rate at the estimated price per night
+        <br>
+        - Mortgage costs of 3% at 75% of sale price as mortgage
+        <br>
+        <br>
+        If no break-even duration is given, break-even is not achievable at that occupancy rate.
       </q-item-label>
 
       <!-- Info title -->
@@ -243,86 +312,27 @@
         </q-card-section>
       </q-card-section>
 
-      <!-- Rating title -->
-      <q-card-section class="bg-grey-3">
-        <div class="text-bold">
-          Break-even
-        </div>
-      </q-card-section>
-
-      <q-card-section horizontal>
-        <q-card-section class="col-3">
-          <strong>At 100%</strong>
-        </q-card-section>
-        <q-separator vertical />
-        <q-card-section v-if="has_break_even">
-          {{ getBreakEvenString(break_even_100) }}
-        </q-card-section>
-        <q-card-section v-else>
-          <q-spinner-dots v-if="loading" />
-        </q-card-section>
-      </q-card-section>
-
       <q-separator />
 
-      <q-card-section horizontal>
-        <q-card-section class="col-3">
-          <strong>At 80%</strong>
-        </q-card-section>
-        <q-separator vertical />
-        <q-card-section v-if="has_break_even">
-          {{ getBreakEvenString(break_even_80) }}
-        </q-card-section>
-        <q-card-section v-else>
-          <q-spinner-dots v-if="loading" />
-        </q-card-section>
-      </q-card-section>
-
-      <q-separator />
-
-      <q-card-section horizontal>
-        <q-card-section class="col-3">
-          <strong>At 60%</strong>
-        </q-card-section>
-        <q-separator vertical />
-        <q-card-section v-if="has_break_even">
-          {{ getBreakEvenString(break_even_60) }}
-        </q-card-section>
-        <q-card-section v-else>
-          <q-spinner-dots v-if="loading" />
-        </q-card-section>
-      </q-card-section>
-
-      <q-separator />
-
-      <q-item-label
-        caption
-        style="padding: 10px"
-      >
-        The break-even duration considers the following:
-        <br>
-        - Est. maintenance cost of $2 per sq.ft. per month
-        <br>
-        - The stated occupancy rate at the estimated price per night
-        <br>
-        - Mortgage costs of 3% at 75% of sale price as mortgage
-        <br>
-        <br>
-        If no break-even duration is given, break-even is not achievable at that occupancy rate.
-      </q-item-label>
+      <break-even-calculator
+        :id="property.id"
+        :price="price_per_night"
+      />
     </q-scroll-area>
   </q-card>
 </template>
 
 <script>
 import axios from "axios";
-import { SLIDER_COLORS } from "../constants/COLORS.js";
-import { RATINGS } from "../constants/RATINGS.js";
-import {API_KEY, BACKEND_URL} from "../constants/API.js";
-import { capitalizeWords } from "../data/helpers.js";
+import BreakEvenCalculator from "./BreakEvenCalculator.vue";
+import { SLIDER_COLORS } from "../../constants/COLORS.js";
+import { RATINGS } from "../../constants/RATINGS.js";
+import {API_KEY, BACKEND_URL} from "../../constants/API.js";
+import { capitalizeWords } from "../../data/helpers.js";
 
 export default {
   name: "PropertyCard",
+  components: { BreakEvenCalculator },
   props: {
     coordinates: { type: String, required: true },
   },
@@ -412,7 +422,7 @@ export default {
       this.rating = 0; // Reset rating so the previous property's rating isn't shown
       this.fetchProperty().then(() => {
         this.fetchEstimatedPrice(this.property.id);
-        this.fetchBreakEven(this.property.id);
+        this.fetchDefaultBreakEven(this.property.id);
         this.fetchRating(this.property.id);
         this.fetchPricePerNight();
       });
@@ -421,7 +431,7 @@ export default {
   created() {
     this.fetchProperty().then(() => {
       this.fetchEstimatedPrice(this.property.id);
-      this.fetchBreakEven(this.property.id);
+      this.fetchDefaultBreakEven(this.property.id);
       this.fetchRating(this.property.id);
       this.fetchPricePerNight();
     });
@@ -431,16 +441,6 @@ export default {
 
     onHide() {
       this.$emit("hide");
-    },
-
-    /**
-     * Determines the break-even string to show for a given duration
-     * @param {Number} value - the break-even duration in years
-     */
-    getBreakEvenString(value) {
-      if (value >= 200) { return "-"; }
-
-      return `${Math.round((value + Number.EPSILON) * 100) / 100} years`;
     },
 
     /**
@@ -498,10 +498,10 @@ export default {
     },
 
     /**
-     * Fetches the property's estimated price
+     * Fetches the property's break-even
      * @param {string} id - the property's ID
      */
-    fetchBreakEven(id) {
+    fetchDefaultBreakEven(id) {
       this.loading = true;
       // At 100%
       axios({
@@ -600,7 +600,6 @@ export default {
           `,
         },
       }).then((result) => {
-        console.log("PPN:", result.data.data);
         this.price_per_night = result.data.data.estimatedPriceByNeighbourhood;
       });
     },

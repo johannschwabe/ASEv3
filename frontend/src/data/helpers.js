@@ -1,4 +1,7 @@
-// eslint-disable-next-line import/prefer-default-export
+/**
+ * Capitalizes all words in a given string
+ * @param {string} input - the input text
+ */
 export function capitalizeWords(input) {
   const words = input.split(" ");
 
@@ -9,4 +12,14 @@ export function capitalizeWords(input) {
   }
 
   return words.join(" ");
+}
+
+/**
+ * Determines the break-even string to show for a given duration
+ * @param {Number} value - the break-even duration in years
+ */
+export function getBreakEvenString(value) {
+  if (value >= 200) { return "-"; }
+
+  return `${Math.round((value + Number.EPSILON) * 100) / 100} years`;
 }
