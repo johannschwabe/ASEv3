@@ -49,56 +49,12 @@
 
       <q-separator />
 
-      <div style="margin: 10px 10px 20px 10px">
-        <strong>Price rating</strong>
-      </div>
-
-      <!-- Badge for sales price -->
-      <div
-        :style="'position: relative; left: calc('+ price_badge_offset + '% - 40px)'"
-      >
-        <q-badge
-          v-if="property"
-          color="grey-3"
-          :text-color="loading ? 'black' : property.salePrice < estimated_price ? 'positive' : 'negative'"
-          :label="loading ? '...' : '$' + property.salePrice.toLocaleString()"
-        />
-      </div>
-
-      <q-linear-progress
-        rounded
-        size="20px"
-        :value="loading? .5 : price_slider_position"
-        :color="loading? 'transparent' :price_slider_color"
-        class="q-mt-sm"
-        style="margin: 10px; width: calc(100% - 20px)"
+      <!-- Price rating -->
+      <price-rating
+        :estimated_price="estimated_price"
+        :sale_price="property ? property.salePrice : 0"
+        :loading="loading"
       />
-
-      <!-- Overlay for market price -->
-      <div
-        class="bg-grey-8"
-        style="height: 30px; width: 8px; border-radius: 4px; position: relative; top: -35px; left: calc(50% - 4px)"
-      />
-      <div
-        class="full-width flex flex-center"
-        style="position: relative; top: -20px"
-      >
-        <q-badge
-          color="grey-3"
-          text-color="grey-9"
-          :label="loading ? '...' : '$' + estimated_price.toLocaleString()"
-        />
-      </div>
-
-      <q-item-label
-        caption
-        style="padding: 10px; text-align: justify"
-      >
-        The price rating above compares the actual sales price to the estimated market price.
-        <br>
-        <br>
-        Ratings are generated from aggregate data of past sales of comparable properties, as well as prices of nearby Airbnbs.
-      </q-item-label>
 
       <q-separator />
 
@@ -297,15 +253,15 @@
 
 <script>
 import axios from "axios";
+import OverallRating from "./OverallRating.vue";
+import PriceRating from "./PriceRating.vue";
 import BreakEvenCalculator from "./BreakEvenCalculator.vue";
-import { SLIDER_COLORS } from "../../constants/COLORS.js";
 import {API_KEY, BACKEND_URL} from "../../constants/API.js";
 import { capitalizeWords, getBreakEvenString } from "../../data/helpers.js";
-import OverallRating from "./OverallRating.vue";
 
 export default {
   name: "PropertyCard",
-  components: { OverallRating, BreakEvenCalculator },
+  components: {PriceRating, OverallRating, BreakEvenCalculator },
   props: {
     coordinates: { type: String, required: true },
   },
@@ -334,36 +290,6 @@ export default {
         return `https://maps.googleapis.com/maps/api/streetview?size=500x300&location=${lat},${lng}&fov=120&pitch=15&source=outdoor&key=${API_KEY}`;
       }
       return null;
-    },
-
-    /**
-     * The position of the slider comparing expected and actual price
-     */
-    price_slider_position() {
-      if (this.property) {
-        const ratio = this.property.salePrice / this.estimated_price;
-        // Due to the middle of the slider meaning sales price equals expected, we divide by two
-        return ratio / 2;
-      }
-      return 0;
-    },
-
-    /**
-     * The color of the slider comparing expected and actual price
-     */
-    price_slider_color() {
-      // Color distribution in intervals
-      const ratio = Math.min(Math.max(Math.round(this.price_slider_position * 10) - 1, 0), 9);
-      return SLIDER_COLORS[ratio];
-    },
-
-    /**
-     * Offset of the actual price badge in %
-     */
-    price_badge_offset() {
-      if (this.loading) { return 0; }
-      const result = Math.round(this.price_slider_position * 100);
-      return Math.min(Math.max(result, 10), 90);
     },
   },
   watch: {
