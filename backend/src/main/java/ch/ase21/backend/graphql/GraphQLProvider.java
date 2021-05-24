@@ -60,7 +60,8 @@ public class GraphQLProvider {
             .dataFetcher("neighbourhoodRating", graphQLDataFetchers.getNeighbourhoodRatingDataFetcher())
             .dataFetcher("calculateBreakEven", graphQLDataFetchers.calculateBreakEvenDataFetcher())
             .dataFetcher("calculatePropertyScore", graphQLDataFetchers.calculatePropertyScoreDataFetcher())
-            .dataFetcher("estimatedPriceByNeighbourhood", graphQLDataFetchers.getRevenueByNeighbourhoodDataFetcher()))
+            .dataFetcher("estimatedPriceByNeighbourhood", graphQLDataFetchers.getRevenueByNeighbourhoodDataFetcher())
+            .dataFetcher("allScores", graphQLDataFetchers.getAllScoresDataFetcher()))
         .type(newTypeWiring("Sale")
             .dataFetcher("score", graphQLDataFetchers.getSalePropertyScoreDataFetcher()))
         .build();
