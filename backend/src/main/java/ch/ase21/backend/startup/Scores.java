@@ -20,13 +20,21 @@ public class Scores {
   private static final Map<String, List<Sale>> neighbourhoodSales = new HashMap<>();
   private static final Map<String, List<Airbnb>> neighbourhoodAirbnbs = new HashMap<>();
 
+  /**
+   * Compute all property scores.
+   * This function is called at startup of the backend.
+   * The scores will not change until the application is restarted.
+   */
   @PostConstruct
   public static void computeScores(){
+    // Continue startup while trying to calculate scores
     new Thread(() -> {
       while (true) {
         try {
+          // Wait 10 seconds before (re-)try
           TimeUnit.SECONDS.sleep(10);
-          System.out.println("fetch sales");
+
+          // Fetch all sales
           List<Sale> sales = SalesAPI.getAll();
           for (Sale sale : sales) {
             String neighbourhood = sale.getNeighbourhood();
@@ -39,12 +47,12 @@ public class Scores {
             }
           }
 
-          System.out.println("fetch airbnbs");
+          // Fetch all airbnbs
           for (String neighbourhood : neighbourhoodSales.keySet()) {
             neighbourhoodAirbnbs.put(neighbourhood, AirbnbAPI.getAllByNeighbourhood(neighbourhood));
           }
 
-          System.out.println("compute scores");
+          // Calculate scores
           for (Sale sale : sales) {
             String neighbourhood = sale.getNeighbourhood();
             Double score = SaleService.calculatePropertyScore(sale,
@@ -53,16 +61,22 @@ public class Scores {
             propertyScores.put(sale.getId(), score);
           }
 
-          System.out.println("scores computed");
           break;
         } catch (IOException ignored) {
+          // Retry
         } catch (InterruptedException e) {
+          // Sleep got interrupted
           throw new RuntimeException(e);
         }
       }
     }).start();
   }
 
+  /**
+   * Return the List of all sale property scores.
+   * The scores are sorted descending by score value (10.0 - 0.0).
+   * @return A list of all scores.
+   */
   public static List<Score> getScores(){
     List<Entry<String, Double>> scoreEntries = new ArrayList<>(propertyScores.entrySet());
     scoreEntries.sort(Entry.comparingByValue(Collections.reverseOrder()));
