@@ -32,6 +32,7 @@
             top
           >
             <q-toggle
+              color="secondary"
               :value="show_markers"
               @input="toggleMarkers"
             />
@@ -61,6 +62,7 @@
             top
           >
             <q-toggle
+              color="secondary"
               :value="show_heatmap"
               @input="toggleHeatmap"
             />
@@ -90,6 +92,7 @@
             top
           >
             <q-toggle
+              color="secondary"
               :value="show_neighbourhoods"
               @input="toggleNeighbourhoods"
             />
@@ -113,7 +116,7 @@
         >
           <q-btn
             style="width: 50%"
-            :color="map_type === 'AIRBNB' ? 'primary' : null"
+            :color="map_type === 'AIRBNB' ? 'secondary' : null"
             :text-color="map_type === 'AIRBNB' ? 'white' : 'black'"
             label="Airbnbs"
             icon="hotel"
@@ -122,7 +125,7 @@
           />
           <q-btn
             style="width: 50%"
-            :color="map_type === 'PROPERTY' ? 'primary' : null"
+            :color="map_type === 'PROPERTY' ? 'secondary' : null"
             :text-color="map_type === 'PROPERTY' ? 'white' : 'black'"
             label="Properties"
             icon="home"
@@ -150,34 +153,47 @@
         </q-item>
         <div style="padding: 0 15px">
           <q-slider
+            color="secondary"
             :value="heatmap_radius"
             :min="1"
             :max="200"
-            @input="val => setHeatmapRadius(val)"
+            @input="val => setHeatmapRadius(map_type, val)"
           />
         </div>
 
         <q-separator />
 
-        <!--        &lt;!&ndash; TODO remove altogether? &ndash;&gt;-->
-        <!--        <q-item-label header>-->
-        <!--          Filters-->
-        <!--        </q-item-label>-->
+        <q-item-label header>
+          About
+        </q-item-label>
 
-        <!--        <AirbnbFilters v-if="map_type === 'AIRBNB'" />-->
+        <q-item
+          class="column"
+          style="text-align: justify"
+        >
+          <p>
+            This is a tool for analysing properties for sale with the goal of renting them out using Airbnb, as well as analysing existing Airbnbs.
+          </p>
+          <br>
+          <p style="text-align: center; font-size: smaller">
+            Made for the Advanced Software Engineering course 2021 at the University of Zurich
+          </p>
+        </q-item>
       </q-list>
+
+      <p
+        class="fixed-bottom full-width"
+        style="font-size: x-small; text-align: center"
+      >
+        © {{ new Date().getFullYear() }} Johann Schwabe, Thomas Mannhart & David Wyss
+      </p>
     </q-scroll-area>
   </q-drawer>
 </template>
 
 <script>
-// import AirbnbFilters from "./AirbnbFilters.vue";
-
 export default {
   name: "MenuDrawer",
-  components: {
-    // AirbnbFilters,
-  },
   computed: {
     /**
      * Whether the drawer is open
@@ -255,7 +271,7 @@ export default {
      * Sets the heatmap point radius
      * @param {Number} radius - the radius in px
      */
-    setHeatmapRadius(radius) {
+    setHeatmapRadius(type, radius) {
       this.$store.commit("setHeatmapRadius", {heatmap_radius: radius});
     },
   },

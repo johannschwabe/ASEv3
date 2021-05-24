@@ -7,6 +7,6 @@ export default {
   show_neighbourhoods: true,
   drawer_open: false,
   map_type: OPTIONS.MAP_TYPES.PROPERTY,
-  heatmap_radius: 10,
+  heatmap_radius: 30,
   selected_coordinates: null,
 };

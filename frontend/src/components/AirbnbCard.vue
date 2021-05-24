@@ -6,13 +6,14 @@
     <div style="position: absolute; top: 0; right: 0; z-index: 1">
       <q-btn
         flat
+        color="white"
         icon="mdi-close"
         @click="onHide"
       />
     </div>
     <q-scroll-area style="height: 100%">
       <!-- Card header: Name & host -->
-      <q-card-section class="bg-primary text-white no-padding">
+      <q-card-section class="bg-secondary text-white no-padding">
         <img
           :src="listing_image_url"
           alt="listing image"
@@ -27,16 +28,6 @@
             class="text-h6"
           >
             {{ property.name }}
-          </div>
-
-          <div v-if="property">
-            <q-icon
-              v-for="i in property.computed_rating"
-              :key="i"
-              name="star"
-              color="white"
-              size="24px"
-            />
           </div>
         </div>
       </q-card-section>
@@ -70,8 +61,6 @@
                 {{ property ? property.hostName : "" }}
               </div>
               {{ property ? `${property.calculatedHostListingsCount} listing(s)` : "" }}
-              <br>
-              More host info may go here.
             </div>
           </q-item-section>
         </q-item>
@@ -211,21 +200,6 @@
           </div>
         </q-card-section>
       </q-card-section>
-
-      <q-separator />
-
-      <!-- Action buttons TODO -->
-      <q-card-actions align="center">
-        <q-btn flat>
-          Favorite
-        </q-btn>
-        <q-btn flat>
-          Show all by host
-        </q-btn>
-        <q-btn flat>
-          Hide
-        </q-btn>
-      </q-card-actions>
     </q-scroll-area>
   </q-card>
 </template>
@@ -245,7 +219,6 @@ export default {
   }),
   computed: {
     host_image_url() {
-      // TODO
       return "https://picsum.photos/100";
     },
 
@@ -304,8 +277,6 @@ export default {
         },
       }).then((result) => {
         this.property = result.data.data.airbnbById;
-        // TODO remove fake
-        this.property.computed_rating = 3;
       }).finally(() => {
         this.loading = false;
       });
