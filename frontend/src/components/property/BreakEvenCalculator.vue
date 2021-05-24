@@ -7,86 +7,99 @@
       </div>
     </q-card-section>
 
-    <q-card-section horizontal>
-      <!-- Input section -->
-      <q-card-section>
-        <q-input
-          v-model.number="break_even.price"
-          type="number"
-          label="Price per night"
-          prefix="$"
-        />
-        <q-item-label
-          caption
-          style="padding-top: 10px"
-        >
-          Occupancy rate
-        </q-item-label>
-        <q-slider
-          v-model="break_even.occupancy_rate"
-          color="secondary"
-          :min="0"
-          :max="1"
-          :step="0.1"
-          label
-          :label-value="(break_even.occupancy_rate * 100) + '%'"
-        />
-        <q-input
-          v-model.number="break_even.maintenance"
-          type="number"
-          label="Maintenance cost per sq.ft."
-          prefix="$"
-        />
-        <!-- Mortgage cost -->
-        <q-item-label
-          caption
-          style="padding-top: 10px"
-        >
-          Mortgage cost
-        </q-item-label>
-        <q-slider
-          v-model="break_even.mortgage_rate"
-          color="secondary"
-          :min="0"
-          :max="0.1"
-          :step="0.001"
-          label
-          :label-value="(Math.round(break_even.mortgage_rate * 1000))/10 + '%'"
-        />
-        <!-- Mortgage ratio -->
-        <q-item-label
-          caption
-          style="padding-top: 10px"
-        >
-          Mortgage ratio
-        </q-item-label>
-        <q-slider
-          v-model="break_even.mortgage_ratio"
-          color="secondary"
-          :min="0.1"
-          :max="1"
-          :step="0.01"
-          label
-          :label-value="Math.round(break_even.mortgage_ratio * 100) + '%'"
-        />
-        <q-btn
-          label="Calculate"
-          color="secondary"
-          @click="fetchCalculatedBreakEven(
-            id,
-            break_even.price,
-            break_even.occupancy_rate,
-            break_even.maintenance,
-            break_even.mortgage_rate,
-            break_even.mortgage_ratio
-          )"
-        />
-      </q-card-section>
+    <q-card-section>
+      <!-- Price per night -->
+      <q-input
+        v-model.number="break_even.price"
+        color="secondary"
+        type="number"
+        label="Price per night:"
+        prefix="$"
+      />
 
-      <!-- Output section -->
-      <q-card-section>
-        <h5>{{ getBreakEvenString(break_even.output) }}</h5>
-      </q-card-section>
+      <!-- Occupancy rate -->
+      <q-item-label
+        caption
+        style="padding: 10px 0 24px 0"
+      >
+        Occupancy rate:
+      </q-item-label>
+      <q-slider
+        v-model="break_even.occupancy_rate"
+        color="secondary"
+        :min="0"
+        :max="1"
+        :step="0.05"
+        label
+        label-always
+        :label-value="(Math.round(break_even.occupancy_rate * 1000))/10 + '%'"
+      />
+      <q-input
+        v-model.number="break_even.maintenance"
+        color="secondary"
+        type="number"
+        label="Maintenance cost per sq.ft.:"
+        prefix="$"
+      />
+      <!-- Mortgage cost -->
+      <q-item-label
+        caption
+        style="padding: 10px 0 24px 0"
+      >
+        Mortgage cost:
+      </q-item-label>
+      <q-slider
+        v-model="break_even.mortgage_rate"
+        color="secondary"
+        :min="0"
+        :max="0.1"
+        :step="0.001"
+        label
+        label-always
+        :label-value="(Math.round(break_even.mortgage_rate * 1000))/10 + '%'"
+      />
+      <!-- Mortgage ratio -->
+      <q-item-label
+        caption
+        style="padding: 10px 0 24px 0"
+      >
+        Mortgage ratio:
+      </q-item-label>
+      <q-slider
+        v-model="break_even.mortgage_ratio"
+        color="secondary"
+        :min="0.1"
+        :max="1"
+        :step="0.01"
+        label
+        label-always
+        :label-value="Math.round(break_even.mortgage_ratio * 100) + '%'"
+      />
+
+      <!-- Calculate button -->
+      <q-btn
+        style="width: 100%; margin-top: 10px"
+        label="Calculate"
+        color="secondary"
+        @click="fetchCalculatedBreakEven(
+          id,
+          break_even.price,
+          break_even.occupancy_rate,
+          break_even.maintenance,
+          break_even.mortgage_rate,
+          break_even.mortgage_ratio
+        )"
+      />
+    </q-card-section>
+
+    <!-- Output section -->
+    <q-card-section style="text-align: center">
+      <q-item-label header>
+        Predicted break-even:
+      </q-item-label>
+      <h5 style="padding: 0; margin: 0">
+        {{ getBreakEvenString(break_even.output) }}
+      </h5>
     </q-card-section>
   </div>
 </template>
@@ -138,6 +151,7 @@ export default {
           `,
         },
       }).then((result) => {
+        console.log("GOT:", result.data.data);
         if (result.data.data.calculateBreakEven) {
           this.break_even.output = result.data.data.calculateBreakEven;
         }

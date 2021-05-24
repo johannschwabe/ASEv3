@@ -19,7 +19,7 @@ export function capitalizeWords(input) {
  * @param {Number} value - the break-even duration in years
  */
 export function getBreakEvenString(value) {
-  if (value >= 200) { return "-"; }
+  if (value >= 200 || value === null || value === undefined) { return "N/A"; }
 
   return `${Math.round((value + Number.EPSILON) * 100) / 100} years`;
 }
