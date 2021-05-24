@@ -131,12 +131,13 @@ public class SaleService {
                      Double mortgageRate,
                      Double mortgageRatio) throws IllegalArgumentException
   {
-    if(revenuePerNight == null){
-      throw new IllegalArgumentException("Missing price.");
-    }
-
     if(sale.getSalePrice() == 0 || sale.getGrossSquareFeet() == 0 || sale.getTotalUnits() == 0){
       throw new IllegalArgumentException("Invalid sale property.");
+    }
+
+    if(revenuePerNight == null){
+      // The average price over all full apartment airbnb properties in the initial dataset
+      revenuePerNight = 212;
     }
 
     if(nightsPerYear == null){

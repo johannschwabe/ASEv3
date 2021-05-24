@@ -84,12 +84,15 @@ class SaleServiceTests {
    * Calculate the break even with all default values
    */
   @Test void calculateBreakEvenMinimal(){
+    int salePrice = 1000000;
+    int area = 1000;
     Sale sale = new Sale("1");
     sale.setTotalUnits(1);
-    sale.setSalePrice(1000000);
-    sale.setGrossSquareFeet(1000);
+    sale.setSalePrice(salePrice);
+    sale.setGrossSquareFeet(area);
 
-    int revenue = 200;
+    // Default values
+    int revenue = 212;
     int nights = 365;
     double occupancyRate = 0.8;
     double maintenance = 2.0;
@@ -97,7 +100,7 @@ class SaleServiceTests {
     double mortgageRatio = 0.75;
 
     Double breakEven = SaleService.calculateBreakEven(sale,
-        revenue,
+        null,
         null,
         null,
         null,
@@ -105,9 +108,9 @@ class SaleServiceTests {
         null);
 
     Double expectedRevenue = revenue * nights * occupancyRate;
-    Double expectedMaintenance = 1000 * maintenance * 12;
-    Double expectedMortgage = 1000000 * mortgageRate * mortgageRatio;
-    Double expectedBreakEven = 1000000 / (expectedRevenue - expectedMaintenance - expectedMortgage);
+    Double expectedMaintenance = area * maintenance * 12;
+    Double expectedMortgage = salePrice * mortgageRate * mortgageRatio;
+    Double expectedBreakEven = salePrice / (expectedRevenue - expectedMaintenance - expectedMortgage);
 
     Assertions.assertEquals(expectedBreakEven, breakEven);
   }
@@ -116,10 +119,12 @@ class SaleServiceTests {
    * Calculate the break even with all values
    */
   @Test void calculateBreakEvenFull(){
+    int salePrice = 1000000;
+    int area = 1000;
     Sale sale = new Sale("1");
     sale.setTotalUnits(1);
-    sale.setSalePrice(1000000);
-    sale.setGrossSquareFeet(1000);
+    sale.setSalePrice(salePrice);
+    sale.setGrossSquareFeet(area);
 
     int revenue = 200;
     int nights = 300;
@@ -137,41 +142,11 @@ class SaleServiceTests {
         mortgageRatio);
 
     Double expectedRevenue = revenue * nights * occupancyRate;
-    Double expectedMaintenance = 1000 * maintenance * 12;
-    Double expectedMortgage = 1000000 * mortgageRate * mortgageRatio;
-    Double expectedBreakEven = 1000000 / (expectedRevenue - expectedMaintenance - expectedMortgage);
+    Double expectedMaintenance = area * maintenance * 12;
+    Double expectedMortgage = salePrice * mortgageRate * mortgageRatio;
+    Double expectedBreakEven = salePrice / (expectedRevenue - expectedMaintenance - expectedMortgage);
 
     Assertions.assertEquals(expectedBreakEven, breakEven);
-  }
-
-  /**
-   * Calculate the break even with missing price.
-   */
-  @Test void calculateBreakEvenMissingPrice(){
-    Sale sale = new Sale("1");
-    sale.setTotalUnits(1);
-    sale.setSalePrice(1000000);
-    sale.setGrossSquareFeet(1000);
-
-    Assertions.assertThrows(IllegalArgumentException.class,
-        () -> SaleService.calculateBreakEven(sale,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null));
-    try{
-      SaleService.calculateBreakEven(sale,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null);
-    } catch(RuntimeException e){
-      Assertions.assertEquals("Missing price.", e.getMessage());
-    }
   }
 
   /**
