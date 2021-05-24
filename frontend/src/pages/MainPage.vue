@@ -3,7 +3,7 @@
     <div
       class="main-page"
     >
-      <Heatmap
+      <Map
         :points="map_points"
         :markers="map_points"
         :center="center"
@@ -31,18 +31,17 @@
 
 <script>
 
-/* eslint-disable import/no-unresolved */
-import Heatmap from "@/components/map/Heatmap.vue";
-import PropertyCard from "@/components/property/PropertyCard.vue";
-import {BACKEND_URL} from "@/constants/API.js";
 import axios from "axios";
-import AirbnbCard from "@/components/AirbnbCard.vue";
-import * as OPTIONS from "@/constants/OPTIONS.js";
+import Map from "../components/map/Map.vue";
+import PropertyCard from "../components/property/PropertyCard.vue";
+import AirbnbCard from "../components/AirbnbCard.vue";
+import {BACKEND_URL} from "../constants/API.js";
+import * as OPTIONS from "../constants/OPTIONS.js";
 
 export default {
   name: "MainPage",
   components: {
-    Heatmap,
+    Map,
     PropertyCard,
     AirbnbCard,
   },
@@ -77,8 +76,6 @@ export default {
           return this.airbnbs;
         case OPTIONS.MAP_TYPES.PROPERTY:
           return this.properties;
-        case OPTIONS.MAP_TYPES.RATING:
-          return []; // TODO
         default:
           return [];
       }

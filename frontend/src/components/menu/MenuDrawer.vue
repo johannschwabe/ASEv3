@@ -185,20 +185,17 @@
         class="fixed-bottom full-width"
         style="font-size: x-small; text-align: center"
       >
-        © 2021 Johann Schwabe, Thomas Mannhart & David Wyss
+        © {{ new Date().getFullYear() }} Johann Schwabe, Thomas Mannhart & David Wyss
       </p>
     </q-scroll-area>
   </q-drawer>
 </template>
 
 <script>
-// import AirbnbFilters from "./AirbnbFilters.vue";
+import { setHeatmapRadius } from "../../data/helpers.js";
 
 export default {
   name: "MenuDrawer",
-  components: {
-    // AirbnbFilters,
-  },
   computed: {
     /**
      * Whether the drawer is open
@@ -243,6 +240,8 @@ export default {
     },
   },
   methods: {
+    setHeatmapRadius,
+
     /**
      * Toggles marker visibility
      */
@@ -270,14 +269,9 @@ export default {
      */
     setMapType(type) {
       this.$store.dispatch("setMapType", {map_type: type});
-    },
 
-    /**
-     * Sets the heatmap point radius
-     * @param {Number} radius - the radius in px
-     */
-    setHeatmapRadius(radius) {
-      this.$store.commit("setHeatmapRadius", {heatmap_radius: radius});
+      // Set heatmap radius again to adjust for type change
+      this.setHeatmapRadius(this.heatmap_radius);
     },
   },
 };
