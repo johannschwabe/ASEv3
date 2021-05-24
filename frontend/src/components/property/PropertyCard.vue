@@ -483,7 +483,6 @@ export default {
      * @param {string} neighbourhood - the neighbourhood's name
      */
     fetchNeighbourhoodRating(neighbourhood) {
-      console.log("Fetch for", neighbourhood);
       axios({
         url: BACKEND_URL,
         method: "post",
@@ -498,6 +497,7 @@ export default {
         // Get rating and apply to 1-10 range
         if (result.data.data.neighbourhoodRating > 0) {
           this.neighbourhood_rating = Math.max(1, Math.round(result.data.data.neighbourhoodRating));
+          console.log("RATING:", this.neighbourhood_rating, result.data.data.neighbourhoodRating);
         } else {
           // Invalid rating
           this.neighbourhood_rating = 11;
