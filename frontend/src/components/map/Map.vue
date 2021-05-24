@@ -4,7 +4,7 @@
 
 <script>
 import MarkerClusterer from "@googlemaps/markerclustererplus";
-import { setHeatmapRadius } from "../../data/helpers.js";
+import {getAdjustedRadius, setHeatmapRadius} from "../../data/helpers.js";
 
 export default {
   name: "Heatmap",
@@ -67,6 +67,13 @@ export default {
         (point) => new this.maps_api.LatLng(point.lat.toFixed(6), point.lng.toFixed(6)),
       );
     },
+
+    /**
+     * The heatmap's type
+     */
+    map_type() {
+      return this.$store.getters.mapType;
+    },
   },
 
   watch: {
@@ -99,6 +106,7 @@ export default {
      */
     points() {
       this.heatmap.setData(this.heatmap_points);
+      this.setHeatmapRadius(this.map_type, this.heatmap_radius);
     },
 
     /**
@@ -156,13 +164,11 @@ export default {
       const heatmap_options = {
         data: this.heatmap_points,
         map: this.map,
-        radius: this.heatmap_radius * 3,
+        radius: getAdjustedRadius(this.heatmap_radius),
       };
 
       // Add heatmap to map and store locally
       this.heatmap = new this.maps_api.visualization.HeatmapLayer(heatmap_options);
-      // Adjust initial radius
-      this.setHeatmapRadius(this.heatmap_radius);
 
       // Place markers
       this.placeMarkers(this.markers);

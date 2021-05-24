@@ -157,7 +157,7 @@
             :value="heatmap_radius"
             :min="1"
             :max="200"
-            @input="val => setHeatmapRadius(val)"
+            @input="val => setHeatmapRadius(map_type, val)"
           />
         </div>
 
@@ -271,7 +271,7 @@ export default {
       this.$store.dispatch("setMapType", {map_type: type});
 
       // Set heatmap radius again to adjust for type change
-      this.setHeatmapRadius(this.heatmap_radius);
+      this.setHeatmapRadius(type, this.heatmap_radius);
     },
   },
 };

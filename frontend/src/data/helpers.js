@@ -27,16 +27,28 @@ export function getBreakEvenString(value) {
 }
 
 /**
- * Sets the heatmap point radius
+ * Get the actual point radius to apply on the heatmap, depending on map mode
+ * @param {string} type - map type (AIRBNB or PROPERTY)
  * @param {Number} radius - the radius in px
+ * @returns {Number}
  */
-export function setHeatmapRadius(radius) {
+export function getAdjustedRadius(type, radius) {
   let output_radius = radius;
 
   // For properties, increase weight of each data point
-  if (this.map_type === MAP_TYPES.PROPERTY) {
+  if (type === MAP_TYPES.PROPERTY) {
     output_radius *= 3;
   }
 
+  return output_radius;
+}
+
+/**
+ * Sets the heatmap point radius
+ * @param {string} type - map type (AIRBNB or PROPERTY)
+ * @param {Number} radius - the radius in px
+ */
+export function setHeatmapRadius(type, radius) {
+  const output_radius = getAdjustedRadius(type, radius);
   this.$store.commit("setHeatmapRadius", {heatmap_radius: output_radius});
 }
