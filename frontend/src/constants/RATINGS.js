@@ -10,4 +10,6 @@ export const RATINGS = Object.freeze({
   3: { shortname: "E", name: "Bad"},
   2: { shortname: "F", name: "Very Bad"},
   1: { shortname: "G", name: "Terrible"},
+  0: { shortname: "...", name: "Loading..."},
+  11: { shortname: "-", name: "Cannot calculate rating (missing data)"},
 });

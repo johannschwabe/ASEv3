@@ -48,8 +48,9 @@
         </div>
       </q-card-section>
 
-      <!-- TODO generated rating -->
+      <!-- Rating slider-->
       <q-linear-progress
+        v-if="rating > 0 && rating <= 10"
         rounded
         size="40px"
         :value="rating_slider_position"
@@ -86,16 +87,16 @@
         <q-badge
           v-if="property"
           color="grey-3"
-          :text-color="property.salePrice < estimated_price ? 'positive' : 'negative'"
-          :label="'$' + property.salePrice.toLocaleString()"
+          :text-color="loading ? 'black' : property.salePrice < estimated_price ? 'positive' : 'negative'"
+          :label="loading ? '...' : '$' + property.salePrice.toLocaleString()"
         />
       </div>
 
       <q-linear-progress
         rounded
         size="20px"
-        :value="price_slider_position"
-        :color="price_slider_color"
+        :value="loading? .5 : price_slider_position"
+        :color="loading? 'transparent' :price_slider_color"
         class="q-mt-sm"
         style="margin: 10px; width: calc(100% - 20px)"
       />
@@ -112,7 +113,7 @@
         <q-badge
           color="grey-3"
           text-color="grey-9"
-          :label="'$' + estimated_price.toLocaleString()"
+          :label="loading ? '...' : '$' + estimated_price.toLocaleString()"
         />
       </div>
 
@@ -120,10 +121,7 @@
         caption
         style="padding: 10px"
       >
-        Ratings are generated from aggregate data blabla.
-        <br>
-        <a href="https://www.google.ch">Learn how we determine ratings</a>
-        <!-- TODO -->
+        Ratings are generated from aggregate data of past sales of comparable properties, as well as prices of nearby Airbnbs.
       </q-item-label>
 
       <!-- Info title -->
@@ -250,8 +248,11 @@
           <strong>At 100%</strong>
         </q-card-section>
         <q-separator vertical />
-        <q-card-section>
-          2 years 5 months TODO
+        <q-card-section v-if="break_even_100 !== null">
+          {{ Math.round((break_even_100 + Number.EPSILON) * 100) / 100 }} years
+        </q-card-section>
+        <q-card-section v-else>
+          <q-spinner-dots v-if="loading" />
         </q-card-section>
       </q-card-section>
 
@@ -262,8 +263,11 @@
           <strong>At 80%</strong>
         </q-card-section>
         <q-separator vertical />
-        <q-card-section>
-          5 years 5 months TODO
+        <q-card-section v-if="break_even_80 !== null">
+          {{ Math.round((break_even_80 + Number.EPSILON) * 100) / 100 }} years
+        </q-card-section>
+        <q-card-section v-else>
+          <q-spinner-dots v-if="loading" />
         </q-card-section>
       </q-card-section>
 
@@ -274,8 +278,11 @@
           <strong>At 60%</strong>
         </q-card-section>
         <q-separator vertical />
-        <q-card-section>
-          8 years 5 months TODO
+        <q-card-section v-if="break_even_60 !== null">
+          {{ Math.round((break_even_60 + Number.EPSILON) * 100) / 100 }} years
+        </q-card-section>
+        <q-card-section v-else>
+          <q-spinner-dots v-if="loading" />
         </q-card-section>
       </q-card-section>
 
@@ -287,22 +294,12 @@
       >
         The break-even rating considers the following:
         <br>
-        - Est. maintenance cost of 10%
+        - Est. maintenance cost of $2 per sq.ft. per month
         <br>
         - The stated capacity at the estimated price per night
         <br>
-        - Mortgage costs of 1.23% ($5678 p.a.)
-        <!-- TODO -->
+        - Mortgage costs of 3% at 75% of sale price as mortgage
       </q-item-label>
-
-      <q-separator />
-
-      <!-- Action buttons TODO -->
-      <q-card-actions align="center">
-        <q-btn flat>
-          Favorite
-        </q-btn>
-      </q-card-actions>
     </q-scroll-area>
   </q-card>
 </template>
@@ -321,10 +318,13 @@ export default {
   },
   data() {
     return {
-      estimated_price: 6500000, // TODO get from backend
-      rating: 7, // TODO, 1 to 10 expected
+      estimated_price: 1, // Must be set to 1 initially to not break calculations
+      rating: 0,
       property: null,
       loading: true,
+      break_even_100: null,
+      break_even_80: null,
+      break_even_60: null,
     };
   },
   computed: {
@@ -389,17 +389,26 @@ export default {
      * Offset of the actual price badge in %
      */
     price_badge_offset() {
+      if (this.loading) { return 0; }
       const result = Math.round(this.price_slider_position * 100);
       return Math.min(Math.max(result, 10), 90);
     },
   },
   watch: {
     coordinates() {
-      this.fetchProperty();
+      this.fetchProperty().then(() => {
+        this.fetchEstimatedPrice(this.property.id);
+        this.fetchBreakEven(this.property.id);
+        this.fetchRating(this.property.id);
+      });
     },
   },
   created() {
-    this.fetchProperty();
+    this.fetchProperty().then(() => {
+      this.fetchEstimatedPrice(this.property.id);
+      this.fetchBreakEven(this.property.id);
+      this.fetchRating(this.property.id);
+    });
   },
   methods: {
     capitalizeWords,
@@ -408,9 +417,12 @@ export default {
       this.$emit("hide");
     },
 
-    fetchProperty() {
+    /**
+     * Fetches the property's data
+     */
+    async fetchProperty() {
       this.loading = true;
-      axios({
+      const result = await axios({
         url: BACKEND_URL,
         method: "post",
         data: {
@@ -431,10 +443,115 @@ export default {
             }
           `,
         },
+      });
+
+      this.property = result.data.data.saleByCoordinatesId;
+    },
+
+    /**
+     * Fetches the property's estimated price
+     * @param {string} id - the property's ID
+     */
+    fetchEstimatedPrice(id) {
+      this.loading = true;
+      axios({
+        url: BACKEND_URL,
+        method: "post",
+        data: {
+          query: `
+            {
+              estimatedSalePriceById(id: "${id}")
+            }
+          `,
+        },
       }).then((result) => {
-        this.property = result.data.data.saleByCoordinatesId;
+        this.estimated_price = result.data.data.estimatedSalePriceById;
       }).finally(() => {
         this.loading = false;
+      });
+    },
+
+    /**
+     * Fetches the property's estimated price
+     * @param {string} id - the property's ID
+     */
+    fetchBreakEven(id) {
+      this.loading = true;
+      // At 100%
+      axios({
+        url: BACKEND_URL,
+        method: "post",
+        data: {
+          query: `
+            {
+              calculateBreakEven(id: "${id}", occupancyRate: 1.0)
+            }
+          `,
+        },
+      }).then((result) => {
+        this.break_even_100 = result.data.data.calculateBreakEven;
+        console.log("BE100:", this.break_even_100, result.data.data);
+      });
+
+      // At 80%
+      axios({
+        url: BACKEND_URL,
+        method: "post",
+        data: {
+          query: `
+            {
+              calculateBreakEven(id: "${id}", occupancyRate: 0.8)
+            }
+          `,
+        },
+      }).then((result) => {
+        this.break_even_80 = result.data.data.calculateBreakEven;
+        console.log("BE80:", this.break_even_80);
+      });
+
+      // At 60%
+      axios({
+        url: BACKEND_URL,
+        method: "post",
+        data: {
+          query: `
+            {
+              calculateBreakEven(id: "${id}", occupancyRate: 0.6)
+            }
+          `,
+        },
+      }).then((result) => {
+        this.break_even_60 = result.data.data.calculateBreakEven;
+        console.log("BE60:", this.break_even_60);
+      });
+    },
+
+    /**
+     * Fetches the property's computed rating
+     * @param {string} id - the property's ID
+     */
+    fetchRating(id) {
+      axios({
+        url: BACKEND_URL,
+        method: "post",
+        data: {
+          query: `
+            {
+              saleById(id: "${id}"){
+                score
+              }
+            }
+          `,
+        },
+      }).then((result) => {
+        console.log("Rating for", id);
+        // Get rating and apply to 1-10 range
+        if (result.data.data.saleById.score > 0) {
+          this.rating = Math.max(1, Math.round(result.data.data.saleById.score));
+        } else {
+          // Invalid rating
+          this.rating = 11;
+        }
       });
     },
   },

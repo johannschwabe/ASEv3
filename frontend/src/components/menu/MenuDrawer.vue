@@ -106,16 +106,13 @@
             </q-item-label>
           </q-item-section>
         </q-item>
-        <q-btn-group flat>
+        <q-btn-group
+          flat
+          class="full-width"
+          style="padding: 4px"
+        >
           <q-btn
-            :color="map_type === 'RATING' ? 'primary' : null"
-            :text-color="map_type === 'RATING' ? 'white' : 'black'"
-            label="Ratings"
-            icon="star"
-            no-caps
-            @click="setMapType('RATING')"
-          />
-          <q-btn
+            style="width: 50%"
             :color="map_type === 'AIRBNB' ? 'primary' : null"
             :text-color="map_type === 'AIRBNB' ? 'white' : 'black'"
             label="Airbnbs"
@@ -124,6 +121,7 @@
             @click="setMapType('AIRBNB')"
           />
           <q-btn
+            style="width: 50%"
             :color="map_type === 'PROPERTY' ? 'primary' : null"
             :text-color="map_type === 'PROPERTY' ? 'white' : 'black'"
             label="Properties"
@@ -154,31 +152,31 @@
           <q-slider
             :value="heatmap_radius"
             :min="1"
-            :max="100"
+            :max="200"
             @input="val => setHeatmapRadius(val)"
           />
         </div>
 
         <q-separator />
 
-        <q-item-label header>
-          Filters
-        </q-item-label>
+        <!--        &lt;!&ndash; TODO remove altogether? &ndash;&gt;-->
+        <!--        <q-item-label header>-->
+        <!--          Filters-->
+        <!--        </q-item-label>-->
 
-        <!-- TODO v-if -->
-        <AirbnbFilters />
+        <!--        <AirbnbFilters v-if="map_type === 'AIRBNB'" />-->
       </q-list>
     </q-scroll-area>
   </q-drawer>
 </template>
 
 <script>
-import AirbnbFilters from "./AirbnbFilters.vue";
+// import AirbnbFilters from "./AirbnbFilters.vue";
 
 export default {
   name: "MenuDrawer",
   components: {
-    AirbnbFilters,
+    // AirbnbFilters,
   },
   computed: {
     /**
