@@ -1,8 +1,10 @@
 <template>
   <div>
-    <q-card-section class="bg-grey-3">
+    <q-card-section
+      class="bg-grey-3"
+    >
       <div class="text-bold">
-        Overall Rating
+        Neighbourhood Rating
       </div>
     </q-card-section>
 
@@ -10,7 +12,7 @@
     <q-linear-progress
       v-if="rating > 0 && rating <= 10"
       rounded
-      size="40px"
+      size="20px"
       :value="rating_slider_position"
       :color="rating_slider_color"
       class="q-mt-sm"
@@ -26,7 +28,7 @@
     </q-linear-progress>
 
     <div
-      class="text-h5 text-grey-8"
+      class="text-h7 text-grey-8"
       style="text-align: center; margin: 10px 0"
     >
       {{ rating_object.name }}
@@ -35,7 +37,7 @@
       caption
       style="padding: 10px; text-align: justify"
     >
-      The overall rating is determined based on price rating, neighbourhood rating and break-even.
+      The neighbourhood rating is determined based on Airbnbs within the same neighbourhood.
     </q-item-label>
   </div>
 </template>
@@ -45,13 +47,13 @@ import {SLIDER_COLORS} from "../../constants/COLORS.js";
 import {RATINGS} from "../../constants/RATINGS.js";
 
 export default {
-  name: "OverallRating",
+  name: "NeighbourhoodRating",
   props: {
     rating: { type: Number, required: true},
   },
   computed: {
     /**
-     * The position of the slider showing the overall rating
+     * The position of the slider showing the neighbourhood rating
      */
     rating_slider_position() {
       return this.rating / 10;

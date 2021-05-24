@@ -1,12 +1,13 @@
 <template>
   <div>
-    <div style="margin: 10px 10px 20px 10px">
-      <strong>Price rating</strong>
-    </div>
-
+    <q-card-section class="bg-grey-3">
+      <div class="text-bold">
+        Price Rating
+      </div>
+    </q-card-section>
     <!-- Badge for sales price -->
     <div
-      :style="'position: relative; left: calc('+ price_badge_offset + '% - 40px)'"
+      :style="'max-width: 150px; position: relative; left: calc('+ price_badge_offset + '% - 40px)'"
     >
       <q-badge
         v-if="sale_price"

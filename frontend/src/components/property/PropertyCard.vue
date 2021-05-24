@@ -58,11 +58,19 @@
 
       <q-separator />
 
-      <!-- Break Even -->
-      <div style="margin: 10px">
-        <strong>Break-even</strong>
-      </div>
+      <!-- Neighbourhood rating -->
+      <neighbourhood-rating
+        :rating="neighbourhood_rating"
+      />
+
       <q-separator />
+
+      <!-- Break Even -->
+      <q-card-section class="bg-grey-3">
+        <div class="text-bold">
+          Break-even
+        </div>
+      </q-card-section>
 
       <q-card-section horizontal>
         <q-card-section class="col-3">
@@ -256,12 +264,18 @@ import axios from "axios";
 import OverallRating from "./OverallRating.vue";
 import PriceRating from "./PriceRating.vue";
 import BreakEvenCalculator from "./BreakEvenCalculator.vue";
+import NeighbourhoodRating from "./NeighbourhoodRating.vue";
 import {API_KEY, BACKEND_URL} from "../../constants/API.js";
 import { capitalizeWords, getBreakEvenString } from "../../data/helpers.js";
 
 export default {
   name: "PropertyCard",
-  components: {PriceRating, OverallRating, BreakEvenCalculator },
+  components: {
+    PriceRating,
+    OverallRating,
+    NeighbourhoodRating,
+    BreakEvenCalculator,
+  },
   props: {
     coordinates: { type: String, required: true },
   },
@@ -269,6 +283,7 @@ export default {
     return {
       estimated_price: 1, // Must be set to 1 initially to not break calculations
       rating: 0,
+      neighbourhood_rating: 0,
       property: null,
       loading: true,
       has_break_even: false, // Whether a break-even duration is available/loaded
@@ -298,8 +313,9 @@ export default {
       this.rating = 0; // Reset rating so the previous property's rating isn't shown
       this.fetchProperty().then(() => {
         this.fetchEstimatedPrice(this.property.id);
-        this.fetchDefaultBreakEven(this.property.id);
+        this.fetchBreakEven(this.property.id);
         this.fetchRating(this.property.id);
+        this.fetchNeighbourhoodRating(this.property.neighbourhood);
         this.fetchPricePerNight();
       });
     },
@@ -307,8 +323,9 @@ export default {
   created() {
     this.fetchProperty().then(() => {
       this.fetchEstimatedPrice(this.property.id);
-      this.fetchDefaultBreakEven(this.property.id);
+      this.fetchBreakEven(this.property.id);
       this.fetchRating(this.property.id);
+      this.fetchNeighbourhoodRating(this.property.neighbourhood);
       this.fetchPricePerNight();
     });
   },
@@ -378,7 +395,7 @@ export default {
      * Fetches the property's break-even
      * @param {string} id - the property's ID
      */
-    fetchDefaultBreakEven(id) {
+    fetchBreakEven(id) {
       this.loading = true;
       // At 100%
       axios({
@@ -451,13 +468,39 @@ export default {
           `,
         },
       }).then((result) => {
-        console.log("Rating for", id);
         // Get rating and apply to 1-10 range
         if (result.data.data.saleById.score > 0) {
           this.rating = Math.max(1, Math.round(result.data.data.saleById.score));
         } else {
           // Invalid rating
           this.rating = 11;
+        }
+      });
+    },
+
+    /**
+     * Fetches the property's neighbourhood rating
+     * @param {string} neighbourhood - the neighbourhood's name
+     */
+    fetchNeighbourhoodRating(neighbourhood) {
+      console.log("Fetch for", neighbourhood);
+      axios({
+        url: BACKEND_URL,
+        method: "post",
+        data: {
+          query: `
+            {
+              neighbourhoodRating(neighbourhood: "${neighbourhood}")
+            }
+          `,
+        },
+      }).then((result) => {
+        // Get rating and apply to 1-10 range
+        if (result.data.data.neighbourhoodRating > 0) {
+          this.neighbourhood_rating = Math.max(1, Math.round(result.data.data.neighbourhoodRating));
+        } else {
+          // Invalid rating
+          this.neighbourhood_rating = 11;
         }
       });
     },
