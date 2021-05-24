@@ -101,7 +101,7 @@ public class SalesAPI extends GraphqlAPI {
     String returnedStreetName;
     Integer returnedZipCode;
 
-    if (!coordinates.isEmpty()) {
+    if (coordinates != null && !coordinates.isEmpty()) {
       idSale = coordinates.get(ID_SALE).asText();
       latitude = coordinates.get(LATITUDE).floatValue();
       longitude = coordinates.get(LONGITUDE).floatValue();
