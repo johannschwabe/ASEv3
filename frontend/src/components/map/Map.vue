@@ -4,7 +4,7 @@
 
 <script>
 import MarkerClusterer from "@googlemaps/markerclustererplus";
-import {getAdjustedRadius, setHeatmapRadius} from "../../data/helpers.js";
+import {MAP_TYPES} from "../../constants/OPTIONS.js";
 
 export default {
   name: "Heatmap",
@@ -56,7 +56,8 @@ export default {
      * Pixel radius of heatmap points
      */
     heatmap_radius() {
-      return this.$store.getters.heatmapRadius;
+      const base_radius = this.$store.getters.heatmapRadius;
+      return this.map_type === MAP_TYPES.PROPERTY ? base_radius * 3 : base_radius;
     },
 
     /**
@@ -77,9 +78,13 @@ export default {
   },
 
   watch: {
+    /**
+     * When points change, update heatmap
+     */
     heatmap_points() {
-      this.fillMap();
+      this.heatmap.setData(this.heatmap_points);
     },
+
     /**
      * When show_markers property changes, update all markers
      */
@@ -99,14 +104,6 @@ export default {
      */
     show_neighbourhoods(show) {
       this.neighbourhoods_layer.setMap(show ? this.map : null);
-    },
-
-    /**
-     * When points change, update heatmap
-     */
-    points() {
-      this.heatmap.setData(this.heatmap_points);
-      this.setHeatmapRadius(this.map_type, this.heatmap_radius);
     },
 
     /**
@@ -144,7 +141,6 @@ export default {
     this.fillMap();
   },
   methods: {
-    setHeatmapRadius,
 
     /**
      * Fills the stored map with neighbourhood and heatmap layers and adds markers
@@ -164,7 +160,7 @@ export default {
       const heatmap_options = {
         data: this.heatmap_points,
         map: this.map,
-        radius: getAdjustedRadius(this.heatmap_radius),
+        radius: this.heatmap_radius,
       };
 
       // Add heatmap to map and store locally

@@ -192,8 +192,6 @@
 </template>
 
 <script>
-import { setHeatmapRadius } from "../../data/helpers.js";
-
 export default {
   name: "MenuDrawer",
   computed: {
@@ -240,8 +238,6 @@ export default {
     },
   },
   methods: {
-    setHeatmapRadius,
-
     /**
      * Toggles marker visibility
      */
@@ -269,9 +265,14 @@ export default {
      */
     setMapType(type) {
       this.$store.dispatch("setMapType", {map_type: type});
+    },
 
-      // Set heatmap radius again to adjust for type change
-      this.setHeatmapRadius(type, this.heatmap_radius);
+    /**
+     * Sets the heatmap point radius
+     * @param {Number} radius - the radius in px
+     */
+    setHeatmapRadius(type, radius) {
+      this.$store.commit("setHeatmapRadius", {heatmap_radius: radius});
     },
   },
 };
