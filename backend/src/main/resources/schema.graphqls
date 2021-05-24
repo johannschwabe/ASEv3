@@ -17,10 +17,10 @@ type Query {
         mortgageRatio: Float): Float
     calculatePropertyScore(id: ID): Float
     estimatedPriceByNeighbourhood(neighbourhood: String): Int
-    allScores: [Score]
+    allScores: [SaleScore]
 }
 
-type Score {
+type SaleScore {
     id: ID
     score: Float
 }

@@ -5,10 +5,10 @@ import ch.ase21.backend.communication.SalesAPI;
 import ch.ase21.backend.entity.Airbnb;
 import ch.ase21.backend.entity.Coordinates;
 import ch.ase21.backend.entity.Sale;
-import ch.ase21.backend.entity.Score;
+import ch.ase21.backend.entity.SaleScore;
 import ch.ase21.backend.service.NeighbourhoodService;
 import ch.ase21.backend.service.SaleService;
-import ch.ase21.backend.startup.Scores;
+import ch.ase21.backend.service.SaleScoreService;
 import graphql.schema.DataFetcher;
 import org.springframework.stereotype.Component;
 
@@ -117,7 +117,7 @@ public class GraphQLDataFetchers {
     };
   }
 
-  public DataFetcher<Iterable<Score>> getAllScoresDataFetcher() {
-    return dataFetchingEnvironment -> Scores.getScores();
+  public DataFetcher<Iterable<SaleScore>> getAllScoresDataFetcher() {
+    return dataFetchingEnvironment -> SaleScoreService.getScores();
   }
 }

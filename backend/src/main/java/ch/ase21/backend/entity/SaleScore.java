@@ -1,10 +1,10 @@
 package ch.ase21.backend.entity;
 
-public class Score {
+public class SaleScore {
   private final String id;
   private final Double score;
 
-  public Score(String id, Double score) {
+  public SaleScore(String id, Double score) {
     this.id = id;
     this.score = score;
   }
