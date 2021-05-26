@@ -1,6 +1,6 @@
 # ASE AirBnB Property Evaluator
 
-Webpage to evaluate the AirBnB value of properties for sale, developed with VueJS.
+Webpage to evaluate the AirBnB value of properties for sale, developed with VueJS. Test
 
 ## Documentation
 
