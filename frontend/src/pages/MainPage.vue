@@ -137,6 +137,11 @@ export default {
 
         // If picking happened from table, move map
         if (!from_map) {
+          // Enable markers if they are disabled
+          if (!this.$store.getters.showMarkers) {
+            this.$store.commit("toggleMarkers");
+          }
+
           // Get coordinates for properties picked via table
           const result = await axios({
             url: BACKEND_URL,
@@ -154,14 +159,11 @@ export default {
           });
 
           const coordinates = result.data.data.saleById;
+
           this.center = { lat: coordinates.latitude, lng: coordinates.longitude };
+
           // Zoom in
           this.zoom = 19;
-
-          // Enable markers if they are disabled
-          if (!this.$store.getters.showMarkers) {
-            this.$store.commit("toggleMarkers");
-          }
         }
       }
     },
