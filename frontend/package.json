@@ -1,6 +1,8 @@
 {
-  "name": "app",
-  "version": "0.1.0",
+  "name": "aprt",
+  "product_name": "Airbnb Property Rating Tool",
+  "description": "A tool for rating and viewing NYC properties for Airbnb usage",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

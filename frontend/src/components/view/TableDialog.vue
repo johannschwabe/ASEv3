@@ -134,9 +134,9 @@ export default {
      * Upon selecting a row, close dialog and select the chosen property
      */
     onSelect(event, row) {
+      // Select property map type
       this.$store.dispatch("setMapType", {map_type: MAP_TYPES.PROPERTY});
-
-      this.$emit("propertySelected", row.id, false); // TODO also change map type if needed
+      this.$emit("propertySelected", row.id, false);
       this.closeDialog();
     },
 
