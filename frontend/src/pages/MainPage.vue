@@ -32,9 +32,9 @@
 <script>
 
 import axios from "axios";
-import Map from "../components/map/Map.vue";
+import Map from "../components/view/Map.vue";
 import PropertyCard from "../components/property/PropertyCard.vue";
-import AirbnbCard from "../components/AirbnbCard.vue";
+import AirbnbCard from "../components/airbnb/AirbnbCard.vue";
 import {BACKEND_URL} from "../constants/API.js";
 import * as OPTIONS from "../constants/OPTIONS.js";
 

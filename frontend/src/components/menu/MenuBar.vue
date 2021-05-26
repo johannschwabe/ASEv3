@@ -15,6 +15,15 @@
         flat
         dense
         round
+        aria-label="Table"
+        icon="mdi-window-restore"
+        @click="toggleTable"
+      />
+
+      <q-btn
+        flat
+        dense
+        round
         aria-label="Menu"
         icon="menu"
         @click="toggleDrawer"
@@ -32,6 +41,13 @@ export default {
      */
     toggleDrawer() {
       this.$store.commit("toggleDrawer");
+    },
+
+    /**
+     * Toggles the table overlay
+     */
+    toggleTable() {
+      this.$store.commit("toggleTable");
     },
   },
 };
