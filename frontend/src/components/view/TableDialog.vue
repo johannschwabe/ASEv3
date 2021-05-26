@@ -136,7 +136,6 @@ export default {
 
       // Wait 5s
       await new Promise((resolve) => setTimeout(resolve, 5000));
-      console.log("Fetch scores!");
 
       axios({
         url: BACKEND_URL,
@@ -155,14 +154,11 @@ export default {
           `,
         },
       }).then((result) => {
-        console.log("Got data:", result.data.data);
         if (result.data.data.allScores && result.data.data.allScores.length > 0) {
-          console.log("Save", result.data.data.allScores.length, "entries!");
           this.scores = result.data.data.allScores;
           this.loading = false;
         } else {
           // Re-fetch if no data available yet
-          console.log("Re-fetch!");
           this.fetchAllScores();
         }
       });

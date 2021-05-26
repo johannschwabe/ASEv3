@@ -346,7 +346,10 @@ export default {
      */
     async fetchProperty() {
       this.loading = true;
+
+      // Depending on how property was selected (from map or from table), call must be different
       const backend_call = this.from_map ? "saleByCoordinatesId" : "saleById";
+
       const result = await axios({
         url: BACKEND_URL,
         method: "post",

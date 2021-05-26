@@ -117,7 +117,6 @@ export default {
      * @param {boolean} from_map - whether the given ID is a coordinates ID
      */
     async onPropertySelected(id, from_map) {
-      console.log("Selected ID", id);
       // Close drawer if open
       if (this.$store.getters.drawerOpen) {
         this.$store.commit("toggleDrawer");
