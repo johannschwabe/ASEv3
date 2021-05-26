@@ -1,39 +1,51 @@
 <template>
   <q-dialog v-model="show_table">
-    <q-card>
-      <q-card-section>
+    <q-card class="table-view">
+      <q-card-section class="row justify-between">
         <div class="text-h6">
-          Alert
+          Rating Overview
         </div>
+        <q-btn
+          flat
+          round
+          color="black"
+          icon="mdi-close"
+          @click="closeDialog"
+        />
       </q-card-section>
 
       <q-card-section class="q-pt-none">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.
+        <q-table />
       </q-card-section>
-
-      <q-card-actions align="right">
-        <q-btn
-          flat
-          label="OK"
-          color="primary"
-          @click="closeDialog"
-        />
-      </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
 
 <script>
+import axios from "axios";
+import {BACKEND_URL} from "../../constants/API.js";
+
 export default {
-  name: "TableView",
+  name: "TableDialog",
+  data() {
+    return {
+      scores: null,
+      loading: false,
+    };
+  },
+
   computed: {
     /**
-     * Whether the table view is open
+     * Whether the table dialog is open
      */
     show_table() {
       return this.$store.getters.tableOpen;
     },
   },
+  mounted() {
+    this.fetchAllScores();
+  },
+
   methods: {
     /**
      * Closes the Table dialog
@@ -41,18 +53,39 @@ export default {
     closeDialog() {
       this.$store.commit("toggleTable");
     },
+
+    /**
+     * Fetches all property scores and their info
+     */
+    fetchAllScores() {
+      this.loading = true;
+      axios({
+        url: BACKEND_URL,
+        method: "post",
+        data: {
+          query: `
+            {
+              allScores
+            }
+          `,
+        },
+      }).then((result) => {
+        if (result.data.data.allScores) {
+          this.scores = result.data.data.allScores;
+        }
+      }).finally(() => {
+        this.loading = false;
+      });
+    },
   },
 };
 </script>
 
 <style scoped>
   .table-view{
-    position: absolute;
-    width: calc(100% - 60px);
-    height: calc(100% - 110px);
-    margin: 30px;
-    top: 50px;
-    left: 0;
-    z-index: 1000;
+    width: 100%;
+    max-width: 100%;
+    height: calc(100% - 50px);
+    margin-top: 50px
   }
 </style>
