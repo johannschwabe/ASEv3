@@ -32,6 +32,6 @@ export function setHeatmapRadius(state, payload) {
   state.heatmap_radius = payload.heatmap_radius;
 }
 
-export function setSelectedCoordinates(state, payload) {
-  state.selected_coordinates = payload.selected_coordinates;
+export function setSelectedId(state, payload) {
+  state.selected_id = payload.selected_id;
 }

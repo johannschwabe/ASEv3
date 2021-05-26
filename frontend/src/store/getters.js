@@ -30,6 +30,6 @@ export function heatmapRadius(state) {
   return state.heatmap_radius;
 }
 
-export function selectedCoordinates(state) {
-  return state.selected_coordinates;
+export function selectedId(state) {
+  return state.selected_id;
 }

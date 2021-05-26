@@ -123,9 +123,9 @@ export default {
     /**
      * Upon selecting a row, close dialog and select the chosen property
      */
-    onSelect(row) {
-      console.log(row, "selected");
-      // TODO
+    onSelect(event, row) {
+      this.$emit("propertySelected", row.id, false); // TODO also change map type if needed
+      this.closeDialog();
     },
 
     /**

@@ -12,5 +12,5 @@ export function toggleMarkers({ commit }) {
 
 export function setMapType({ commit }, payload) {
   commit("setMapType", payload);
-  commit("setSelectedCoordinates", { selected_coordinates: null });
+  commit("setSelectedId", { selected_id: null });
 }

@@ -6,10 +6,6 @@
 
     <!-- Side menu drawer -->
     <MenuDrawer />
-
-    <!-- Table Dialog -->
-    <TableDialog />
-
     <!-- Main page content -->
     <q-page-container>
       <!-- Page shown only once API is loaded -->
@@ -23,7 +19,6 @@
 import MenuBar from "@/components/menu/MenuBar.vue";
 import MainPage from "@/pages/MainPage.vue";
 import MenuDrawer from "@/components/menu/MenuDrawer.vue";
-import TableDialog from "@/components/view/TableDialog.vue";
 import { API_KEY } from "@/constants/API.js";
 
 export default {
@@ -33,7 +28,6 @@ export default {
     MenuBar,
     MainPage,
     MenuDrawer,
-    TableDialog
   },
 
   data() {

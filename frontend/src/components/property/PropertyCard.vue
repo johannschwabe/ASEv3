@@ -281,7 +281,8 @@ export default {
     BreakEvenCalculator,
   },
   props: {
-    coordinates: { type: String, required: true },
+    id: { type: String, required: true },
+    from_map: { type: Boolean, required: true },
   },
   data() {
     return {
@@ -312,7 +313,7 @@ export default {
   },
   watch: {
     // Upon property change, re-fetch all values
-    coordinates() {
+    id() {
       this.rating = 0; // Reset rating so the previous property's rating isn't shown
       this.fetchProperty().then(() => {
         this.fetchEstimatedPrice(this.property.id);
@@ -345,13 +346,14 @@ export default {
      */
     async fetchProperty() {
       this.loading = true;
+      const backend_call = this.from_map ? "saleByCoordinatesId" : "saleById";
       const result = await axios({
         url: BACKEND_URL,
         method: "post",
         data: {
           query: `
             {
-              saleByCoordinatesId(id: "${this.coordinates}") {
+              ${backend_call}(id: "${this.id}") {
                 id
                 idSale
                 salePrice
@@ -368,7 +370,7 @@ export default {
         },
       });
 
-      this.property = result.data.data.saleByCoordinatesId;
+      this.property = result.data.data[backend_call];
     },
 
     /**

@@ -9,5 +9,5 @@ export default {
   table_open: false,
   map_type: OPTIONS.MAP_TYPES.PROPERTY,
   heatmap_radius: 30,
-  selected_coordinates: null,
+  selected_id: null,
 };

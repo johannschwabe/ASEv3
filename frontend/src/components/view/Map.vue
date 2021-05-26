@@ -189,7 +189,7 @@ export default {
         new_marker.id = marker.id;
 
         // Add click listener
-        new_marker.addListener("click", () => this.onMarkerClick({id: new_marker.id, lat: marker.lat, lng: marker.lng}));
+        new_marker.addListener("click", () => this.onMarkerClick(new_marker.id));
 
         // Add to local array
         this.map_markers.push(new_marker);
@@ -240,10 +240,10 @@ export default {
 
     /**
      * Upon clicking a marker
-     * @param {Object} marker
+     * @param {string} id - the selected marker's ID
      */
-    onMarkerClick(marker) {
-      this.$emit("markerClick", marker);
+    onMarkerClick(id) {
+      this.$emit("propertySelected", id, true);
     },
   },
 };

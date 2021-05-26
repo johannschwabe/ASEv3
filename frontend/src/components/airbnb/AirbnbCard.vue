@@ -211,7 +211,7 @@ import {API_KEY, BACKEND_URL} from "../../constants/API.js";
 export default {
   name: "AirbnbCard",
   props: {
-    coordinates: { type: String, required: true },
+    id: { type: String, required: true },
   },
   data: () => ({
     property: null,
@@ -236,7 +236,7 @@ export default {
     },
   },
   watch: {
-    coordinates() {
+    id() {
       this.fetchProperty();
     },
   },
@@ -256,7 +256,7 @@ export default {
         data: {
           query: `
             {
-              airbnbById(id: "${this.coordinates}") {
+              airbnbById(id: "${this.id}") {
                 id
                 name
                 hostName
