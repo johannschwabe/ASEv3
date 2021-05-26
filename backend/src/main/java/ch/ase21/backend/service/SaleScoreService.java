@@ -101,7 +101,7 @@ public class SaleScoreService {
     scoreEntries.sort(Entry.comparingByValue(Collections.reverseOrder()));
     List<SaleScore> scores = new ArrayList<>();
     for(var entry: scoreEntries){
-      Sale sale = allSales.get(entry.getKey());
+      var sale = allSales.get(entry.getKey());
       scores.add(
           new SaleScore(entry.getKey(),
               entry.getValue(),
