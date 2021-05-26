@@ -23,6 +23,9 @@ type Query {
 type SaleScore {
     id: ID
     score: Float
+    address: String
+    price: Int
+    neighbourhood: String
 }
 
 type Coordiantes {
