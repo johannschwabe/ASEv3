@@ -13,6 +13,11 @@
           @click="closeDialog"
         />
       </q-card-section>
+      <q-card-section>
+        <q-item-label caption>
+          This table shows all properties for which a rating is available. Click any row to view the corresponding property's details.
+        </q-item-label>
+      </q-card-section>
 
       <q-card-section
         v-if="loading"
@@ -39,6 +44,7 @@
           :pagination="{rowsPerPage: 10}"
           :data="scores"
           :columns="columns"
+          :rows-per-page-options="[5,10,20,30]"
           @row-click="onSelect"
         />
       </q-card-section>
@@ -58,17 +64,6 @@ export default {
     return {
       columns: [
         {
-          name: "score",
-          required: true,
-          label: "Score",
-          align: "left",
-          field: (row) => row.score,
-          format: (val) => `${val}`,
-          sortable: true,
-          classes: "bg-grey-2 text-bold",
-          headerClasses: "bg-secondary text-white",
-        },
-        {
           name: "address",
           required: true,
           label: "Address",
@@ -76,6 +71,7 @@ export default {
           field: (row) => capitalizeWords(row.address),
           format: (val) => `${val}`,
           sortable: false,
+          headerClasses: "bg-grey-1",
         },
         {
           name: "neighbourhood",
@@ -85,6 +81,7 @@ export default {
           field: (row) => capitalizeWords(row.neighbourhood),
           format: (val) => `${val}`,
           sortable: false,
+          headerClasses: "bg-grey-1",
         },
         {
           name: "price",
@@ -94,6 +91,18 @@ export default {
           field: (row) => row.price,
           format: (val) => `$${val.toLocaleString()}`,
           sortable: true,
+          headerClasses: "bg-grey-1",
+        },
+        {
+          name: "score",
+          required: true,
+          label: "Rating",
+          align: "center",
+          field: (row) => row.score,
+          format: (val) => `${val}`,
+          sortable: true,
+          classes: "bg-grey-2 text-bold",
+          headerClasses: "bg-secondary text-white",
         },
       ],
       scores: null,
