@@ -35,6 +35,8 @@
       </q-card-section>
       <q-card-section v-else>
         <q-table
+          virtual-scroll
+          :pagination="{rowsPerPage: 30}"
           :data="scores"
           :columns="columns"
         />
