@@ -36,9 +36,10 @@
       <q-card-section v-else>
         <q-table
           virtual-scroll
-          :pagination="{rowsPerPage: 30}"
+          :pagination="{rowsPerPage: 15}"
           :data="scores"
           :columns="columns"
+          @row-click="onSelect"
         />
       </q-card-section>
     </q-card>
@@ -63,7 +64,7 @@ export default {
           field: (row) => row.score,
           format: (val) => `${val}`,
           sortable: true,
-          classes: "bg-grey-2",
+          classes: "bg-grey-2 text-bold",
           headerClasses: "bg-secondary text-white",
         },
         {
@@ -73,7 +74,7 @@ export default {
           align: "left",
           field: (row) => capitalizeWords(row.address),
           format: (val) => `${val}`,
-          sortable: true,
+          sortable: false,
         },
         {
           name: "neighbourhood",
@@ -82,7 +83,7 @@ export default {
           align: "left",
           field: (row) => capitalizeWords(row.neighbourhood),
           format: (val) => `${val}`,
-          sortable: true,
+          sortable: false,
         },
         {
           name: "price",
@@ -90,7 +91,7 @@ export default {
           label: "Price",
           align: "left",
           field: (row) => row.price,
-          format: (val) => `$${val.toLocaleString()}`, // TODO localstring
+          format: (val) => `$${val.toLocaleString()}`,
           sortable: true,
         },
       ],
@@ -117,6 +118,14 @@ export default {
      */
     closeDialog() {
       this.$store.commit("toggleTable");
+    },
+
+    /**
+     * Upon selecting a row, close dialog and select the chosen property
+     */
+    onSelect(row) {
+      console.log(row, "selected");
+      // TODO
     },
 
     /**
