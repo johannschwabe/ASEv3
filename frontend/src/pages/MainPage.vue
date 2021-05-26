@@ -153,12 +153,15 @@ export default {
             },
           });
 
-          console.log("Got result:", result.data.data);
           const coordinates = result.data.data.saleById;
           this.center = { lat: coordinates.latitude, lng: coordinates.longitude };
           // Zoom in TODO can marker do this?
-          this.zoom = 18;
-          // TODO marker if they are disabled
+          this.zoom = 19;
+
+          // Enable markers if they are disabled
+          if (!this.$store.getters.showMarkers) {
+            this.$store.commit("toggleMarkers"); // TODO worksn't
+          }
         }
       }
     },
