@@ -65,11 +65,18 @@ export default {
         data: {
           query: `
             {
-              allScores
+              allScores(){
+                id
+                score
+                price
+                address
+                neighbourhood
+              }
             }
           `,
         },
       }).then((result) => {
+        console.log("Got data:", result.data.data);
         if (result.data.data.allScores) {
           this.scores = result.data.data.allScores;
         }
