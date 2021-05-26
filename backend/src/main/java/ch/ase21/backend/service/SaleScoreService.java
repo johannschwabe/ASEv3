@@ -102,14 +102,18 @@ public class SaleScoreService {
     List<SaleScore> scores = new ArrayList<>();
     for(var entry: scoreEntries){
       var sale = allSales.get(entry.getKey());
-      scores.add(
-          new SaleScore(entry.getKey(),
-              entry.getValue(),
-              sale.getAddress(),
-              sale.getSalePrice(),
-              sale.getNeighbourhood()
-          )
-      );
+      var score = entry.getValue();
+      // Do not send edge cases (10.0: too good to be true, 5.0: all default values)
+      if(score != 10.0 && score != 5.0){
+        scores.add(
+            new SaleScore(entry.getKey(),
+                entry.getValue(),
+                sale.getAddress(),
+                sale.getSalePrice(),
+                sale.getNeighbourhood()
+            )
+        );
+      }
     }
     return scores;
   }
