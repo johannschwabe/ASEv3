@@ -10,7 +10,7 @@ export default {
   name: "Heatmap",
   props: {
     center: {type: Object, default: () => { return {lat: 40.730610, lng: -73.935242}; }},
-    initial_zoom: {type: Number, default: () => 13},
+    zoom: {type: Number, default: () => 13},
     points: {type: Array, default: () => []}, // The points to generate the heatmap from
     markers: {type: Array, default: () => []}, // The markers to place on the map
   },
@@ -78,6 +78,21 @@ export default {
   },
 
   watch: {
+
+    /**
+     * When center changes, move map accordingly
+     */
+    center() {
+      this.map.setCenter(this.center);
+    },
+
+    /**
+     * When zoom changes, zoom map accordingly
+     */
+    zoom() {
+      this.map.setZoom(this.zoom);
+    },
+
     /**
      * When points change, update heatmap
      */
@@ -127,7 +142,7 @@ export default {
 
     // Options for map
     const map_options = {
-      zoom: this.initial_zoom,
+      zoom: this.zoom,
       center: this.center,
       mapTypeId: "roadmap",
       mapTypeControl: false,

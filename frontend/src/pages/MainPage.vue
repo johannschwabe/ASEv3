@@ -12,7 +12,7 @@
         :points="map_points"
         :markers="map_points"
         :center="center"
-        :initial_zoom="12"
+        :zoom="zoom"
         style="height: 100%; width: 100%"
         @propertySelected="onPropertySelected"
       />
@@ -55,7 +55,10 @@ export default {
   },
   data() {
     return {
-      center: { lat: 40.730610, lng: -73.935242 },
+      default_center: { lat: 40.730610, lng: -73.935242 },
+      center: this.default_center,
+      default_zoom: 12,
+      zoom: this.default_zoom,
       properties: [],
       airbnbs: [],
       from_map: false, // Whether the currently selected property was picked from the map
@@ -131,6 +134,32 @@ export default {
 
         // Update whether property was picked from map in order to tell PropertyCard how to fetch
         this.from_map = from_map;
+
+        // If picking happened from table, move map
+        if (!from_map) {
+          // Get coordinates for properties picked via table
+          const result = await axios({
+            url: BACKEND_URL,
+            method: "post",
+            data: {
+              query: `
+            {
+              saleById(id: "${id}") {
+                latitude
+                longitude
+              }
+            }
+          `,
+            },
+          });
+
+          console.log("Got result:", result.data.data);
+          const coordinates = result.data.data.saleById;
+          this.center = { lat: coordinates.latitude, lng: coordinates.longitude };
+          // Zoom in TODO can marker do this?
+          this.zoom = 18;
+          // TODO marker if they are disabled
+        }
       }
     },
 
