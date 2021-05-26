@@ -18,6 +18,10 @@ public class GraphQLDataFetchers {
   @Autowired 
   CoordinatesRepository coordinatesRepository;
   
+  public DataFetcher<Iterable<Property>> getAllPropertiesDataFetcher() {
+    return dataFetchingEnvironment -> propertyRepository.findAll();
+  }
+
   public DataFetcher<Property> getPropertyByIdDataFetcher() {
     return dataFetchingEnvironment -> {
       String propertyId = dataFetchingEnvironment.getArgument("id");

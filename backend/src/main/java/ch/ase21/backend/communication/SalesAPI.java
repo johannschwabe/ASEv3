@@ -8,7 +8,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.util.*;
 
-public class SalesAPI extends GraphqlAPI{
+public class SalesAPI extends GraphqlAPI {
 
   private static final String API_URL = "http://salesapi:8080/graphql";
 
@@ -24,37 +24,40 @@ public class SalesAPI extends GraphqlAPI{
   private static final String LONGITUDE = "longitude";
 
   // All fields
-  private static final String PROPERTY_FIELDS =
+  private static final String PROPERTY_FIELDS_NO_COORDS =
       ID + "\n" +
-      "number\n" +
-      "borough\n" +
-      NEIGHBOURHOOD + "\n" +
-      "buildingClassCategory\n" +
-      "taxClassAtPresent\n" +
-      "block\n" +
-      "lot\n" +
-      "easement\n" +
-      "buildingClassAtPresent\n" +
-      "address\n" +
-      "apartmentNumber\n" +
-      "zipCode\n" +
-      "residentialUnits\n" +
-      "commercialUnits\n" +
-      "totalUnits\n" +
-      "landSquareFeet\n" +
-      GROSS_SQUARE_FEET + "\n" +
-      "yearBuilt\n" +
-      "taxClassAtTimeOfSale\n" +
-      "buildingClassAtTimeOfSale\n" +
-      SALE_PRICE + "\n" +
-      "saleDate\n" +
-      "coordinates{\n" +
-        ID_SALE + "\n" +
-        LATITUDE + "\n" +
-        LONGITUDE + "\n" +
-        "returnedStreetName\n" +
-        "returnedZipCode\n" +
-      "}\n";
+          "number\n" +
+          "borough\n" +
+          NEIGHBOURHOOD + "\n" +
+          "buildingClassCategory\n" +
+          "taxClassAtPresent\n" +
+          "block\n" +
+          "lot\n" +
+          "easement\n" +
+          "buildingClassAtPresent\n" +
+          "address\n" +
+          "apartmentNumber\n" +
+          "zipCode\n" +
+          "residentialUnits\n" +
+          "commercialUnits\n" +
+          "totalUnits\n" +
+          "landSquareFeet\n" +
+          GROSS_SQUARE_FEET + "\n" +
+          "yearBuilt\n" +
+          "taxClassAtTimeOfSale\n" +
+          "buildingClassAtTimeOfSale\n" +
+          SALE_PRICE + "\n" +
+          "saleDate\n";
+
+  private static final String PROPERTY_FIELDS =
+      PROPERTY_FIELDS_NO_COORDS +
+          "coordinates{\n" +
+          ID_SALE + "\n" +
+          LATITUDE + "\n" +
+          LONGITUDE + "\n" +
+          "returnedStreetName\n" +
+          "returnedZipCode\n" +
+          "}\n";
 
 
   private SalesAPI() {/* void */}
@@ -62,10 +65,11 @@ public class SalesAPI extends GraphqlAPI{
   /**
    * Takes a JsonNode representing a sale property and returns the property with all fields in the json node.
    * The JsonNode must contain all fields of a sale property.
+   *
    * @param node A JsonNode with all fields of a sale property.
    * @return The sale property.
    */
-  private static Sale getSaleFromNode(JsonNode node){
+  private static Sale getSaleFromNode(JsonNode node) {
     String propertyId = node.get(ID).asText();
     Integer number = node.get("number").intValue();
     Integer borough = node.get("borough").intValue();
@@ -97,14 +101,13 @@ public class SalesAPI extends GraphqlAPI{
     String returnedStreetName;
     Integer returnedZipCode;
 
-    if(!coordinates.isEmpty()){
+    if (coordinates != null && !coordinates.isEmpty()) {
       idSale = coordinates.get(ID_SALE).asText();
       latitude = coordinates.get(LATITUDE).floatValue();
       longitude = coordinates.get(LONGITUDE).floatValue();
       returnedStreetName = coordinates.get("returnedStreetName").asText();
       returnedZipCode = coordinates.get("returnedZipCode").intValue();
-    }
-    else {
+    } else {
       idSale = null;
       latitude = null;
       longitude = null;
@@ -146,19 +149,20 @@ public class SalesAPI extends GraphqlAPI{
 
   /**
    * Get all coordinate objects from the API.
+   *
    * @return List of all coordinates.
    * @throws IOException Thrown if the communication with the API failed.
    */
-  public static List<Coordinates> getAllCoordinates() throws IOException{
+  public static List<Coordinates> getAllCoordinates() throws IOException {
     HttpURLConnection connection = setupConnection(API_URL);
     String query =
         "{\n" +
-          "allCoordinates {\n" +
+            "allCoordinates {\n" +
             ID_SALE + "\n" +
             LATITUDE + "\n" +
             LONGITUDE + "\n" +
-          "}\n" +
-        "}";
+            "}\n" +
+            "}";
     insertQuery(connection, query);
     JsonNode responseData = getResponseData(connection);
     Iterator<JsonNode> nodes = responseData.get("allCoordinates").elements();
@@ -174,18 +178,19 @@ public class SalesAPI extends GraphqlAPI{
 
   /**
    * Get a sale from the API by its ID.
+   *
    * @param id The ID of the sale property.
    * @return The sale property with all fields.
    * @throws IOException Thrown if the communication with the API failed.
    */
-  public static Sale getById(String id) throws IOException{
+  public static Sale getById(String id) throws IOException {
     HttpURLConnection connection = setupConnection(API_URL);
     String query =
         "{\n" +
-          "propertyById(id: \"" + id + "\") {\n" +
+            "propertyById(id: \"" + id + "\") {\n" +
             PROPERTY_FIELDS +
-          "}\n" +
-        "}";
+            "}\n" +
+            "}";
     insertQuery(connection, query);
     JsonNode responseData = getResponseData(connection);
     JsonNode node = responseData.get("propertyById");
@@ -194,18 +199,19 @@ public class SalesAPI extends GraphqlAPI{
 
   /**
    * Get a sale from the API by the coordinates id.
+   *
    * @param id The ID of the Coordinate object.
    * @return The sale property with all fields.
    * @throws IOException Thrown if the communication with the API failed.
    */
-  public static Sale getByCoordinatesId(String id) throws IOException{
+  public static Sale getByCoordinatesId(String id) throws IOException {
     HttpURLConnection connection = setupConnection(API_URL);
     String query =
         "{\n" +
-          "propertyByCoordinatesId(id: \"" + id + "\") {\n" +
+            "propertyByCoordinatesId(id: \"" + id + "\") {\n" +
             PROPERTY_FIELDS +
-          "}\n" +
-        "}";
+            "}\n" +
+            "}";
     insertQuery(connection, query);
     JsonNode responseData = getResponseData(connection);
     JsonNode node = responseData.get("propertyByCoordinatesId");
@@ -215,19 +221,20 @@ public class SalesAPI extends GraphqlAPI{
   /**
    * Get a sale property by its ID. The property's only non-null fields are
    * grossSquareFeet and neighbourhood.
+   *
    * @param id The ID of the sale property.
    * @return The sale property.
    * @throws IOException Thrown if the communication with the API failed.
    */
-  public static Sale getGrossSquareFeetAndNeighbourhoodById(String id) throws IOException{
+  public static Sale getGrossSquareFeetAndNeighbourhoodById(String id) throws IOException {
     HttpURLConnection connection = setupConnection(API_URL);
     String query =
         "{\n" +
-          "propertyById(id: \"" + id + "\") {\n" +
+            "propertyById(id: \"" + id + "\") {\n" +
             NEIGHBOURHOOD + "\n" +
             GROSS_SQUARE_FEET + "\n" +
-          "}\n" +
-        "}";
+            "}\n" +
+            "}";
     insertQuery(connection, query);
     JsonNode responseData = getResponseData(connection);
     JsonNode node = responseData.get("propertyById");
@@ -241,21 +248,43 @@ public class SalesAPI extends GraphqlAPI{
 
   /**
    * Get all sale properties in the given neighbourhood.
+   *
    * @param neighbourhood The neighbourhood name.
    * @return The List of all sale properties in the neighbourhood.
    * @throws IOException Thrown if the communication with the API failed.
    */
-  public static List<Sale> getAllByNeighbourhood(String neighbourhood) throws IOException{
+  public static List<Sale> getAllByNeighbourhood(String neighbourhood) throws IOException {
     HttpURLConnection connection = setupConnection(API_URL);
     String query =
         "{\n" +
-          "propertiesByNeighbourhood(neighbourhood:\"" + neighbourhood + "\") {\n" +
+            "propertiesByNeighbourhood(neighbourhood:\"" + neighbourhood + "\") {\n" +
             PROPERTY_FIELDS +
+            "}\n" +
+            "}";
+    insertQuery(connection, query);
+    JsonNode responseData = getResponseData(connection);
+    Iterator<JsonNode> nodes = responseData.get("propertiesByNeighbourhood").elements();
+    List<Sale> properties = new ArrayList<>();
+    nodes.forEachRemaining(node -> properties.add(getSaleFromNode(node)));
+    return properties;
+  }
+
+  /**
+   * Fetches all sale properties without coordinate information.
+   * @return A list of all sale properties.
+   * @throws IOException The communication to the API failed.
+   */
+  public static List<Sale> getAll() throws IOException {
+    HttpURLConnection connection = setupConnection(API_URL);
+    String query =
+        "{\n" +
+          "allProperties {\n" +
+            PROPERTY_FIELDS_NO_COORDS +
           "}\n" +
         "}";
     insertQuery(connection, query);
     JsonNode responseData = getResponseData(connection);
-    Iterator<JsonNode> nodes = responseData.get("propertiesByNeighbourhood").elements();
+    Iterator<JsonNode> nodes = responseData.get("allProperties").elements();
     List<Sale> properties = new ArrayList<>();
     nodes.forEachRemaining(node -> properties.add(getSaleFromNode(node)));
     return properties;

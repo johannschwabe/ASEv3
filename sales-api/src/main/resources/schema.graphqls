@@ -1,4 +1,5 @@
 type Query {
+    allProperties: [Property]
     propertyById(id: ID): Property
     propertyByCoordinatesId(id: ID): Property
     allCoordinates: [Coordiantes]

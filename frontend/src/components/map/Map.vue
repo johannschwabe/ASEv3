@@ -4,6 +4,7 @@
 
 <script>
 import MarkerClusterer from "@googlemaps/markerclustererplus";
+import {MAP_TYPES} from "../../constants/OPTIONS.js";
 
 export default {
   name: "Heatmap",
@@ -55,7 +56,8 @@ export default {
      * Pixel radius of heatmap points
      */
     heatmap_radius() {
-      return this.$store.getters.heatmapRadius;
+      const base_radius = this.$store.getters.heatmapRadius;
+      return this.map_type === MAP_TYPES.PROPERTY ? base_radius * 3 : base_radius;
     },
 
     /**
@@ -66,12 +68,23 @@ export default {
         (point) => new this.maps_api.LatLng(point.lat.toFixed(6), point.lng.toFixed(6)),
       );
     },
+
+    /**
+     * The heatmap's type
+     */
+    map_type() {
+      return this.$store.getters.mapType;
+    },
   },
 
   watch: {
-    heatmapPoints() {
-      this.fillMap();
+    /**
+     * When points change, update heatmap
+     */
+    heatmap_points() {
+      this.heatmap.setData(this.heatmap_points);
     },
+
     /**
      * When show_markers property changes, update all markers
      */
@@ -94,13 +107,6 @@ export default {
     },
 
     /**
-     * When points change, update heatmap
-     */
-    points() {
-      this.heatmap.setData(this.heatmap_points);
-    },
-
-    /**
      * When markers change, remove and place new ones
      */
     markers() {
@@ -109,7 +115,7 @@ export default {
     },
 
     /**
-     * When points change, update heatmap
+     * When radius changes, update heatmap
      */
     heatmap_radius() {
       this.heatmap.set("radius", this.heatmap_radius);
@@ -134,8 +140,8 @@ export default {
 
     this.fillMap();
   },
-
   methods: {
+
     /**
      * Fills the stored map with neighbourhood and heatmap layers and adds markers
      */
@@ -154,10 +160,10 @@ export default {
       const heatmap_options = {
         data: this.heatmap_points,
         map: this.map,
+        radius: this.heatmap_radius,
       };
 
-      // Add heatmap to map
-      // Store locally
+      // Add heatmap to map and store locally
       this.heatmap = new this.maps_api.visualization.HeatmapLayer(heatmap_options);
 
       // Place markers
@@ -238,8 +244,6 @@ export default {
      */
     onMarkerClick(marker) {
       this.$emit("markerClick", marker);
-      // this.map.setZoom(15);
-      // this.map.setCenter(marker.getPosition());
     },
   },
 };

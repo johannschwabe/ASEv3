@@ -1,15 +1,14 @@
 <template>
   <q-header elevated>
     <q-toolbar>
-      <q-avatar>
-        <img
-          alt="Quasar logo"
-          src="@/assets/logo.png"
-        >
-      </q-avatar>
+      <img
+        style="width: 100px; filter: brightness(0) invert(1);"
+        alt="Airbnb logo"
+        src="@/assets/logo.png"
+      >
 
       <q-toolbar-title>
-        Airbnb Property Rating
+        Property Rating Tool
       </q-toolbar-title>
 
       <q-btn

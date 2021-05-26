@@ -5,8 +5,10 @@ import ch.ase21.backend.communication.SalesAPI;
 import ch.ase21.backend.entity.Airbnb;
 import ch.ase21.backend.entity.Coordinates;
 import ch.ase21.backend.entity.Sale;
+import ch.ase21.backend.entity.SaleScore;
 import ch.ase21.backend.service.NeighbourhoodService;
-import ch.ase21.backend.service.SalesService;
+import ch.ase21.backend.service.SaleService;
+import ch.ase21.backend.service.SaleScoreService;
 import graphql.schema.DataFetcher;
 import org.springframework.stereotype.Component;
 
@@ -48,7 +50,7 @@ public class GraphQLDataFetchers {
   public DataFetcher<Integer> getEstimatedSalePriceByIdDataFetcher() {
     return dataFetchingEnvironment -> {
       String propertyId = dataFetchingEnvironment.getArgument(ID);
-      return SalesService.estimatedSalePriceById(propertyId);
+      return SaleService.estimatedSalePriceById(propertyId);
     };
   }
 
@@ -66,7 +68,7 @@ public class GraphQLDataFetchers {
     };
   }
 
-  public DataFetcher<Float> getNeighbourhoodRatingDataFetcher() {
+  public DataFetcher<Double> getNeighbourhoodRatingDataFetcher() {
     return dataFetchingEnvironment -> {
       String neighbourhood = dataFetchingEnvironment.getArgument(NEIGHBOURHOOD);
       return NeighbourhoodService.neighbourhoodRating(neighbourhood);
@@ -83,7 +85,7 @@ public class GraphQLDataFetchers {
       Double mortgageRate = dataFetchingEnvironment.getArgument("mortgageRate");
       Double mortgageRatio = dataFetchingEnvironment.getArgument("mortgageRatio");
 
-      return SalesService.breakEven(id,
+      return SaleService.breakEven(id,
           price,
           nights,
           occupancyRate,
@@ -91,5 +93,31 @@ public class GraphQLDataFetchers {
           mortgageRate,
           mortgageRatio);
     };
+  }
+
+  public DataFetcher<Double> calculatePropertyScoreDataFetcher() {
+    return dataFetchingEnvironment -> {
+      String id = dataFetchingEnvironment.getArgument(ID);
+      return SaleService.propertyScore(id);
+    };
+  }
+
+  public DataFetcher<Double> getSalePropertyScoreDataFetcher() {
+    return dataFetchingEnvironment -> {
+      Sale sale = dataFetchingEnvironment.getSource();
+      String id = sale.getId();
+      return SaleService.propertyScore(id);
+    };
+  }
+
+  public DataFetcher<Integer> getRevenueByNeighbourhoodDataFetcher() {
+    return dataFetchingEnvironment -> {
+      String neighbourhood = dataFetchingEnvironment.getArgument(NEIGHBOURHOOD);
+      return NeighbourhoodService.averageRevenue(neighbourhood);
+    };
+  }
+
+  public DataFetcher<Iterable<SaleScore>> getAllScoresDataFetcher() {
+    return dataFetchingEnvironment -> SaleScoreService.getScores();
   }
 }

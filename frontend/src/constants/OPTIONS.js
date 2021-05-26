@@ -2,5 +2,4 @@
 export const MAP_TYPES = Object.freeze({
   AIRBNB: "AIRBNB",
   PROPERTY: "PROPERTY",
-  RATING: "RATING",
 });

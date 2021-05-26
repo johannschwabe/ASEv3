@@ -17,7 +17,6 @@ class NeighbourhoodServiceTest {
     Sale sale = new Sale("1");
     sale.setSalePrice(100000);
     sale.setTotalUnits(1);
-    sale.setResidentialUnits(1);
     List<Sale> sales = new ArrayList<>();
     sales.add(sale);
 
@@ -27,10 +26,10 @@ class NeighbourhoodServiceTest {
     List<Airbnb> airbnbs = new ArrayList<>();
     airbnbs.add(airbnb);
 
-    Float score = NeighbourhoodService.calculateScore(airbnbs, sales);
+    Double score = NeighbourhoodService.calculateScore(airbnbs, sales);
 
     Assertions.assertNotNull(score);
-    Assertions.assertEquals(1, score);
+    Assertions.assertEquals(10.0, score);
   }
 
   /**
@@ -40,7 +39,6 @@ class NeighbourhoodServiceTest {
     Sale sale = new Sale("1");
     sale.setSalePrice(10000000);
     sale.setTotalUnits(1);
-    sale.setResidentialUnits(1);
     List<Sale> sales = new ArrayList<>();
     sales.add(sale);
 
@@ -50,10 +48,10 @@ class NeighbourhoodServiceTest {
     List<Airbnb> airbnbs = new ArrayList<>();
     airbnbs.add(airbnb);
 
-    Float score = NeighbourhoodService.calculateScore(airbnbs, sales);
+    Double score = NeighbourhoodService.calculateScore(airbnbs, sales);
 
     Assertions.assertNotNull(score);
-    Assertions.assertTrue(score < 0.1);
+    Assertions.assertTrue(1.0 > score);
   }
 
   /**
@@ -63,7 +61,6 @@ class NeighbourhoodServiceTest {
     Sale sale = new Sale("1");
     sale.setSalePrice(1000000);
     sale.setTotalUnits(1);
-    sale.setResidentialUnits(1);
     List<Sale> sales = new ArrayList<>();
     sales.add(sale);
 
@@ -73,10 +70,10 @@ class NeighbourhoodServiceTest {
     List<Airbnb> airbnbs = new ArrayList<>();
     airbnbs.add(airbnb);
 
-    Float score = NeighbourhoodService.calculateScore(airbnbs, sales);
+    Double score = NeighbourhoodService.calculateScore(airbnbs, sales);
 
     Assertions.assertNotNull(score);
-    Assertions.assertTrue(score < 0.6 && score > 0.4);
+    Assertions.assertTrue(score < 6.0 && score > 4.0);
   }
 
   /**
@@ -92,7 +89,7 @@ class NeighbourhoodServiceTest {
     List<Airbnb> airbnbs = new ArrayList<>();
     airbnbs.add(airbnb);
 
-    Float score = NeighbourhoodService.calculateScore(airbnbs, sales);
+    Double score = NeighbourhoodService.calculateScore(airbnbs, sales);
 
     Assertions.assertNull(score);
   }
@@ -105,13 +102,12 @@ class NeighbourhoodServiceTest {
     Sale sale = new Sale("1");
     sale.setSalePrice(1000000);
     sale.setTotalUnits(1);
-    sale.setResidentialUnits(1);
     List<Sale> sales = new ArrayList<>();
     sales.add(sale);
 
     List<Airbnb> airbnbs = new ArrayList<>();
 
-    Float score = NeighbourhoodService.calculateScore(airbnbs, sales);
+    Double score = NeighbourhoodService.calculateScore(airbnbs, sales);
 
     Assertions.assertNull(score);
   }
