@@ -57,8 +57,8 @@ export default {
     return {
       default_center: { lat: 40.730610, lng: -73.935242 },
       center: this.default_center,
-      default_zoom: 12,
-      zoom: this.default_zoom,
+      default_zoom: 11,
+      zoom: 11,
       properties: [],
       airbnbs: [],
       from_map: false, // Whether the currently selected property was picked from the map
@@ -155,12 +155,12 @@ export default {
 
           const coordinates = result.data.data.saleById;
           this.center = { lat: coordinates.latitude, lng: coordinates.longitude };
-          // Zoom in TODO can marker do this?
+          // Zoom in
           this.zoom = 19;
 
           // Enable markers if they are disabled
           if (!this.$store.getters.showMarkers) {
-            this.$store.commit("toggleMarkers"); // TODO worksn't
+            this.$store.commit("toggleMarkers");
           }
         }
       }

@@ -16,7 +16,7 @@
         dense
         round
         aria-label="Table"
-        icon="mdi-window-restore"
+        icon="mdi-table"
         @click="toggleTable"
       />
 

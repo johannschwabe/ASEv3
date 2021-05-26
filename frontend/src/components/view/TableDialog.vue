@@ -3,7 +3,7 @@
     <q-card class="table-view">
       <q-card-section class="row justify-between">
         <div class="text-h6">
-          Rating Overview
+          Property Rating Overview
         </div>
         <q-btn
           flat
@@ -29,14 +29,14 @@
             caption
             style="margin-top: 20px"
           >
-            Loading all scores... (this may take a while)
+            Loading all scores... (this may take a moment)
           </q-item-label>
         </div>
       </q-card-section>
       <q-card-section v-else>
         <q-table
           virtual-scroll
-          :pagination="{rowsPerPage: 15}"
+          :pagination="{rowsPerPage: 10}"
           :data="scores"
           :columns="columns"
           @row-click="onSelect"
@@ -48,7 +48,8 @@
 
 <script>
 import axios from "axios";
-import {BACKEND_URL} from "../../constants/API.js";
+import { BACKEND_URL } from "../../constants/API.js";
+import { MAP_TYPES } from "../../constants/OPTIONS.js";
 import { capitalizeWords } from "../../data/helpers.js";
 
 export default {
@@ -124,6 +125,8 @@ export default {
      * Upon selecting a row, close dialog and select the chosen property
      */
     onSelect(event, row) {
+      this.$store.dispatch("setMapType", {map_type: MAP_TYPES.PROPERTY});
+
       this.$emit("propertySelected", row.id, false); // TODO also change map type if needed
       this.closeDialog();
     },
@@ -171,7 +174,7 @@ export default {
   .table-view{
     width: 100%;
     max-width: 100%;
-    height: calc(100% - 50px);
+    max-height: calc(100% - 50px);
     margin-top: 50px
   }
 </style>
