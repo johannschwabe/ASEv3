@@ -65,7 +65,7 @@ export default {
         data: {
           query: `
             {
-              allScores(){
+              allScores{
                 id
                 score
                 price
