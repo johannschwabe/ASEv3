@@ -145,7 +145,7 @@ export default {
       zoom: this.zoom,
       center: this.center,
       mapTypeId: "roadmap",
-      mapTypeControl: false,
+      mapTypeControl: true,
       streetViewControl: false,
       fullscreenControl: false,
     };

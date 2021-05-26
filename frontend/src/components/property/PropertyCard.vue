@@ -72,52 +72,25 @@
         </div>
       </q-card-section>
 
-      <q-card-section horizontal>
-        <q-card-section class="col-3">
-          <strong>At 100%</strong>
-        </q-card-section>
-        <q-separator vertical />
-
-        <q-card-section v-if="loading">
-          <q-spinner-dots />
-        </q-card-section>
-        <q-card-section v-else>
-          {{ getBreakEvenString(break_even_100) }}
-        </q-card-section>
-      </q-card-section>
-
+      <info-snippet
+        title="At 100%"
+        :content="getBreakEvenString(break_even_100)"
+        :loading="loading"
+      />
       <q-separator />
 
-      <q-card-section horizontal>
-        <q-card-section class="col-3">
-          <strong>At 80%</strong>
-        </q-card-section>
-        <q-separator vertical />
-
-        <q-card-section v-if="loading">
-          <q-spinner-dots />
-        </q-card-section>
-        <q-card-section v-else>
-          {{ getBreakEvenString(break_even_80) }}
-        </q-card-section>
-      </q-card-section>
-
+      <info-snippet
+        title="At 80%"
+        :content="getBreakEvenString(break_even_80)"
+        :loading="loading"
+      />
       <q-separator />
 
-      <q-card-section horizontal>
-        <q-card-section class="col-3">
-          <strong>At 60%</strong>
-        </q-card-section>
-        <q-separator vertical />
-
-        <q-card-section v-if="loading">
-          <q-spinner-dots />
-        </q-card-section>
-        <q-card-section v-else>
-          {{ getBreakEvenString(break_even_60) }}
-        </q-card-section>
-      </q-card-section>
-
+      <info-snippet
+        title="At 60%"
+        :content="getBreakEvenString(break_even_60)"
+        :loading="loading"
+      />
       <q-separator />
 
       <q-item-label
@@ -144,115 +117,60 @@
       </q-card-section>
 
       <!-- Year built -->
-      <q-card-section horizontal>
-        <q-card-section class="col-3">
-          <strong>Built</strong>
-        </q-card-section>
-        <q-separator vertical />
-        <q-card-section class="col-8">
-          <q-spinner-dots v-if="loading" />
-          <div v-else>
-            {{ property ? property.yearBuilt : "" }}
-          </div>
-        </q-card-section>
-      </q-card-section>
-
+      <info-snippet
+        title="Built"
+        :content="property ? property.yearBuilt : ''"
+        :loading="loading"
+      />
       <q-separator />
 
       <!-- Zip code -->
-      <q-card-section horizontal>
-        <q-card-section class="col-3">
-          <strong>Zip Code</strong>
-        </q-card-section>
-        <q-separator vertical />
-        <q-card-section class="col-8">
-          <q-spinner-dots v-if="loading" />
-          <div v-else>
-            {{ property ? property.zipCode : "" }}
-          </div>
-        </q-card-section>
-      </q-card-section>
-
+      <info-snippet
+        title="Zip Code"
+        :content="property ? property.zipCode : ''"
+        :loading="loading"
+      />
       <q-separator />
 
       <!-- Building class -->
-      <q-card-section horizontal>
-        <q-card-section class="col-3">
-          <strong>Category</strong>
-        </q-card-section>
-        <q-separator vertical />
-        <q-card-section>
-          <q-spinner-dots v-if="loading" />
-          <div v-else>
-            {{ property ? capitalizeWords(property.buildingClassCategory.toLowerCase()) : "" }}
-          </div>
-        </q-card-section>
-      </q-card-section>
-
+      <info-snippet
+        title="Category"
+        :content="property ? capitalizeWords(property.buildingClassCategory.toLowerCase()) : ''"
+        :loading="loading"
+      />
       <q-separator />
 
       <!-- Neighbourhood -->
-      <q-card-section horizontal>
-        <q-card-section class="col-3">
-          <strong>Neighbourhood</strong>
-        </q-card-section>
-        <q-separator vertical />
-        <q-card-section>
-          <q-spinner-dots v-if="loading" />
-          <div v-else>
-            {{ property ? capitalizeWords(property.neighbourhood.toLowerCase()) : "" }}
-          </div>
-        </q-card-section>
-      </q-card-section>
-
+      <info-snippet
+        title="Neighbourhood"
+        :content="property ? capitalizeWords(property.neighbourhood.toLowerCase()) : ''"
+        :loading="loading"
+      />
       <q-separator />
 
       <!-- Land square ft. -->
-      <q-card-section horizontal>
-        <q-card-section class="col-3">
-          <strong>Land sq.ft.</strong>
-        </q-card-section>
-        <q-separator vertical />
-        <q-card-section>
-          <q-spinner-dots v-if="loading" />
-          <div v-else>
-            {{ property ? property.landSquareFeet.toString() + " sq.ft." : "" }}
-          </div>
-        </q-card-section>
-      </q-card-section>
+      <info-snippet
+        title="Land sq.ft."
+        :content="property ? property.landSquareFeet.toString() + ' sq.ft.' : '' "
+        :loading="loading"
+      />
 
       <q-separator />
 
       <!-- Gross square ft. -->
-      <q-card-section horizontal>
-        <q-card-section class="col-3">
-          <strong>Gross sq.ft.</strong>
-        </q-card-section>
-        <q-separator vertical />
-        <q-card-section>
-          <q-spinner-dots v-if="loading" />
-          <div v-else>
-            {{ property ? property.grossSquareFeet.toString() + " sq.ft." : "" }}
-          </div>
-        </q-card-section>
-      </q-card-section>
-
+      <info-snippet
+        title="Gross sq.ft."
+        :content="property ? property.grossSquareFeet.toString() + ' sq.ft.' : '' "
+        :loading="loading"
+      />
       <q-separator />
 
       <!-- Total units -->
-      <q-card-section horizontal>
-        <q-card-section class="col-3">
-          <strong>Total Units</strong>
-        </q-card-section>
-        <q-separator vertical />
-        <q-card-section>
-          <q-spinner-dots v-if="loading" />
-          <div v-else>
-            {{ property ? property.totalUnits.toString() + " unit(s)" : "" }}
-          </div>
-        </q-card-section>
-      </q-card-section>
-
+      <info-snippet
+        title="Total units"
+        :content="property ? property.totalUnits.toString() + ' unit(s)' : '' "
+        :loading="loading"
+      />
       <q-separator />
 
       <info-snippet
@@ -273,7 +191,6 @@
         :content="property ? `$${property.salePrice.toLocaleString()}` : ''"
         :loading="loading"
       />
-
       <q-separator />
 
       <info-snippet

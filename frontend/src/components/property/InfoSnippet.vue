@@ -7,7 +7,7 @@
     <q-card-section>
       <q-spinner-dots v-if="loading" />
       <div v-else>
-        {{ content ? content : "" }}
+        {{ content ? content.toString() : "" }}
       </div>
     </q-card-section>
   </q-card-section>
@@ -18,12 +18,8 @@ export default {
   name: "InfoSnippet",
   props: {
     title: { type: String, required: true },
-    content: { type: String, required: true},
+    content: { required: true},
     loading: { type: Boolean, required: true },
   },
 };
 </script>
-
-<style scoped>
-
-</style>
