@@ -143,6 +143,7 @@
         </div>
       </q-card-section>
 
+      <!-- Year built -->
       <q-card-section horizontal>
         <q-card-section class="col-3">
           <strong>Built</strong>
@@ -158,6 +159,7 @@
 
       <q-separator />
 
+      <!-- Zip code -->
       <q-card-section horizontal>
         <q-card-section class="col-3">
           <strong>Zip Code</strong>
@@ -173,6 +175,7 @@
 
       <q-separator />
 
+      <!-- Building class -->
       <q-card-section horizontal>
         <q-card-section class="col-3">
           <strong>Category</strong>
@@ -188,6 +191,7 @@
 
       <q-separator />
 
+      <!-- Neighbourhood -->
       <q-card-section horizontal>
         <q-card-section class="col-3">
           <strong>Neighbourhood</strong>
@@ -203,18 +207,59 @@
 
       <q-separator />
 
+      <!-- Land square ft. -->
       <q-card-section horizontal>
         <q-card-section class="col-3">
-          <strong>Coordinates</strong>
+          <strong>Land sq.ft.</strong>
         </q-card-section>
         <q-separator vertical />
         <q-card-section>
           <q-spinner-dots v-if="loading" />
           <div v-else>
-            {{ property ? `${property.latitude.toFixed(6)}, ${property.longitude.toFixed(6)}` : "" }}
+            {{ property ? property.landSquareFeet.toString() + " sq.ft." : "" }}
           </div>
         </q-card-section>
       </q-card-section>
+
+      <q-separator />
+
+      <!-- Gross square ft. -->
+      <q-card-section horizontal>
+        <q-card-section class="col-3">
+          <strong>Gross sq.ft.</strong>
+        </q-card-section>
+        <q-separator vertical />
+        <q-card-section>
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? property.grossSquareFeet.toString() + " sq.ft." : "" }}
+          </div>
+        </q-card-section>
+      </q-card-section>
+
+      <q-separator />
+
+      <!-- Total units -->
+      <q-card-section horizontal>
+        <q-card-section class="col-3">
+          <strong>Total Units</strong>
+        </q-card-section>
+        <q-separator vertical />
+        <q-card-section>
+          <q-spinner-dots v-if="loading" />
+          <div v-else>
+            {{ property ? property.totalUnits.toString() + " unit(s)" : "" }}
+          </div>
+        </q-card-section>
+      </q-card-section>
+
+      <q-separator />
+
+      <info-snippet
+        title="Coordinates"
+        :content="property ? `${property.latitude.toFixed(6)}, ${property.longitude.toFixed(6)}` : ''"
+        :loading="loading"
+      />
 
       <!-- Pricing title -->
       <q-card-section class="bg-grey-3">
@@ -223,35 +268,19 @@
         </div>
       </q-card-section>
 
-      <q-card-section horizontal>
-        <q-card-section class="col-3">
-          <strong>Price</strong>
-        </q-card-section>
-        <q-separator vertical />
-        <q-card-section>
-          <q-spinner-dots v-if="loading" />
-          <div v-else>
-            {{ property ? `$${property.salePrice.toLocaleString()}` : "" }}
-          </div>
-        </q-card-section>
-      </q-card-section>
+      <info-snippet
+        title="Price"
+        :content="property ? `$${property.salePrice.toLocaleString()}` : ''"
+        :loading="loading"
+      />
 
       <q-separator />
 
-      <q-card-section horizontal>
-        <q-card-section class="col-3">
-          <strong>Est. Price per Night</strong>
-        </q-card-section>
-        <q-separator vertical />
-
-        <q-card-section v-if="loading">
-          <q-spinner-dots />
-        </q-card-section>
-        <q-card-section v-else>
-          {{ price_per_night !== null ? "$" + Math.round(price_per_night) : "N/A" }}
-        </q-card-section>
-      </q-card-section>
-
+      <info-snippet
+        title="Est. Price per Night"
+        :content="price_per_night !== null ? '$' + Math.round(price_per_night) : 'N/A'"
+        :loading="loading"
+      />
       <q-separator />
 
       <break-even-calculator
@@ -269,6 +298,7 @@ import OverallRating from "./OverallRating.vue";
 import PriceRating from "./PriceRating.vue";
 import BreakEvenCalculator from "./BreakEvenCalculator.vue";
 import NeighbourhoodRating from "./NeighbourhoodRating.vue";
+import InfoSnippet from "./InfoSnippet.vue";
 import {API_KEY, BACKEND_URL} from "../../constants/API.js";
 import { capitalizeWords, getBreakEvenString } from "../../data/helpers.js";
 
@@ -279,6 +309,7 @@ export default {
     OverallRating,
     NeighbourhoodRating,
     BreakEvenCalculator,
+    InfoSnippet,
   },
   props: {
     id: { type: String, required: true },
@@ -367,6 +398,9 @@ export default {
                 zipCode
                 buildingClassCategory
                 neighbourhood
+                landSquareFeet
+                grossSquareFeet
+                totalUnits
               }
             }
           `,
