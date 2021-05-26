@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class SaleScoreService {
   private static final Map<String, Double> propertyScores = new HashMap<>();
+  private static final Map<String, Sale> allSales = new HashMap<>();
   private static final Map<String, List<Sale>> neighbourhoodSales = new HashMap<>();
   private static final Map<String, List<Airbnb>> neighbourhoodAirbnbs = new HashMap<>();
 
@@ -67,6 +68,7 @@ public class SaleScoreService {
   private static List<Sale> fetchAllSales() throws IOException {
     List<Sale> sales = SalesAPI.getAll();
     for (Sale sale : sales) {
+      allSales.put(sale.getId(), sale);
       String neighbourhood = sale.getNeighbourhood();
       if (neighbourhoodSales.containsKey(neighbourhood)) {
         neighbourhoodSales.get(neighbourhood).add(sale);
@@ -99,7 +101,15 @@ public class SaleScoreService {
     scoreEntries.sort(Entry.comparingByValue(Collections.reverseOrder()));
     List<SaleScore> scores = new ArrayList<>();
     for(var entry: scoreEntries){
-      scores.add(new SaleScore(entry.getKey(), entry.getValue()));
+      var sale = allSales.get(entry.getKey());
+      scores.add(
+          new SaleScore(entry.getKey(),
+              entry.getValue(),
+              sale.getAddress(),
+              sale.getSalePrice(),
+              sale.getNeighbourhood()
+          )
+      );
     }
     return scores;
   }
