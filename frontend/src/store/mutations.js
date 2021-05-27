@@ -4,6 +4,10 @@ export function toggleDrawer(state) {
   state.drawer_open = !state.drawer_open;
 }
 
+export function toggleTable(state) {
+  state.table_open = !state.table_open;
+}
+
 export function toggleMarkers(state) {
   state.show_markers = !state.show_markers;
 }
@@ -28,6 +32,6 @@ export function setHeatmapRadius(state, payload) {
   state.heatmap_radius = payload.heatmap_radius;
 }
 
-export function setSelectedCoordinates(state, payload) {
-  state.selected_coordinates = payload.selected_coordinates;
+export function setSelectedId(state, payload) {
+  state.selected_id = payload.selected_id;
 }

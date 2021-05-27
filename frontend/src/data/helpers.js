@@ -3,7 +3,7 @@
  * @param {string} input - the input text
  */
 export function capitalizeWords(input) {
-  const words = input.split(" ");
+  const words = input.toLowerCase().split(" ");
 
   for (let i = 0; i < words.length; i++) {
     if (words[i]) {

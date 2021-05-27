@@ -3,25 +3,31 @@
     <div
       class="main-page"
     >
+      <!-- Table Dialog -->
+      <TableDialog
+        @propertySelected="onPropertySelected"
+      />
+
       <Map
         :points="map_points"
         :markers="map_points"
         :center="center"
-        :initial_zoom="12"
+        :zoom="zoom"
         style="height: 100%; width: 100%"
-        @markerClick="onMarkerClick"
+        @propertySelected="onPropertySelected"
       />
 
       <!-- Info window if property/airbnb/rating is selected -->
-      <div v-if="selected_coordinates">
+      <div v-if="selected_id">
         <PropertyCard
           v-if="map_type === 'PROPERTY'"
-          :coordinates="selected_coordinates"
+          :id="selected_id"
+          :from_map="from_map"
           @hide="onCardHide"
         />
         <AirbnbCard
           v-else-if="map_type === 'AIRBNB'"
-          :coordinates="selected_coordinates"
+          :id="selected_id"
           @hide="onCardHide"
         />
       </div>
@@ -32,9 +38,10 @@
 <script>
 
 import axios from "axios";
-import Map from "../components/map/Map.vue";
+import Map from "../components/view/Map.vue";
 import PropertyCard from "../components/property/PropertyCard.vue";
-import AirbnbCard from "../components/AirbnbCard.vue";
+import AirbnbCard from "../components/airbnb/AirbnbCard.vue";
+import TableDialog from "../components/view/TableDialog.vue";
 import {BACKEND_URL} from "../constants/API.js";
 import * as OPTIONS from "../constants/OPTIONS.js";
 
@@ -44,20 +51,25 @@ export default {
     Map,
     PropertyCard,
     AirbnbCard,
+    TableDialog,
   },
   data() {
     return {
-      center: { lat: 40.730610, lng: -73.935242 },
+      default_center: { lat: 40.730610, lng: -73.935242 },
+      center: this.default_center,
+      default_zoom: 11,
+      zoom: 11,
       properties: [],
       airbnbs: [],
+      from_map: false, // Whether the currently selected property was picked from the map
     };
   },
   computed: {
     /**
      * The id of the coordinates that is selected
      */
-    selected_coordinates() {
-      return this.$store.getters.selectedCoordinates;
+    selected_id() {
+      return this.$store.getters.selectedId;
     },
 
     /**
@@ -99,25 +111,60 @@ export default {
      * Upon manually closing card, discard selected property
      */
     onCardHide() {
-      this.$store.commit("setSelectedCoordinates", { selected_coordinates: null });
+      this.$store.commit("setSelectedId", { selected_id: null });
     },
 
     /**
-     * Upon clicking a marker, mark it as selected
-     * @param {Object} marker - the marker that was clicked, having id, lat and lng
+     * Upon selecting a property (by marker click or table select), mark it as selected
+     * @param {string} id - the selected property's ID
+     * @param {boolean} from_map - whether the given ID is a coordinates ID
      */
-    async onMarkerClick(marker) {
+    async onPropertySelected(id, from_map) {
       // Close drawer if open
       if (this.$store.getters.drawerOpen) {
         this.$store.commit("toggleDrawer");
       }
 
       // If this property was selected already, toggle
-      if (this.selected_coordinates && this.selected_coordinates === marker.id) {
-        this.$store.commit("setSelectedCoordinates", { selected_coordinates: null });
+      if (this.selected_id && this.selected_id === id) {
+        this.$store.commit("setSelectedId", { selected_id: null });
       } else {
         // Commit selection change
-        this.$store.commit("setSelectedCoordinates", { selected_coordinates: marker.id });
+        this.$store.commit("setSelectedId", { selected_id: id });
+
+        // Update whether property was picked from map in order to tell PropertyCard how to fetch
+        this.from_map = from_map;
+
+        // If picking happened from table, move map
+        if (!from_map) {
+          // Enable markers if they are disabled
+          if (!this.$store.getters.showMarkers) {
+            this.$store.commit("toggleMarkers");
+          }
+
+          // Get coordinates for properties picked via table
+          const result = await axios({
+            url: BACKEND_URL,
+            method: "post",
+            data: {
+              query: `
+            {
+              saleById(id: "${id}") {
+                latitude
+                longitude
+              }
+            }
+          `,
+            },
+          });
+
+          const coordinates = result.data.data.saleById;
+
+          this.center = { lat: coordinates.latitude, lng: coordinates.longitude };
+
+          // Zoom in
+          this.zoom = 19;
+        }
       }
     },
 
