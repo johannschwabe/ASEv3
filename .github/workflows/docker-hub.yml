@@ -18,11 +18,11 @@ jobs:
         env:
           USERNAME: ${{ secrets.DOCKER_USERNAME }}
           PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          DOCKERFILE: "Dockerfile"
+          DOCKERFILE: "frontend/Dockerfile"
           IMAGE_NAME: "ase-frontend"
           TAG_NAME: "v0.0.1"
           LATEST: "true"
-          BUILD_PATH: "frontend/"
+          BUILD_PATH: "frontend"
 
       - name: Docker Build & Push Backend to Docker Hub
         uses: opspresso/action-docker@master
@@ -31,11 +31,11 @@ jobs:
         env:
           USERNAME: ${{ secrets.DOCKER_USERNAME }}
           PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          DOCKERFILE: "Dockerfile"
+          DOCKERFILE: "backend/Dockerfile"
           IMAGE_NAME: "ase-backend"
           TAG_NAME: "v0.0.1"
           LATEST: "true"
-          BUILD_PATH: "backend/"
+          BUILD_PATH: "backend"
 
       - name: Docker Build & Push Sales-api to Docker Hub
         uses: opspresso/action-docker@master
@@ -44,11 +44,11 @@ jobs:
         env:
           USERNAME: ${{ secrets.DOCKER_USERNAME }}
           PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          DOCKERFILE: "Dockerfile"
+          DOCKERFILE: "sales-api/Dockerfile"
           IMAGE_NAME: "ase-sales-api"
           TAG_NAME: "v0.0.1"
           LATEST: "true"
-          BUILD_PATH: "sales-api/"
+          BUILD_PATH: "sales-api"
 
       - name: Docker Build & Push airbnb-api to Docker Hub
         uses: opspresso/action-docker@master
@@ -57,8 +57,8 @@ jobs:
         env:
           USERNAME: ${{ secrets.DOCKER_USERNAME }}
           PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          DOCKERFILE: "Dockerfile"
+          DOCKERFILE: "airbnb-api/Dockerfile"
           IMAGE_NAME: "ase-airbnb-api"
           TAG_NAME: "v0.0.1"
           LATEST: "true"
-          BUILD_PATH: "airbnb-api/"
+          BUILD_PATH: "airbnb-api"
