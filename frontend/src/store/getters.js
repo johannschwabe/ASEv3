@@ -2,6 +2,10 @@ export function drawerOpen(state) {
   return state.drawer_open;
 }
 
+export function tableOpen(state) {
+  return state.table_open;
+}
+
 export function showMarkers(state) {
   return state.show_markers;
 }
@@ -26,6 +30,6 @@ export function heatmapRadius(state) {
   return state.heatmap_radius;
 }
 
-export function selectedCoordinates(state) {
-  return state.selected_coordinates;
+export function selectedId(state) {
+  return state.selected_id;
 }

@@ -20,47 +20,20 @@ jobs:
   # Run tests.
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
 
-  testBackend:
+  testAll:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: gradlew test backend
-        run: ./backend/gradlew -p ./backend/ test
+        run: ./backend/gradlew -p ./backend/ build jacocoTestReport
 
       - name: gradlew test sales
-        run: ./sales-api/gradlew -p ./sales-api/ test
+        run: ./sales-api/gradlew -p ./sales-api/ build jacocoTestReport
 
       - name: gradlew test airbnb
-        run: ./airbnb-api/gradlew -p ./airbnb-api/ test
-
-      - name: Commit scripts
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Updated Backend Scripts
-          commit_options: '--no-verify --signoff'
-          file_pattern: .
-          commit_user_name: Bot (Autocommit Actions)
-          commit_user_email: actions@github.com
-          commit_author: Github Action <actions@github.com>
-          push_options: '--force'
-
-  testFrontend:
-    runs-on: ubuntu-latest
-    needs: testBackend
-    strategy:
-      matrix:
-        node-version: [ 12.x ]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
+        run: ./airbnb-api/gradlew -p ./airbnb-api/ build jacocoTestReport
 
       - name: Setup environment
         run: yarn --cwd frontend/ install --frozen-lockfile
@@ -75,13 +48,14 @@ jobs:
       - name: Commit scripts
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Updated Frontend Scripts
+          commit_message: Run Tests & collect coverage
           commit_options: '--no-verify --signoff'
           file_pattern: .
           commit_user_name: Bot (Autocommit Actions)
           commit_user_email: actions@github.com
           commit_author: Github Action <actions@github.com>
           push_options: '--force'
+
 
 
 

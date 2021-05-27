@@ -36,4 +36,4 @@ out/
 .vscode/
 !/build
 /build/*
-!/build/jacoco
+!/build/test-results

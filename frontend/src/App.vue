@@ -6,7 +6,6 @@
 
     <!-- Side menu drawer -->
     <MenuDrawer />
-
     <!-- Main page content -->
     <q-page-container>
       <!-- Page shown only once API is loaded -->
