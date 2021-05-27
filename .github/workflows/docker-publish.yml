@@ -27,15 +27,24 @@ jobs:
         uses: actions/checkout@v2
 
       - name: gradlew test backend
-        run: ./backend/gradlew -p ./backend/ build jacocoTestReport
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN3 }}
+        run: ./backend/gradlew -p ./backend/ build jacocoTestReport sonarqube
         continue-on-error: true
 
       - name: gradlew test sales
-        run: ./sales-api/gradlew -p ./sales-api/ build jacocoTestReport
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN3 }}
+        run: ./sales-api/gradlew -p ./sales-api/ build jacocoTestReport sonarqube
         continue-on-error: true
 
       - name: gradlew test airbnb
-        run: ./airbnb-api/gradlew -p ./airbnb-api/ build jacocoTestReport
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN3 }}
+        run: ./airbnb-api/gradlew -p ./airbnb-api/ build jacocoTestReport sonarqube
         continue-on-error: true
 
       - name: Setup environment
