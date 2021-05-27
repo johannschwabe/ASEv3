@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ch.ase21.backend.service.NeighbourhoodServiceTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2021-05-27T16:03:09" hostname="fv-az208-234" time="0.009">
+<testsuite name="ch.ase21.backend.service.NeighbourhoodServiceTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2021-05-27T16:20:11" hostname="fv-az209-277" time="0.011">
   <properties/>
-  <testcase name="calculateGreatRating()" classname="ch.ase21.backend.service.NeighbourhoodServiceTest" time="0.001"/>
+  <testcase name="calculateGreatRating()" classname="ch.ase21.backend.service.NeighbourhoodServiceTest" time="0.003"/>
   <testcase name="calculateScoreMissingAirbnbs()" classname="ch.ase21.backend.service.NeighbourhoodServiceTest" time="0.001"/>
-  <testcase name="calculateScoreMissingSales()" classname="ch.ase21.backend.service.NeighbourhoodServiceTest" time="0.001"/>
+  <testcase name="calculateScoreMissingSales()" classname="ch.ase21.backend.service.NeighbourhoodServiceTest" time="0.002"/>
   <testcase name="calculateBadRating()" classname="ch.ase21.backend.service.NeighbourhoodServiceTest" time="0.001"/>
   <testcase name="calculateAverageRating()" classname="ch.ase21.backend.service.NeighbourhoodServiceTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
