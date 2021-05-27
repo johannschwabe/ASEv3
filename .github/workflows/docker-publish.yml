@@ -27,13 +27,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: gradlew test backend
-        run: ./backend/gradlew -p ./backend/ test
+        run: ./backend/gradlew -p ./backend/ build jacocoTestReport
 
       - name: gradlew test sales
-        run: ./sales-api/gradlew -p ./sales-api/ test
+        run: ./sales-api/gradlew -p ./sales-api/ build jacocoTestReport
 
       - name: gradlew test airbnb
-        run: ./airbnb-api/gradlew -p ./airbnb-api/ test
+        run: ./airbnb-api/gradlew -p ./airbnb-api/ build jacocoTestReport
 
       - name: Setup environment
         run: yarn --cwd frontend/ install --frozen-lockfile
