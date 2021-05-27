@@ -24,6 +24,9 @@ jobs:
           LATEST: "true"
           BUILD_PATH: "frontend"
 
+      - name: build Backend
+        run: ./backend/gradlew -p ./backend/ build
+
       - name: Docker Build & Push Backend to Docker Hub
         uses: opspresso/action-docker@master
         with:
@@ -37,6 +40,9 @@ jobs:
           LATEST: "true"
           BUILD_PATH: "backend"
 
+      - name: build Sales
+        run: ./sales-api/gradlew -p ./sales-api/ build
+
       - name: Docker Build & Push Sales-api to Docker Hub
         uses: opspresso/action-docker@master
         with:
@@ -49,6 +55,9 @@ jobs:
           TAG_NAME: "v0.0.1"
           LATEST: "true"
           BUILD_PATH: "sales-api"
+
+      - name: build AirBnB
+        run: ./airbnb-api/gradlew -p ./airbnb-api/ build
 
       - name: Docker Build & Push airbnb-api to Docker Hub
         uses: opspresso/action-docker@master
