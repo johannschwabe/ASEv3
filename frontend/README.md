@@ -17,10 +17,10 @@ Webpage to evaluate the AirBnB value of properties for sale, developed with VueJ
 
 ### Coverage
 
-![Line Coverage](https://img.shields.io/badge/LineCoverage-12.71-orange)
-![Functions Coverage](https://img.shields.io/badge/FunctionsCoverage-8.4-orange)
-![Statement Coverage](https://img.shields.io/badge/StatementCoverage-13.08-orange)
-![Branche Coverage](https://img.shields.io/badge/BranchCoverage-17.74-orange)
+![Line Coverage](https://img.shields.io/badge/LineCoverage-11.79-orange)
+![Functions Coverage](https://img.shields.io/badge/FunctionsCoverage-7.79-orange)
+![Statement Coverage](https://img.shields.io/badge/StatementCoverage-12.01-orange)
+![Branche Coverage](https://img.shields.io/badge/BranchCoverage-16.67-orange)
 
 ## Open Bugs (Failed tests)
 
