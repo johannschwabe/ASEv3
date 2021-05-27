@@ -26,6 +26,9 @@ Advanced Software Engineering course repository.
 7. Restart the application by running ``docker compose up``.
 
 
+8. Open the Web-App in your browser (http://localhost:8181).
+
+
 *It is possible, after starting the application (in step 4), that some services 
 ('airbnbapi', 'salesapi') crash. This is no problem as long as the two database-services
 ('airbnbdb', 'salesdb') are running. You have to restart the application (in step 6 and 7) anyways.*
