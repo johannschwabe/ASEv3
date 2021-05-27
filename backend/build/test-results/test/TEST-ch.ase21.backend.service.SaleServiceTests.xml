@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ch.ase21.backend.service.SaleServiceTests" tests="12" skipped="0" failures="0" errors="0" timestamp="2021-05-27T19:10:45" hostname="fv-az167-620" time="0.246">
+<testsuite name="ch.ase21.backend.service.SaleServiceTests" tests="12" skipped="0" failures="0" errors="0" timestamp="2021-05-27T19:17:37" hostname="fv-az133-673" time="0.174">
   <properties/>
-  <testcase name="calculateEstimatedSalePrice()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.069"/>
-  <testcase name="calculateEstimatedSalePriceNoArea()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.007"/>
-  <testcase name="calculateMissingValuesPropertyScore()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.008"/>
-  <testcase name="calculateBreakEvenMinimal()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.003"/>
-  <testcase name="calculateBadPropertyScore()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.005"/>
-  <testcase name="calculateAveragePropertyScore()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.001"/>
-  <testcase name="calculateEstimatedSalePriceNoNeighbors()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.004"/>
-  <testcase name="calculateGreatPropertyScore()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.001"/>
+  <testcase name="calculateEstimatedSalePrice()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.054"/>
+  <testcase name="calculateEstimatedSalePriceNoArea()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.002"/>
+  <testcase name="calculateMissingValuesPropertyScore()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.003"/>
+  <testcase name="calculateBreakEvenMinimal()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.002"/>
+  <testcase name="calculateBadPropertyScore()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.003"/>
+  <testcase name="calculateAveragePropertyScore()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.002"/>
+  <testcase name="calculateEstimatedSalePriceNoNeighbors()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.003"/>
+  <testcase name="calculateGreatPropertyScore()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.002"/>
   <testcase name="calculateBreakEvenFull()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.001"/>
-  <testcase name="[1] units=1, price=1000000, area=0" classname="ch.ase21.backend.service.SaleServiceTests" time="0.053"/>
+  <testcase name="[1] units=1, price=1000000, area=0" classname="ch.ase21.backend.service.SaleServiceTests" time="0.032"/>
   <testcase name="[2] units=1, price=0, area=1000" classname="ch.ase21.backend.service.SaleServiceTests" time="0.002"/>
-  <testcase name="[3] units=0, price=1000000, area=1000" classname="ch.ase21.backend.service.SaleServiceTests" time="0.003"/>
+  <testcase name="[3] units=0, price=1000000, area=1000" classname="ch.ase21.backend.service.SaleServiceTests" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
