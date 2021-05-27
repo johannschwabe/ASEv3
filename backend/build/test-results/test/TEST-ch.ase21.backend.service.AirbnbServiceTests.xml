@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ch.ase21.backend.service.AirbnbServiceTests" tests="4" skipped="0" failures="0" errors="0" timestamp="2021-05-27T11:39:06" hostname="fv-az167-620" time="0.017">
+<testsuite name="ch.ase21.backend.service.AirbnbServiceTests" tests="4" skipped="0" failures="0" errors="0" timestamp="2021-05-27T12:27:34" hostname="fv-az208-234" time="0.008">
   <properties/>
-  <testcase name="averageRevenuePerNightFullApartmentNoValid()" classname="ch.ase21.backend.service.AirbnbServiceTests" time="0.008"/>
-  <testcase name="averageRevenuePerNight()" classname="ch.ase21.backend.service.AirbnbServiceTests" time="0.002"/>
-  <testcase name="averageRevenuePerNightFullApartment()" classname="ch.ase21.backend.service.AirbnbServiceTests" time="0.001"/>
-  <testcase name="averageRevenuePerNightNoProperties()" classname="ch.ase21.backend.service.AirbnbServiceTests" time="0.001"/>
+  <testcase name="averageRevenuePerNightFullApartmentNoValid()" classname="ch.ase21.backend.service.AirbnbServiceTests" time="0.001"/>
+  <testcase name="averageRevenuePerNight()" classname="ch.ase21.backend.service.AirbnbServiceTests" time="0.0"/>
+  <testcase name="averageRevenuePerNightFullApartment()" classname="ch.ase21.backend.service.AirbnbServiceTests" time="0.0"/>
+  <testcase name="averageRevenuePerNightNoProperties()" classname="ch.ase21.backend.service.AirbnbServiceTests" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
