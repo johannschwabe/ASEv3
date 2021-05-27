@@ -37,3 +37,28 @@ jobs:
           LATEST: "true"
           BUILD_PATH: "backend/"
 
+      - name: Docker Build & Push Sales-api to Docker Hub
+        uses: opspresso/action-docker@master
+        with:
+          args: --docker
+        env:
+          USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKERFILE: "Dockerfile"
+          IMAGE_NAME: "ASE-Frontend"
+          TAG_NAME: "v0.0.1"
+          LATEST: "true"
+          BUILD_PATH: "sales-api/"
+
+      - name: Docker Build & Push airbnb-api to Docker Hub
+        uses: opspresso/action-docker@master
+        with:
+          args: --docker
+        env:
+          USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKERFILE: "Dockerfile"
+          IMAGE_NAME: "ASE-Frontend"
+          TAG_NAME: "v0.0.1"
+          LATEST: "true"
+          BUILD_PATH: "airbnb-api/"
