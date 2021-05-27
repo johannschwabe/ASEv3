@@ -63,6 +63,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN4 }}
         run: yarn --cwd frontend/ sonar-scanner
+        continue-on-error: true
+
 
 
       - name: Commit scripts
