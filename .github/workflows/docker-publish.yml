@@ -20,25 +20,11 @@ jobs:
   # Run tests.
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
 
-  testAll:
+  testFrontend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: gradlew test backend
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./backend/gradlew -p ./backend/ build jacocoTestReport sonarqube
-        continue-on-error: true
-
-      - name: gradlew test sales
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN3 }}
-        run: ./sales-api/gradlew -p ./sales-api/ build jacocoTestReport sonarqube
-        continue-on-error: true
 
       - name: Setup environment
         run: yarn --cwd frontend/ install --frozen-lockfile
@@ -57,8 +43,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN4 }}
         run: yarn --cwd frontend/ sonar-scanner
         continue-on-error: true
-
-
 
       - name: Commit scripts
         uses: stefanzweifel/git-auto-commit-action@v4
@@ -82,5 +66,26 @@ jobs:
         run: ./airbnb-api/gradlew -p ./airbnb-api/ build jacocoTestReport sonarqube
         continue-on-error: true
 
+  testSalesAPI:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: gradlew test sales
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN3 }}
+        run: ./sales-api/gradlew -p ./sales-api/ build jacocoTestReport sonarqube
+        continue-on-error: true
 
-
+  testBackend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: gradlew test backend
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./backend/gradlew -p ./backend/ build jacocoTestReport sonarqube
+        continue-on-error: true
