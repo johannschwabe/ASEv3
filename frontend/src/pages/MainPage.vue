@@ -144,6 +144,7 @@ export default {
 
           // Get coordinates for properties picked via table
           const result = await axios({
+
             url: BACKEND_URL,
             method: "post",
             data: {
