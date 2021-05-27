@@ -20,7 +20,7 @@ jobs:
   # Run tests.
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
 
-  testBackend:
+  testAll:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
