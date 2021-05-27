@@ -29,4 +29,5 @@ module.exports = {
     "lcov",
   ],
   coverageDirectory: "./reports/coverage/",
+  reporters: ["default", "jest-sonar"],
 };
