@@ -55,5 +55,12 @@
   "jest": {
     "collectCoverage": true,
     "testResultsProcessor": "jest-sonar-reporter"
+  },
+
+  "jestSonar": {
+    "reportPath": "reports",
+    "reportFile": "test-reporter.xml",
+    "indent": 4
   }
+
 }
