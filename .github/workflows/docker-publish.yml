@@ -29,6 +29,9 @@ jobs:
       - name: SonarCloud Scan Backend
         with:
           projectBaseDir: backend
+          args: >
+            -Dsonar.organization=johannschwabe
+            -Dsonar.projectKey=johannschwabe_ASEv3_1
         uses: sonarsource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
