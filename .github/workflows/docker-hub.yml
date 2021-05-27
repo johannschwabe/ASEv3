@@ -19,7 +19,7 @@ jobs:
           USERNAME: ${{ secrets.DOCKER_USERNAME }}
           PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKERFILE: "frontend/Dockerfile"
-          IMAGE_NAME: "ase-frontend"
+          IMAGE_NAME: "johannschwabe/ase-frontend"
           TAG_NAME: "v0.0.1"
           LATEST: "true"
           BUILD_PATH: "frontend"
@@ -32,7 +32,7 @@ jobs:
           USERNAME: ${{ secrets.DOCKER_USERNAME }}
           PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKERFILE: "backend/Dockerfile"
-          IMAGE_NAME: "ase-backend"
+          IMAGE_NAME: "johannschwabe/ase-backend"
           TAG_NAME: "v0.0.1"
           LATEST: "true"
           BUILD_PATH: "backend"
@@ -45,7 +45,7 @@ jobs:
           USERNAME: ${{ secrets.DOCKER_USERNAME }}
           PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKERFILE: "sales-api/Dockerfile"
-          IMAGE_NAME: "ase-sales-api"
+          IMAGE_NAME: "johannschwabe/ase-sales-api"
           TAG_NAME: "v0.0.1"
           LATEST: "true"
           BUILD_PATH: "sales-api"
@@ -58,7 +58,7 @@ jobs:
           USERNAME: ${{ secrets.DOCKER_USERNAME }}
           PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKERFILE: "airbnb-api/Dockerfile"
-          IMAGE_NAME: "ase-airbnb-api"
+          IMAGE_NAME: "johannschwabe/ase-airbnb-api"
           TAG_NAME: "v0.0.1"
           LATEST: "true"
           BUILD_PATH: "airbnb-api"
