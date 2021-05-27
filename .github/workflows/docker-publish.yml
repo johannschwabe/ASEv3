@@ -26,14 +26,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: gradlew test backend
-        run: ./backend/gradlew -p ./backend/ build jacocoTestReport sonarqube
+      - name: SonarCloud Scan Backend
+        with:
+          projectBaseDir: backend
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: gradlew test sales
-        run: ./sales-api/gradlew -p ./sales-api/ build jacocoTestReport sonarqube
+      - name: SonarCloud Scan Sales
+        with:
+          projectBaseDir: sales-api
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: gradlew test airbnb
-        run: ./airbnb-api/gradlew -p ./airbnb-api/ build jacocoTestReport sonarqube
+      - name: SonarCloud Scan AirBnB
+        with:
+          projectBaseDir: airbnb-api
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Setup environment
         run: yarn --cwd frontend/ install --frozen-lockfile
