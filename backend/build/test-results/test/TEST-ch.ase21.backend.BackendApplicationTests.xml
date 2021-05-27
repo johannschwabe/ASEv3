@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ch.ase21.backend.BackendApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-05-27T19:10:45" hostname="fv-az167-620" time="0.004">
+<testsuite name="ch.ase21.backend.BackendApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-05-27T19:17:38" hostname="fv-az133-673" time="0.0">
   <properties/>
-  <testcase name="contextLoads()" classname="ch.ase21.backend.BackendApplicationTests" time="0.004"/>
+  <testcase name="contextLoads()" classname="ch.ase21.backend.BackendApplicationTests" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
