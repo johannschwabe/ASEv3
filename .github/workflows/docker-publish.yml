@@ -29,7 +29,7 @@ jobs:
       - name: gradlew test backend
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN3 }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./backend/gradlew -p ./backend/ build jacocoTestReport sonarqube
         continue-on-error: true
 
@@ -43,7 +43,7 @@ jobs:
       - name: gradlew test airbnb
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN3 }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN2 }}
         run: ./airbnb-api/gradlew -p ./airbnb-api/ build jacocoTestReport sonarqube
         continue-on-error: true
 
@@ -57,6 +57,13 @@ jobs:
 
       - name: Update README.md
         run: yarn --cwd frontend/ run reports:readme
+
+      - name: SonarCloud Scan
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN4 }}
+        run: yarn --cwd frontend/ sonar-scanner
+
 
       - name: Commit scripts
         uses: stefanzweifel/git-auto-commit-action@v4
