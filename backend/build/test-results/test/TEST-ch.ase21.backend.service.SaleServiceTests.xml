@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ch.ase21.backend.service.SaleServiceTests" tests="12" skipped="0" failures="0" errors="0" timestamp="2021-05-27T16:20:11" hostname="fv-az209-277" time="0.177">
+<testsuite name="ch.ase21.backend.service.SaleServiceTests" tests="12" skipped="0" failures="0" errors="0" timestamp="2021-05-27T17:04:19" hostname="fv-az180-453" time="0.177">
   <properties/>
-  <testcase name="calculateEstimatedSalePrice()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.046"/>
-  <testcase name="calculateEstimatedSalePriceNoArea()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.004"/>
+  <testcase name="calculateEstimatedSalePrice()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.059"/>
+  <testcase name="calculateEstimatedSalePriceNoArea()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.003"/>
   <testcase name="calculateMissingValuesPropertyScore()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.004"/>
-  <testcase name="calculateBreakEvenMinimal()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.001"/>
-  <testcase name="calculateBadPropertyScore()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.003"/>
+  <testcase name="calculateBreakEvenMinimal()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.002"/>
+  <testcase name="calculateBadPropertyScore()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.002"/>
   <testcase name="calculateAveragePropertyScore()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.001"/>
-  <testcase name="calculateEstimatedSalePriceNoNeighbors()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.003"/>
+  <testcase name="calculateEstimatedSalePriceNoNeighbors()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.004"/>
   <testcase name="calculateGreatPropertyScore()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.001"/>
-  <testcase name="calculateBreakEvenFull()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.001"/>
-  <testcase name="[1] units=1, price=1000000, area=0" classname="ch.ase21.backend.service.SaleServiceTests" time="0.04"/>
+  <testcase name="calculateBreakEvenFull()" classname="ch.ase21.backend.service.SaleServiceTests" time="0.0"/>
+  <testcase name="[1] units=1, price=1000000, area=0" classname="ch.ase21.backend.service.SaleServiceTests" time="0.037"/>
   <testcase name="[2] units=1, price=0, area=1000" classname="ch.ase21.backend.service.SaleServiceTests" time="0.002"/>
-  <testcase name="[3] units=0, price=1000000, area=1000" classname="ch.ase21.backend.service.SaleServiceTests" time="0.002"/>
+  <testcase name="[3] units=0, price=1000000, area=1000" classname="ch.ase21.backend.service.SaleServiceTests" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
