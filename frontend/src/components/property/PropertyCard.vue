@@ -201,9 +201,9 @@
       <q-separator />
 
       <break-even-calculator
-        v-if="property && price_per_night"
+        v-if="property"
         :id="property.id"
-        :price="price_per_night"
+        :price="price_per_night? price_per_night : 200"
       />
     </q-scroll-area>
   </q-card>
