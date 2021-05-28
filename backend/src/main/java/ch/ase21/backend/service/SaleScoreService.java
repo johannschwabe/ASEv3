@@ -106,12 +106,14 @@ public class SaleScoreService {
       if(score != 10.0 && score != 5.0){
         var id = entry.getKey();
         var sale = allSales.get(id);
+        var coordinatesId = sale.getNumber().toString() + "_" + sale.getBorough().toString();
         scores.add(
             new SaleScore(id,
                 score,
                 sale.getAddress(),
                 sale.getSalePrice(),
-                sale.getNeighbourhood()));
+                sale.getNeighbourhood(),
+                coordinatesId));
       }
     }
     return scores;

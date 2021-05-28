@@ -10,6 +10,10 @@ on:
     # Publish `v1.2.3` tags as releases.
     tags:
       - v*
+  pull_request:
+    types:
+      - opened
+      - assigned
 
 
 env:
@@ -20,23 +24,15 @@ jobs:
   # Run tests.
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
 
-  testAll:
+  testFrontend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: gradlew test backend
-        run: ./backend/gradlew -p ./backend/ build jacocoTestReport
-
-      - name: gradlew test sales
-        run: ./sales-api/gradlew -p ./sales-api/ build jacocoTestReport
-
-      - name: gradlew test airbnb
-        run: ./airbnb-api/gradlew -p ./airbnb-api/ build jacocoTestReport
-
       - name: Setup environment
         run: yarn --cwd frontend/ install --frozen-lockfile
+        continue-on-error: true
 
       - name: Run tests
         run: yarn --cwd frontend/ run reports:coverage
@@ -44,6 +40,13 @@ jobs:
 
       - name: Update README.md
         run: yarn --cwd frontend/ run reports:readme
+
+      - name: SonarCloud Scan
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN4 }}
+        run: yarn --cwd frontend/ sonar-scanner
+        continue-on-error: true
 
       - name: Commit scripts
         uses: stefanzweifel/git-auto-commit-action@v4
@@ -55,7 +58,38 @@ jobs:
           commit_user_email: actions@github.com
           commit_author: Github Action <actions@github.com>
           push_options: '--force'
+  testAirBnBAPI:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: gradlew test airbnb
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN2 }}
+        run: ./airbnb-api/gradlew -p ./airbnb-api/ build jacocoTestReport sonarqube
+        continue-on-error: true
 
+  testSalesAPI:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: gradlew test sales
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN3 }}
+        run: ./sales-api/gradlew -p ./sales-api/ build jacocoTestReport sonarqube
+        continue-on-error: true
 
-
-
+  testBackend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: gradlew test backend
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./backend/gradlew -p ./backend/ build jacocoTestReport sonarqube
+        continue-on-error: true

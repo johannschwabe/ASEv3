@@ -1,0 +1,76 @@
+name: Docker Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+
+      - name: Docker Build & Push Frontend to Docker Hub
+        uses: opspresso/action-docker@master
+        with:
+          args: --docker
+        env:
+          USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKERFILE: "frontend/Dockerfile"
+          IMAGE_NAME: "johannschwabe/ase-frontend"
+          TAG_NAME: "v0.0.1"
+          LATEST: "true"
+          BUILD_PATH: "frontend"
+
+      - name: build Backend
+        run: ./backend/gradlew -p ./backend/ build
+
+      - name: Docker Build & Push Backend to Docker Hub
+        uses: opspresso/action-docker@master
+        with:
+          args: --docker
+        env:
+          USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKERFILE: "backend/Dockerfile"
+          IMAGE_NAME: "johannschwabe/ase-backend"
+          TAG_NAME: "v0.0.1"
+          LATEST: "true"
+          BUILD_PATH: "backend"
+
+      - name: build Sales
+        run: ./sales-api/gradlew -p ./sales-api/ build
+
+      - name: Docker Build & Push Sales-api to Docker Hub
+        uses: opspresso/action-docker@master
+        with:
+          args: --docker
+        env:
+          USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKERFILE: "sales-api/Dockerfile"
+          IMAGE_NAME: "johannschwabe/ase-sales-api"
+          TAG_NAME: "v0.0.1"
+          LATEST: "true"
+          BUILD_PATH: "sales-api"
+
+      - name: build AirBnB
+        run: ./airbnb-api/gradlew -p ./airbnb-api/ build
+
+      - name: Docker Build & Push airbnb-api to Docker Hub
+        uses: opspresso/action-docker@master
+        with:
+          args: --docker
+        env:
+          USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKERFILE: "airbnb-api/Dockerfile"
+          IMAGE_NAME: "johannschwabe/ase-airbnb-api"
+          TAG_NAME: "v0.0.1"
+          LATEST: "true"
+          BUILD_PATH: "airbnb-api"
