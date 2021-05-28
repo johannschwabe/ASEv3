@@ -17,19 +17,22 @@ Advanced Software Engineering course repository.
 
 5. Run ``scripts/build.sh`` (or for macOS: ``sh scripts/build.sh``) and wait until all services started.
     
+6. If you don't have MySQL installed yet, you may need to install it (e.g. with `brew install mysql` if using Homebrew)    
 
-6. Run ``mysql -h localhost -P 8585 -u db_user -pdb_user_pass app_db < data\app_db-_localhost_8585_airbnbdb.sql`` and
+7. Run ``mysql -h localhost -P 8585 -u db_user -pdb_user_pass app_db < data\app_db-_localhost_8585_airbnbdb.sql`` and
    ``mysql -h localhost -P 8686 -u db_user -pdb_user_pass app_db < data\app_db-_localhost_8686_salesdb.sql`` to setup 
-   the databases.
+   the databases
+   
+   (or for macOS: ``mysql -h localhost -P 8585 -u db_user -pdb_user_pass app_db < data/app_db-_localhost_8585_airbnbdb.sql`` and ``mysql -h localhost -P 8686 -u db_user -pdb_user_pass app_db < data\app_db-_localhost_8686_salesdb.sql``)
     
 
-7. Quit the application.
+8. Quit the application.
     
 
-8. Restart the application by running ``docker compose up``.
+9. Restart the application by running ``docker compose up``.
 
 
-9. Open the Web-App in your browser (http://localhost:8181).
+10. Open the Web-App in your browser (http://localhost:8181).
 
 
 *It is possible, after starting the application (in step 4), that some services 
