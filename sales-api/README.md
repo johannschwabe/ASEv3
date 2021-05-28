@@ -1,8 +1,8 @@
 # Sales API
 
 This service provides access to the sales database.
-The API is implemented using GraphQL and is specified below.
 
+The API is implemented using GraphQL and is specified below.
 The GraphQL schema can be viewed [here](https://github.com/johannschwabe/ASEv3/blob/main/sales-api/src/main/resources/schema.graphqls).
 
 ## API

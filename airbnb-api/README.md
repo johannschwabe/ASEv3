@@ -1,8 +1,8 @@
 # Airbnb API
 
 This service provides access to the airbnb database.
-The API is implemented using GraphQL and is specified below.
 
+The API is implemented using GraphQL and is specified below.
 The GraphQL schema can be viewed [here](https://github.com/johannschwabe/ASEv3/blob/main/airbnb-api/src/main/resources/schema.graphqls).
 
 ## API
