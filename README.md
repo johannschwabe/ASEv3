@@ -21,10 +21,10 @@ Make sure Docker is running.
 1. Clone or download the code.
 
 
-2. Add the ``.env.local`` file, containing the Google Maps API key to the folder ``frontend``.
+2. Add the ``.env.local`` file, containing the Google Maps API key to the sub-folder ``frontend``.
 
 
-3. Open the folder in your Terminal or Command Prompt.
+3. Open the folder (``ASEv3`` or ``ASEv3-main``) in your Terminal or Command Prompt.
 
 
 4. Run ``scripts/build.sh`` (or for macOS: ``sh scripts/build.sh``) and wait until all services started.
