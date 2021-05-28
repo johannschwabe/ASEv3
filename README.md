@@ -1,27 +1,46 @@
 # ASE 21
 Advanced Software Engineering course repository.
 
+
+## Teaser Video
+
+[![Teaser](https://img.youtube.com/vi/QCIdfIwzuw8/0.jpg)](https://www.youtube.com/watch?v=QCIdfIwzuw8)
+
+
+Click to play!
+
+
 ## Running the application
+
+You need to have the current version of Docker and MySQL installed on your machine. 
+You can install MySQL on macOS using homebrew: ``brew install mysql``.
+
+Make sure Docker is running.
+
 
 1. Clone or download the code.
 
 
-2. Add the ``.env.local`` file, containing the Google Maps API key to the folder ``frontend``.
+2. Add the ``.env.local`` file, containing the Google Maps API key to the sub-folder ``frontend``.
 
 
-3. Open the folder in your Terminal or Command Prompt.
+3. Open the folder (``ASEv3`` or ``ASEv3-main``) in your Terminal or Command Prompt.
 
 
-4. Run ``scripts/build.sh`` and wait until all services started.
-    
+4. Run ``scripts/build.sh`` (or for macOS: ``sh scripts/build.sh``) and wait until all services started.
 
-5. Run ``mysql -h localhost -P 8585 -u db_user -pdb_user_pass app_db < data\app_db-_localhost_8585_airbnbdb.sql`` and
-   ``mysql -h localhost -P 8686 -u db_user -pdb_user_pass app_db < data\app_db-_localhost_8686_salesdb.sql`` to setup 
-   the databases.
-    
 
-6. Quit the application.
-    
+5. Run
+   
+   ``mysql -h localhost -P 8585 --protocol TCP -u db_user -pdb_user_pass app_db < data/app_db-_localhost_8585_airbnbdb.sql``
+   
+   ``mysql -h localhost -P 8686 --protocol TCP -u db_user -pdb_user_pass app_db < data/app_db-_localhost_8686_salesdb.sql``
+   
+   to setup the databases.
+
+
+6. Quit the application (ctrl + C).
+
 
 7. Restart the application by running ``docker compose up``.
 
@@ -32,6 +51,7 @@ Advanced Software Engineering course repository.
 *It is possible, after starting the application (in step 4), that some services 
 ('airbnbapi', 'salesapi') crash. This is no problem as long as the two database-services
 ('airbnbdb', 'salesdb') are running. You have to restart the application (in step 6 and 7) anyways.*
+
 
 ## Wiki
 
