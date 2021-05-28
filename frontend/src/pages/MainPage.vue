@@ -116,7 +116,7 @@ export default {
     /**
      * Upon selecting a property (by marker click or table select), mark it as selected
      * @param {string} id - the selected property's ID
-     * @param {boolean} from_map - whether the given ID is a coordinates ID
+     * @param {boolean} from_map - whether the property was selected from the map (used for toggling markers etc.)
      */
     async onPropertySelected(id, from_map) {
       // Close drawer if open
@@ -140,6 +140,8 @@ export default {
           if (!this.$store.getters.showMarkers) {
             this.$store.commit("toggleMarkers");
           }
+
+          await new Promise((resolve) => setTimeout(resolve, 200));
 
           // Get coordinates for properties picked via table
           const result = await axios({
