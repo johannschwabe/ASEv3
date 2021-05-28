@@ -9,6 +9,8 @@ The GraphQL schema can be viewed [here](https://github.com/johannschwabe/ASEv3/b
 
 ### Query
 
+The requests you can send to the Sales API.
+
 | Query                     | Returns       | Arguments             | Description                                               |
 |---------------------------|---------------|-----------------------|-----------------------------------------------------------|
 | allProperties             | [Property]    | -                     | Fetch all properties.                                     |
@@ -18,6 +20,8 @@ The GraphQL schema can be viewed [here](https://github.com/johannschwabe/ASEv3/b
 | propertiesByNeighbourhood | [Property]    | neighbourhood: String | Fetch all properties in the provided neighbourhood.       |
 
 ### Property
+
+The object describing a sales property.
 
 | Field                       | Type        | Description                                                            |
 |-----------------------------|-------------|------------------------------------------------------------------------|

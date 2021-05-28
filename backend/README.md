@@ -11,6 +11,8 @@ The GraphQL schema can be viewed [here](https://github.com/johannschwabe/ASEv3/b
 
 ### Query
 
+The requests you can send to the Backend.
+
 | Query                         | Returns       | Arguments             | Description                                                                           |
 |-------------------------------|---------------|-----------------------|---------------------------------------------------------------------------------------|
 | allAirbnbCoordinates          | [Coordinates] | -                     | Fetch all coordinates of the airbnb properties as Coordinates objects.                |
@@ -29,6 +31,9 @@ The GraphQL schema can be viewed [here](https://github.com/johannschwabe/ASEv3/b
 
 ### SaleScore
 
+The object containing the ID and score of a sale property.
+Also provides some additional information about the sale property.
+
 | Field                       | Type   | Description                                                                         |
 |-----------------------------|--------|-------------------------------------------------------------------------------------|
 | id                          | ID     | The ID of the sale property.                                                        |
@@ -40,6 +45,8 @@ The GraphQL schema can be viewed [here](https://github.com/johannschwabe/ASEv3/b
 
 ### Coordinates
 
+The object containing the ID and coordinates of a property.
+
 | Field                       | Type   | Description                                                                         |
 |-----------------------------|--------|-------------------------------------------------------------------------------------|
 | id                          | ID     | The ID of the airbnb property or the coordinates ID of the sale property.           |
@@ -47,6 +54,8 @@ The GraphQL schema can be viewed [here](https://github.com/johannschwabe/ASEv3/b
 | longitude                   | Float  | The longitude of the coordinates.                                                   |
 
 ### Sale
+
+The object describing a sales property.
 
 | Field                       | Type        | Description                                                            |
 |-----------------------------|-------------|------------------------------------------------------------------------|
@@ -82,6 +91,8 @@ The GraphQL schema can be viewed [here](https://github.com/johannschwabe/ASEv3/b
 | score                       | Float       | The calculated score of the sale property.                             |
 
 ### Airbnb
+
+The object describing an airbnb property.
 
 | Field                       | Type   | Description                                                                  |
 |-----------------------------|--------|------------------------------------------------------------------------------|

@@ -9,6 +9,8 @@ The GraphQL schema can be viewed [here](https://github.com/johannschwabe/ASEv3/b
 
 ### Query
 
+The requests you can send to the Airbnb API.
+
 | Query                     | Returns    | Arguments             | Description                                         |
 |---------------------------|------------|-----------------------|-----------------------------------------------------|
 | propertyById              | Property   | id: ID                | Fetch the property with the provided ID.            |
@@ -16,6 +18,8 @@ The GraphQL schema can be viewed [here](https://github.com/johannschwabe/ASEv3/b
 | propertiesByNeighbourhood | [Property] | neighbourhood: String | Fetch all properties in the provided neighbourhood. |
 
 ### Property
+
+The object describing an airbnb property.
 
 | Field                       | Type   | Description                                                                  |
 |-----------------------------|--------|------------------------------------------------------------------------------|
