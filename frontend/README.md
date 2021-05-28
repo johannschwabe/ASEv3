@@ -1,10 +1,7 @@
-# ASE AirBnB Property Evaluator
+# Frontend
 
-Webpage to evaluate the AirBnB value of properties for sale, developed with VueJS.
-
-## Documentation
-
-[Documentation](https://github.com/johannschwabe/ASEv3/wiki)
+The Web-Application providing the user interface for our tool.
+The frontend is built on VueJS and the Quasar framework.
 
 ## Tests
 
