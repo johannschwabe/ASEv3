@@ -15,7 +15,7 @@ Advanced Software Engineering course repository.
 4. Open the folder in your Terminal or Command Prompt.
 
 
-5. Run ``scripts/build.sh`` and wait until all services started.
+5. Run ``scripts/build.sh`` (or for macOS: ``sh scripts/build.sh``) and wait until all services started.
     
 
 6. Run ``mysql -h localhost -P 8585 -u db_user -pdb_user_pass app_db < data\app_db-_localhost_8585_airbnbdb.sql`` and
