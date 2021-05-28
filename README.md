@@ -1,6 +1,7 @@
 # ASE 21
 Advanced Software Engineering course repository.
 
+
 ## Teaser Video
 
 [![Teaser](https://img.youtube.com/vi/QCIdfIwzuw8/0.jpg)](https://www.youtube.com/watch?v=QCIdfIwzuw8)
@@ -8,7 +9,14 @@ Advanced Software Engineering course repository.
 
 Click to play!
 
+
 ## Running the application
+
+You need to have the current version of Docker and MySQL installed on your machine. 
+You can install MySQL on mac using homebrew: ``brew install mysql``.
+
+Make sure Docker is running.
+
 
 1. Clone or download the code.
 
@@ -16,35 +24,34 @@ Click to play!
 2. Add the ``.env.local`` file, containing the Google Maps API key to the folder ``frontend``.
 
 
-3. Open Docker
+3. Open the folder in your Terminal or Command Prompt.
 
 
-4. Open the folder in your Terminal or Command Prompt.
+4. Run ``scripts/build.sh`` (or for macOS: ``sh scripts/build.sh``) and wait until all services started.
 
 
-5. Run ``scripts/build.sh`` (or for macOS: ``sh scripts/build.sh``) and wait until all services started.
-    
-6. If you don't have MySQL installed yet, you may need to install it (e.g. with `brew install mysql` if using Homebrew)    
-
-7. Run ``mysql -h localhost -P 8585 -u db_user -pdb_user_pass app_db < data\app_db-_localhost_8585_airbnbdb.sql`` and
-   ``mysql -h localhost -P 8686 -u db_user -pdb_user_pass app_db < data\app_db-_localhost_8686_salesdb.sql`` to setup 
-   the databases
+5. Run
    
-   (or for macOS: ``mysql -h localhost -P 8585 -u db_user -pdb_user_pass app_db < data/app_db-_localhost_8585_airbnbdb.sql`` and ``mysql -h localhost -P 8686 -u db_user -pdb_user_pass app_db < data\app_db-_localhost_8686_salesdb.sql``)
-    
-
-8. Quit the application.
-    
-
-9. Restart the application by running ``docker compose up``.
+   ``mysql -h localhost -P 8585 --protocol TCP -u db_user -pdb_user_pass app_db < data/app_db-_localhost_8585_airbnbdb.sql``
+   
+   ``mysql -h localhost -P 8686 --protocol TCP -u db_user -pdb_user_pass app_db < data/app_db-_localhost_8686_salesdb.sql``
+   
+   to setup the databases.
 
 
-10. Open the Web-App in your browser (http://localhost:8181).
+6. Quit the application (ctrl + C).
+
+
+7. Restart the application by running ``docker compose up``.
+
+
+8. Open the Web-App in your browser (http://localhost:8181).
 
 
 *It is possible, after starting the application (in step 4), that some services 
 ('airbnbapi', 'salesapi') crash. This is no problem as long as the two database-services
 ('airbnbdb', 'salesdb') are running. You have to restart the application (in step 6 and 7) anyways.*
+
 
 ## Wiki
 
