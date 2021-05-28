@@ -17,21 +17,21 @@ The GraphQL schema can be viewed [here](https://github.com/johannschwabe/ASEv3/b
 
 ### Property
 
-| Field                       | Type   | Description                                                            |
-|-----------------------------|--------|------------------------------------------------------------------------|
-| id                          | ID     | The unique ID.                                                         |
-| name                        | String | The name of the airbnb listing.                                        |
-| hostId                      | Int    | The ID of the airbnb host.                                             |
-| hostName                    | Int    | The name of the airbnb host.                                           |
-| neighbourhoodGroup          | String | The neighbourhood group the property is in.                            |
-| neighbourhood               | String | The neighbourhood the property is in.                                  |
-| latitude                    | Float  | The latitude of the property coordinates.                              |
-| longitude                   | Float  | The longitude of the property coordinates.                             |
-| roomType                    | String | The type of room ('Private room', 'Shared room' or 'Entire home/apt'). |
-| price                       | Int    | The price per night.                                                   |
-| minimumNights               | Int    | The minimum nights in the airbnb listing.                              |
-| numberOfReviews             | Int    | The number of reviews on airbnb.                                       |
-| lastReview                  | String | The date of the last review on airbnb.                                 |
-| reviewsPerMonth             | Int    | The average number of reviews per month.                               |
-| calculatedHostListingsCount | Int    | The number of listings of the same host.                               |
-| availability365             | Int    | The number of available nights in a year.                              |
+| Field                       | Type   | Description                                                                  |
+|-----------------------------|--------|------------------------------------------------------------------------------|
+| id                          | ID     | The unique ID.                                                               |
+| name                        | String | The name of the airbnb listing.                                              |
+| hostId                      | Int    | The ID of the airbnb host.                                                   |
+| hostName                    | Int    | The name of the airbnb host.                                                 |
+| neighbourhoodGroup          | String | The neighbourhood group the property is in.                                  |
+| neighbourhood               | String | The neighbourhood the property is in.                                        |
+| latitude                    | Float  | The latitude of the property coordinates.                                    |
+| longitude                   | Float  | The longitude of the property coordinates.                                   |
+| roomType                    | String | The type of room (``Private room``, ``Shared room`` or ``Entire home/apt``). |
+| price                       | Int    | The price per night.                                                         |
+| minimumNights               | Int    | The minimum nights in the airbnb listing.                                    |
+| numberOfReviews             | Int    | The number of reviews on airbnb.                                             |
+| lastReview                  | String | The date of the last review on airbnb.                                       |
+| reviewsPerMonth             | Int    | The average number of reviews per month.                                     |
+| calculatedHostListingsCount | Int    | The number of listings of the same host.                                     |
+| availability365             | Int    | The number of available nights in a year.                                    |
