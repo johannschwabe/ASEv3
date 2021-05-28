@@ -89,9 +89,13 @@ export default {
      * Animate corresponding marker on ID change
      */
     selected_id() {
+      // Remove animation on all markers
+      this.map_markers.forEach((marker) => {
+        marker.setAnimation(null);
+      });
+
       const selected_marker = this.map_markers.find((marker) => marker.id === this.selected_id);
       if (selected_marker) {
-        console.log("Found marker for id", this.selected_id, "with animation", selected_marker.getAnimation());
         if (selected_marker.getAnimation() !== null && selected_marker.getAnimation() !== undefined) {
           selected_marker.setAnimation(null);
         } else {
