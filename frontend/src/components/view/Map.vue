@@ -96,11 +96,7 @@ export default {
 
       const selected_marker = this.map_markers.find((marker) => marker.id === this.selected_id);
       if (selected_marker) {
-        if (selected_marker.getAnimation() !== null && selected_marker.getAnimation() !== undefined) {
-          selected_marker.setAnimation(null);
-        } else {
-          selected_marker.setAnimation(this.maps_api.Animation.BOUNCE);
-        }
+        selected_marker.setAnimation(this.maps_api.Animation.BOUNCE);
       }
     },
 
