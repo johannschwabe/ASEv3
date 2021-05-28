@@ -3,5 +3,5 @@ projectKey=frontendv2
 serverUrl=https://sonarcloud.io
 serverVersion=8.0.0.20494
 dashboardUrl=https://sonarcloud.io/dashboard?id=frontendv2&branch=main
-ceTaskId=AXmyleQXJ-s1IJDZYVEL
-ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AXmyleQXJ-s1IJDZYVEL
+ceTaskId=AXmyop1wPczL17oVYsql
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AXmyop1wPczL17oVYsql
