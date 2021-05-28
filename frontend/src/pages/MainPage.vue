@@ -22,7 +22,6 @@
         <PropertyCard
           v-if="map_type === 'PROPERTY'"
           :id="selected_id"
-          :from_map="from_map"
           @hide="onCardHide"
         />
         <AirbnbCard
@@ -149,7 +148,7 @@ export default {
             data: {
               query: `
             {
-              saleById(id: "${id}") {
+              saleByCoordinatesId(id: "${id}") {
                 latitude
                 longitude
               }
@@ -158,7 +157,7 @@ export default {
             },
           });
 
-          const coordinates = result.data.data.saleById;
+          const coordinates = result.data.data.saleByCoordinatesId;
 
           this.center = { lat: coordinates.latitude, lng: coordinates.longitude };
 
