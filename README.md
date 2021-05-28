@@ -13,7 +13,7 @@ Click to play!
 ## Running the application
 
 You need to have the current version of Docker and MySQL installed on your machine. 
-You can install MySQL on mac using homebrew: ``brew install mysql``.
+You can install MySQL on macOS using homebrew: ``brew install mysql``.
 
 Make sure Docker is running.
 
