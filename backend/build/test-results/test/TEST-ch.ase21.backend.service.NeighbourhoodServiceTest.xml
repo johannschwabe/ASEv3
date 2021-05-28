@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ch.ase21.backend.service.NeighbourhoodServiceTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2021-05-27T19:17:38" hostname="fv-az133-673" time="0.011">
+<testsuite name="ch.ase21.backend.service.NeighbourhoodServiceTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2021-05-28T08:58:24" hostname="iMac-Pro-von-David.local" time="0.015">
   <properties/>
-  <testcase name="calculateGreatRating()" classname="ch.ase21.backend.service.NeighbourhoodServiceTest" time="0.002"/>
+  <testcase name="calculateGreatRating()" classname="ch.ase21.backend.service.NeighbourhoodServiceTest" time="0.011"/>
   <testcase name="calculateScoreMissingAirbnbs()" classname="ch.ase21.backend.service.NeighbourhoodServiceTest" time="0.001"/>
-  <testcase name="calculateScoreMissingSales()" classname="ch.ase21.backend.service.NeighbourhoodServiceTest" time="0.001"/>
-  <testcase name="calculateBadRating()" classname="ch.ase21.backend.service.NeighbourhoodServiceTest" time="0.002"/>
-  <testcase name="calculateAverageRating()" classname="ch.ase21.backend.service.NeighbourhoodServiceTest" time="0.001"/>
+  <testcase name="calculateScoreMissingSales()" classname="ch.ase21.backend.service.NeighbourhoodServiceTest" time="0.0"/>
+  <testcase name="calculateBadRating()" classname="ch.ase21.backend.service.NeighbourhoodServiceTest" time="0.001"/>
+  <testcase name="calculateAverageRating()" classname="ch.ase21.backend.service.NeighbourhoodServiceTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

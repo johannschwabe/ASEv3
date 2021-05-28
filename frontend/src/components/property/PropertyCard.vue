@@ -201,9 +201,9 @@
       <q-separator />
 
       <break-even-calculator
-        v-if="property && price_per_night"
+        v-if="property"
         :id="property.id"
-        :price="price_per_night"
+        :price="price_per_night? price_per_night : 200"
       />
     </q-scroll-area>
   </q-card>
@@ -230,7 +230,6 @@ export default {
   },
   props: {
     id: { type: String, required: true },
-    from_map: { type: Boolean, required: true },
   },
   data() {
     return {
@@ -295,16 +294,13 @@ export default {
     async fetchProperty() {
       this.loading = true;
 
-      // Depending on how property was selected (from map or from table), call must be different
-      const backend_call = this.from_map ? "saleByCoordinatesId" : "saleById";
-
       const result = await axios({
         url: BACKEND_URL,
         method: "post",
         data: {
           query: `
             {
-              ${backend_call}(id: "${this.id}") {
+              saleByCoordinatesId(id: "${this.id}") {
                 id
                 idSale
                 salePrice
@@ -324,7 +320,7 @@ export default {
         },
       });
 
-      this.property = result.data.data[backend_call];
+      this.property = result.data.data.saleByCoordinatesId;
     },
 
     /**

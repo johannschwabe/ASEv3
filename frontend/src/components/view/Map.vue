@@ -25,6 +25,13 @@ export default {
   },
   computed: {
     /**
+     * The selected property ID
+     */
+    selected_id() {
+      return this.$store.getters.selectedId;
+    },
+
+    /**
      * Google Maps API instance
      */
     maps_api() {
@@ -78,6 +85,20 @@ export default {
   },
 
   watch: {
+    /**
+     * Animate corresponding marker on ID change
+     */
+    selected_id() {
+      // Remove animation on all markers
+      this.map_markers.forEach((marker) => {
+        marker.setAnimation(null);
+      });
+
+      const selected_marker = this.map_markers.find((marker) => marker.id === this.selected_id);
+      if (selected_marker) {
+        selected_marker.setAnimation(this.maps_api.Animation.BOUNCE);
+      }
+    },
 
     /**
      * When center changes, move map accordingly
@@ -156,7 +177,6 @@ export default {
     this.fillMap();
   },
   methods: {
-
     /**
      * Fills the stored map with neighbourhood and heatmap layers and adds markers
      */

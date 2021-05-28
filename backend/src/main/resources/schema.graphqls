@@ -26,6 +26,7 @@ type SaleScore {
     address: String
     price: Int
     neighbourhood: String
+    coordinatesId: String
 }
 
 type Coordiantes {

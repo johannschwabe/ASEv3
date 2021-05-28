@@ -136,7 +136,7 @@ export default {
     onSelect(event, row) {
       // Select property map type
       this.$store.dispatch("setMapType", {map_type: MAP_TYPES.PROPERTY});
-      this.$emit("propertySelected", row.id, false);
+      this.$emit("propertySelected", row.coordinatesId, false);
       this.closeDialog();
     },
 
@@ -161,6 +161,7 @@ export default {
                 price
                 address
                 neighbourhood
+                coordinatesId
               }
             }
           `,

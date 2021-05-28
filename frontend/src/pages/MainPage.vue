@@ -22,7 +22,6 @@
         <PropertyCard
           v-if="map_type === 'PROPERTY'"
           :id="selected_id"
-          :from_map="from_map"
           @hide="onCardHide"
         />
         <AirbnbCard
@@ -117,7 +116,7 @@ export default {
     /**
      * Upon selecting a property (by marker click or table select), mark it as selected
      * @param {string} id - the selected property's ID
-     * @param {boolean} from_map - whether the given ID is a coordinates ID
+     * @param {boolean} from_map - whether the property was selected from the map (used for toggling markers etc.)
      */
     async onPropertySelected(id, from_map) {
       // Close drawer if open
@@ -142,6 +141,8 @@ export default {
             this.$store.commit("toggleMarkers");
           }
 
+          await new Promise((resolve) => setTimeout(resolve, 200));
+
           // Get coordinates for properties picked via table
           const result = await axios({
             url: BACKEND_URL,
@@ -149,7 +150,7 @@ export default {
             data: {
               query: `
             {
-              saleById(id: "${id}") {
+              saleByCoordinatesId(id: "${id}") {
                 latitude
                 longitude
               }
@@ -158,7 +159,7 @@ export default {
             },
           });
 
-          const coordinates = result.data.data.saleById;
+          const coordinates = result.data.data.saleByCoordinatesId;
 
           this.center = { lat: coordinates.latitude, lng: coordinates.longitude };
 
