@@ -1,6 +1,13 @@
 # ASE 21
 Advanced Software Engineering course repository.
 
+## Teaser Video
+
+[![Teaser](https://img.youtube.com/vi/QCIdfIwzuw8/0.jpg)](https://www.youtube.com/watch?v=QCIdfIwzuw8)
+
+
+Click to play!
+
 ## Running the application
 
 1. Clone or download the code.
