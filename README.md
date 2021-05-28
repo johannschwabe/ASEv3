@@ -9,24 +9,27 @@ Advanced Software Engineering course repository.
 2. Add the ``.env.local`` file, containing the Google Maps API key to the folder ``frontend``.
 
 
-3. Open the folder in your Terminal or Command Prompt.
+3. Open Docker
 
 
-4. Run ``scripts/build.sh`` and wait until all services started.
+4. Open the folder in your Terminal or Command Prompt.
+
+
+5. Run ``scripts/build.sh`` and wait until all services started.
     
 
-5. Run ``mysql -h localhost -P 8585 -u db_user -pdb_user_pass app_db < data\app_db-_localhost_8585_airbnbdb.sql`` and
+6. Run ``mysql -h localhost -P 8585 -u db_user -pdb_user_pass app_db < data\app_db-_localhost_8585_airbnbdb.sql`` and
    ``mysql -h localhost -P 8686 -u db_user -pdb_user_pass app_db < data\app_db-_localhost_8686_salesdb.sql`` to setup 
    the databases.
     
 
-6. Quit the application.
+7. Quit the application.
     
 
-7. Restart the application by running ``docker compose up``.
+8. Restart the application by running ``docker compose up``.
 
 
-8. Open the Web-App in your browser (http://localhost:8181).
+9. Open the Web-App in your browser (http://localhost:8181).
 
 
 *It is possible, after starting the application (in step 4), that some services 
