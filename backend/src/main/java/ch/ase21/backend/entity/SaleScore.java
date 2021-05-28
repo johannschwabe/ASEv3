@@ -6,13 +6,21 @@ public class SaleScore {
   private final String address;
   private final Integer price;
   private final String neighbourhood;
+  private final String coordinatesId;
 
-  public SaleScore(String id, Double score, String address, Integer price, String neighbourhood) {
+  public SaleScore(String id,
+                   Double score,
+                   String address,
+                   Integer price,
+                   String neighbourhood,
+                   String coordinatesId)
+  {
     this.id = id;
     this.score = score;
     this.address = address;
     this.price = price;
     this.neighbourhood = neighbourhood;
+    this.coordinatesId = coordinatesId;
   }
 
   public String getId() {
@@ -33,5 +41,9 @@ public class SaleScore {
 
   public String getNeighbourhood(){
     return neighbourhood;
+  }
+
+  public String getCoordinatesId(){
+    return coordinatesId;
   }
 }
