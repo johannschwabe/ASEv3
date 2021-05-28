@@ -45,3 +45,59 @@ The GraphQL schema can be viewed [here](https://github.com/johannschwabe/ASEv3/b
 | id                          | ID     | The ID of the airbnb property or the coordinates ID of the sale property.           |
 | latitude                    | Float  | The latitude of the coordinates.                                                    |
 | longitude                   | Float  | The longitude of the coordinates.                                                   |
+
+### Sale
+
+| Field                       | Type        | Description                                                            |
+|-----------------------------|-------------|------------------------------------------------------------------------|
+| id                          | ID          | The unique ID.                                                         |
+| number                      | Int         | Uniquely identifies a property if combined with ``borough``.           |
+| borough                     | Int         | Uniquely identifies a property if combined with ``number``.            |
+| neighbourhood               | String      | The name of the neighbourhood the property is in.                      |
+| buildingClassCategory       | String      | The category of the building class.                                    |
+| taxClassAtPresent           | String      | The tax class at time of data collection.                              |
+| block                       | Int         | The city block number.                                                 |
+| lot                         | Int         | The lot number.                                                        |
+| easement                    | String      | The right of use for this property.                                    |
+| buildingClassAtPresent      | String      | The building class at time of data collection.                         |
+| address                     | String      | The address of the property.                                           |
+| apartmentNumber             | String      | The apartment number.                                                  |
+| zipCode                     | Int         | The ZIP code.                                                          |
+| residentialUnits            | Int         | The number of residential units.                                       |
+| commercialUnits             | Int         | The number of commercial units.                                        |
+| totalUnits                  | Int         | The number of units in total.                                          |
+| landSquareFeet              | Int         | Area of the land.                                                      |
+| grossSquareFeet             | Int         | Area inside.                                                           |
+| yearBuilt                   | Int         | The year of construction.                                              |
+| taxClassAtTimeOfSale        | String      | The tax class when the property was sold.                              |
+| buildingClassAtTimeOfSale   | String      | The building class when the property was sold.                         |
+| salePrice                   | Int         | The sale price of the property.                                        |
+| saleDate                    | String      | The date when the property was sold.                                   |
+| coordinates                 | Coordinates | The coordinates information of the property if available.              |
+| idSale                      | ID          | The coordinates ID composed of ``number`` and ``borough``.             |
+| latitude                    | Float       | The latitude of the coordinates.                                       |
+| longitude                   | Float       | The longitude of the coordinates.                                      |
+| returnedStreetName          | String      | The street name returned from the Google API.                          |
+| returnedZipCode             | Int         | The ZIP code returned from the Google API.                             |
+| score                       | Float       | The calculated score of the sale property.                             |
+
+### Airbnb
+
+| Field                       | Type   | Description                                                                  |
+|-----------------------------|--------|------------------------------------------------------------------------------|
+| id                          | ID     | The unique ID.                                                               |
+| name                        | String | The name of the airbnb listing.                                              |
+| hostId                      | Int    | The ID of the airbnb host.                                                   |
+| hostName                    | Int    | The name of the airbnb host.                                                 |
+| neighbourhoodGroup          | String | The neighbourhood group the property is in.                                  |
+| neighbourhood               | String | The neighbourhood the property is in.                                        |
+| latitude                    | Float  | The latitude of the property coordinates.                                    |
+| longitude                   | Float  | The longitude of the property coordinates.                                   |
+| roomType                    | String | The type of room (``Private room``, ``Shared room`` or ``Entire home/apt``). |
+| price                       | Int    | The price per night.                                                         |
+| minimumNights               | Int    | The minimum nights in the airbnb listing.                                    |
+| numberOfReviews             | Int    | The number of reviews on airbnb.                                             |
+| lastReview                  | String | The date of the last review on airbnb.                                       |
+| reviewsPerMonth             | Int    | The average number of reviews per month.                                     |
+| calculatedHostListingsCount | Int    | The number of listings of the same host.                                     |
+| availability365             | Int    | The number of available nights in a year.                                    |
