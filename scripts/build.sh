@@ -17,5 +17,5 @@
 )
 
 # Build Docker images and run services
-docker compose build
-docker compose up
+docker-compose build
+docker-compose up
