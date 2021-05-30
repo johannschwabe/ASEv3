@@ -13,7 +13,7 @@ Click to play!
 
 You need to have the current version of Docker and MySQL installed on your machine. 
 
-The full istuctions can be found on the [setup page](https://github.com/johannschwabe/ASEv3/wiki/Setup) pin our wiki.
+The full istuctions can be found on the [setup page](https://github.com/johannschwabe/ASEv3/wiki/Setup) in our wiki.
 
 ## Wiki
 
